@@ -24,9 +24,6 @@ replay_pid*
 *.class
 bin/**
 build/**
-*.jpg
-*.png
-*.gif
 *.six
 autumn.bash*
 run_swing.bash
@@ -35,9 +32,6 @@ run_multiscreen.bash
 hq_test.bash
 legacy_test.bash
 err*
-
-# Generated docs
-docs/**
 
 # Maven artifacts
 target/**
