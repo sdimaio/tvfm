@@ -22,7 +22,7 @@ git commit -m "$commit_message"
 #now=$(date +"%d_%m_%Y__%H_%M_%S")
 # git commit -m $(echo "$now")
 git push --force
-git push --set-upstream origin mainold --force
+git push --set-upstream origin main --force
 git status
 
 
