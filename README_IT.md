@@ -2,13 +2,14 @@
 
 ## Descrizione
 
-Turbo Vision File Manager (TVFM) è un'applicazione storica originariamente sviluppata nel 1992 utilizzando Borland Pascal 7.0 e la libreria Turbo Vision. Era progettata per offrire agli utenti un'interfaccia testuale intuitiva e potente per gestire file e directory nel sistema operativo DOS. Ispirato ai file manager testuali come Norton Commander, TVFM sfruttava il sofisticato framework Turbo Vision, noto per il suo aspetto "a finestre" e l'approccio modulare.
+Turbo Vision File Manager (TVFM) è un'applicazione storica originariamente sviluppata nel 1992 utilizzando i[Borland Pascal 7.0](https://en.wikipedia.org/wiki/Turbo_Pascal) e la libreria [Turbo
+Vision](http://en.wikipedia.org/wiki/Turbo_Vision). Era progettata per offrire agli utenti un'interfaccia testuale intuitiva e potente per gestire file e directory nel sistema operativo DOS. Ispirato ai file manager testuali come Norton Commander, TVFM sfruttava il sofisticato framework Turbo Vision, noto per il suo aspetto "a finestre" e l'approccio modulare.
 
 ## Revival in Java
 
 Questo progetto mira a reimmaginare e riscrivere TVFM utilizzando **Jexer**, una libreria Java che replica l'interfaccia di Turbo Vision. La versione moderna di TVFM includerà le seguenti funzionalità:
 
-- **Interfaccia Testuale Avanzata:** Utilizzando Jexer, riprodurremo l'interfaccia utente a finestre di Turbo Vision, mantenendo il look retrò e l'interazione basata sulla tastiera.
+- **Interfaccia Testuale Avanzata:** Utilizzando [Jexer](https://github.com/sdimaio/jexer), riprodurremo l'interfaccia utente a finestre di Turbo Vision, mantenendo il look retrò e l'interazione basata sulla tastiera.
 - **Compatibilità Multi-Piattaforma:** La nuova versione sarà scritta in Java, permettendo l'esecuzione su vari sistemi operativi, inclusi Linux (anche senza interfaccia grafica), macOS e Windows.
 - **Gestione Completa dei File:** Supporto per navigare nel file system, copiare, spostare, rinominare e eliminare file, mantenendo l'esperienza utente dell'applicazione originale.
 - **Estensibilità e Open Source:** Il progetto è modulare e open source, invitando contributi per nuove funzionalità e miglioramenti.
