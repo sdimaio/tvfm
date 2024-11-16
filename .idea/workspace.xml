@@ -1,0 +1,286 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="d780c951-b30c-4e6e-85d4-ce7305b885d3" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/easycode.ignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/jexer/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/jexer/LICENSE" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/jexer/README.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/jexer/build.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/jexer/doCommit.sh" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/jexer/docs/032_announcement.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/jexer/docs/images.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/jexer/docs/images2.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/jexer/examples/HelloWorld.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/jexer/examples/JexerImageViewer.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/jexer/examples/JexerTilingWindowManager.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/jexer/examples/JexerTilingWindowManager2.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/jexer/examples/MyApplication.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/jexer/examples/XtermVideoPlayer.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/jexer/examples/imgls" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/jexer/history.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/jexer/misc/icons/jexer_logo_trans.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/jexer/misc/icons/jexer_logo_trans_128.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/jexer/mvnw" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/jexer/mvnw.cmd" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/jexer/pom.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/jexer/screenshots/floating_terminal.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/jexer/screenshots/for_nick.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/jexer/screenshots/jexer_sixel_in_sixel.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/jexer/screenshots/new_demo1.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/jexer/screenshots/overlapping_multihead.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/jexer/screenshots/overlapping_multihead_old.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/jexer/screenshots/pca_match.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/jexer/screenshots/readme_application.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/jexer/screenshots/screenshot1.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/jexer/screenshots/screenshot1_old.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/jexer/screenshots/sixel_color_wheel.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/jexer/screenshots/sixel_images.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/jexer/screenshots/snake_swing.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/jexer/screenshots/snake_xterm.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/jexer/screenshots/snake_xterm_hq.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/jexer/screenshots/wezterm_translucent_images.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/jexer/screenshots/xterm_pixel_mouse.gif" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/jexer/screenshots/yodawg.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/jexer/src/main/resources/demo/5thgradecursive.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/jexer/src/main/resources/demo/butterfly.gif" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/jexer/src/main/resources/demo/cute_icon.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/jexer/src/main/resources/demo/ibeam.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/jexer/src/main/resources/demo/trans_icon.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/jexer/src/main/resources/help.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/jexer/src/main/resources/logback.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/jexer/src/main/resources/logo_128.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/jexer/src/main/resources/terminus-ttf-4.49.1/COPYING" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/jexer/src/main/resources/terminus-ttf-4.49.1/TerminusTTF-4.49.1.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/jexer/src/main/resources/terminus-ttf-4.49.1/TerminusTTF-Bold Italic-4.49.1.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/jexer/src/main/resources/terminus-ttf-4.49.1/TerminusTTF-Bold-4.49.1.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/jexer/src/main/resources/terminus-ttf-4.49.1/TerminusTTF-Italic-4.49.1.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/jexer/wiki/High-Level-Design.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/jexer/wiki/Jexer-System-Properties.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/jexer/wiki/Wiki-TODO-List.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/jexer/wiki/apps-wishlist.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/jexer/wiki/demo-application.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/jexer/wiki/dev-standards.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/jexer/wiki/example-image-viewer.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/jexer/wiki/example-tiling-wm.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/jexer/wiki/example-xterm-video-player.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/jexer/wiki/fonts.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/jexer/wiki/hello-world.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/jexer/wiki/home.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/jexer/wiki/jexer-images.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/jexer/wiki/jexer-sequences.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/jexer/wiki/latest-release.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/jexer/wiki/layout-box.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/jexer/wiki/layout-stretch.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/jexer/wiki/limitations.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/jexer/wiki/no-release-announcements.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/jexer/wiki/pixel-operations.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/jexer/wiki/porting.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/jexer/wiki/scratch.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/jexer/wiki/terminals.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/jexer/wiki/uploads/0458653e9a6f2d865a76ca460e1924a3/calendar_1.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/jexer/wiki/uploads/050c1b0dca960155db99bd67a91f60b5/fontchooser_1.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/jexer/wiki/uploads/09b4e9605d61ed1de5aa248509647bd4/table_1.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/jexer/wiki/uploads/10984097c4f8267884662d3057c51085/text_1.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/jexer/wiki/uploads/121464d439692537c52450848af17002/fontchooser_3.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/jexer/wiki/uploads/1246eaae875db6637ad9e9617a472ae5/terminal_mc_1.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/jexer/wiki/uploads/15a5167b59f2cb45fab23b18176878ca/helpwindow_1.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/jexer/wiki/uploads/1679324e7a300deb32c0d65988f79b3c/example_tilingwm_2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/jexer/wiki/uploads/18388519fab6fbbe6df8567c264fc57f/hello_world_5.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/jexer/wiki/uploads/1a9b859b037a0d488911d8fa388eb1d1/screenoptions_2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/jexer/wiki/uploads/1f4fd2e6ffd9b1c234bf733694cbc043/passwordfield_2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/jexer/wiki/uploads/1fd7a58c323ce8893f4d7554d7f376b2/terminal_vttest_2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/jexer/wiki/uploads/2165985e088f9510b75e85cb2799acdd/helpwindow_2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/jexer/wiki/uploads/27d9bc85bed2467ef16fe791ed33639c/hello_world_1.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/jexer/wiki/uploads/284a5bdfd09458f6f6f90a0bb6a53769/spinner_1.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/jexer/wiki/uploads/2a0e39d69f8dbadd795fc5f6f2051f8d/label_1.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/jexer/wiki/uploads/2aa83c98d7b4eeee5c823d1b71677e7b/combobox_2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/jexer/wiki/uploads/2c4aeb88cc2ac89a30e32abf53cd1073/combobox_2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/jexer/wiki/uploads/32d9df6af3f1d11d3ffffc5d700da690/terminal_vttest_6.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/jexer/wiki/uploads/33b776816fd67a77e19fc0e9acb0b9d7/terminal_vttest_3.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/jexer/wiki/uploads/33f2e8c04557983420a86759a3f7f304/stretchlayout_3.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/jexer/wiki/uploads/36699f8f460d98b5897f4dcca287d294/editorwindow_2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/jexer/wiki/uploads/3f9872cf156289ae244e65bc8fa7680d/combobox_1.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/jexer/wiki/uploads/41a3e4b9ef861cee043ab4432a5bbd5f/inputbox_1.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/jexer/wiki/uploads/45948f58c34247d0b90758a094b497b2/list_1.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/jexer/wiki/uploads/46fec1da96953d53958865e51e9bd46e/terminal_vttest_1.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/jexer/wiki/uploads/512490e46b18aa1154b0f054a3dfc459/radiogroup_2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/jexer/wiki/uploads/52e530985dbe9be6659b6e5702bdc774/progressbar_1.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/jexer/wiki/uploads/596e765d2cd4c800108308bf7d5d6277/splitpane_2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/jexer/wiki/uploads/5a556653f50f40fd64b0a2e66d38952f/statusbar_1.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/jexer/wiki/uploads/6173b3b63efdaf75ef077d2ae97de787/panel_1.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/jexer/wiki/uploads/659d6bfaf56f1a5c684cf3e94827ef72/editorwindow_1.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/jexer/wiki/uploads/65bbcea57b8323469e1af03e80c525d4/stretchlayout_1.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/jexer/wiki/uploads/67f12cfeedfdfa62473535448dbb45fd/imagewindow_1.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/jexer/wiki/uploads/6ba07a232dc62648b2f2d9f15888c237/messagebox_2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/jexer/wiki/uploads/6e64eaba6ccb625cacc8c186f56a110d/field_1.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/jexer/wiki/uploads/72f4c117c1f563d7c399164e14356a8c/imagewindow_2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/jexer/wiki/uploads/7603381f82414ef9ae214bfcf759c064/example_tilingwm2_1.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/jexer/wiki/uploads/76f420ceaace4c65bd4cb1f051e57fe4/terminal_vttest_7.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/jexer/wiki/uploads/7e9a3256a3d12e7fe2d2dfa6ff09a1c9/hello_world_2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/jexer/wiki/uploads/80c458e5a14928e65b96b6e2883f44bd/table_2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/jexer/wiki/uploads/8262d55f9b252daab8c4458590587239/tbutton_1.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/jexer/wiki/uploads/8c0d0a641842237a7a95699fddb6a72e/treeview_2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/jexer/wiki/uploads/8f6d61fafcdcf59f8854cf51d93ea712/example_tilingwm_1.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/jexer/wiki/uploads/8ffaa17bdaaa7aa1d9441f1a9c4c8998/fontchooser_2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/jexer/wiki/uploads/92364f5e4f95828cdc99dd0e722579f6/hello_world_6.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/jexer/wiki/uploads/99bfb6138eaa079c51a5234ff93ef572/exceptiondialog_1.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/jexer/wiki/uploads/a0e16686e9118b798de488a9f02fbb92/stretchlayout_2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/jexer/wiki/uploads/aa67c123cb243d68e9be1c79cde7f919/helpwindow_3.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/jexer/wiki/uploads/ad34ae90bd782ad03f7c260c92a648f8/terminal_vttest_5.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/jexer/wiki/uploads/aed360cbce2c324aa72530b770cf661c/image_1.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/jexer/wiki/uploads/af639740fd2777e16b224dbb71a78857/jexer_sixel_in_sixel.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/jexer/wiki/uploads/b2050f558c1129a91b71f80188b3b177/label_2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/jexer/wiki/uploads/b6da46a049ab514c08d1298acb7e0f51/terminal_vttest_4.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/jexer/wiki/uploads/ba7e88258eaae4c605f34771a6072ba6/radiogroup_1.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/jexer/wiki/uploads/bb0fe3a81ef2debcc2a6deb7efc59be5/hscroller_1.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/jexer/wiki/uploads/c492239ecb11b1cac84827b92a3fccd1/passwordfield_1.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/jexer/wiki/uploads/c532f4eb2f6e87e1f80ef782d4a18c4b/image_3.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/jexer/wiki/uploads/c5e3e108a7d795eb96efeb3327635a3a/vscroller_1.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/jexer/wiki/uploads/c93bc5dea5f767010983c809756553ab/checkbox_1.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/jexer/wiki/uploads/ca9640315db47d08110b71212e9aa262/text_2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/jexer/wiki/uploads/cbf4a664e54182654e3875cc4112b8fe/colorthemeeditor_1.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/jexer/wiki/uploads/cd1e749c788730d49e94cbaa715c1803/terminal_utf8_1.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/jexer/wiki/uploads/d629c501a890b1c26902ccddae95fc79/screenoptions_1.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/jexer/wiki/uploads/d869bda995331fd9c814c70fdc43203f/messagebox_1.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/jexer/wiki/uploads/d9a7290f00f49a099068f33c00c79575/image_2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/jexer/wiki/uploads/e26e201333c14a8f85016a618788141e/hello_world_7.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/jexer/wiki/uploads/e3b47b29ac2924540467c037e7500704/editor_1.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/jexer/wiki/uploads/e3c796eaa74a42752911ccd4d07ce569/treeview_1.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/jexer/wiki/uploads/e5e8a2d7bd0b10fc6ff8d0b1fc9221bf/terminal_jexer_1.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/jexer/wiki/uploads/ea046e3d0a4fa814ef69b172b0dae895/tfield_1.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/jexer/wiki/uploads/edab27242e08d1fddcb36f767f9d7a8b/splitpane_1.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/jexer/wiki/uploads/ef2b70e337afc797236b3c24b07a6e44/fileopenbox_1.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/jexer/wiki/uploads/f5a2799aab4ddfc67fab41e5772122e9/combobox_1.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/jexer/wiki/uploads/f68cfbfe1113257c9622afb158d23679/example_fileviewer_1.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/jexer/wiki/uploads/fb950fdc0784b62d7fb5a581a74edf61/directorylist_1.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/jexer/wiki/widget-tbutton.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/jexer/wiki/widget-tcalendar.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/jexer/wiki/widget-tcheckbox.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/jexer/wiki/widget-tcombobox.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/jexer/wiki/widget-tdirectorylist.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/jexer/wiki/widget-teditcolorthemewindow.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/jexer/wiki/widget-teditorwidget.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/jexer/wiki/widget-teditorwindow.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/jexer/wiki/widget-texceptiondialog.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/jexer/wiki/widget-tfield.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/jexer/wiki/widget-tfileopenbox.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/jexer/wiki/widget-tfontchooserwindow.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/jexer/wiki/widget-thelpwindow.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/jexer/wiki/widget-thscroller.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/jexer/wiki/widget-timage.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/jexer/wiki/widget-timagewindow.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/jexer/wiki/widget-tinputbox.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/jexer/wiki/widget-tlabel.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/jexer/wiki/widget-tlist.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/jexer/wiki/widget-tmessagebox.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/jexer/wiki/widget-tpanel.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/jexer/wiki/widget-tpasswordfield.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/jexer/wiki/widget-tprogressbar.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/jexer/wiki/widget-tradiogroup.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/jexer/wiki/widget-tscreenoptionswindow.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/jexer/wiki/widget-tscrollablewidget.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/jexer/wiki/widget-tscrollablewindow.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/jexer/wiki/widget-tspinner.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/jexer/wiki/widget-tsplitpane.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/jexer/wiki/widget-tstatusbar.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/jexer/wiki/widget-ttablewidget.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/jexer/wiki/widget-ttablewindow.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/jexer/wiki/widget-tterminalwidget.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/jexer/wiki/widget-tterminalwindow.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/jexer/wiki/widget-ttext.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/jexer/wiki/widget-ttreeview.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/jexer/wiki/widget-tvscroller.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/jexer/wiki/widget-twindow.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/jexer/wiki/wishlist.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mvnw" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mvnw.cmd" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/doCommit.sh" beforeDir="false" afterPath="$PROJECT_DIR$/doCommit.sh" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectColorInfo"><![CDATA[{
+  "customColor": "",
+  "associatedIndex": 7
+}]]></component>
+  <component name="ProjectId" id="2ox55jFwOVNK2sI68SBEGWWOqQx" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "/home/sdimaio/Applicazioni/mindware/github/tvfm",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "Project",
+    "project.structure.proportion": "0.0",
+    "project.structure.side.proportion": "0.0",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$" />
+    </key>
+  </component>
+  <component name="RunManager">
+    <configuration default="true" type="LiferayDockerServerConfiguration" factoryName="Liferay Docker Server">
+      <option name="passParentEnvironments" value="true" />
+      <option name="workspaceLocation" value="$PROJECT_DIR$" />
+      <method v="2" />
+    </configuration>
+    <configuration default="true" type="LiferayServerConfiguration" factoryName="Liferay Server">
+      <Liferay-Sever alternativeJrePath="" bundleLocation="" bundleType="" developerMode="true" gogoShellPort="11311" vmParameters="-Xmx2560m -XX:MaxMetaspaceSize=768m -XX:MetaspaceSize=768m">
+        <envs>
+          <env name="PATH" value="/usr/lib/jvm/jdk-21-oracle-x64/bin:$USER_HOME$/.cargo/bin:/usr/local/apache-maven/apache-maven-3.8.6/bin:$USER_HOME$/go/bin:/usr/local/go/bin:$USER_HOME$/.local/bin:$USER_HOME$/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:$USER_HOME$/.komodoide/12.0/XRE/state:$USER_HOME$/.local/share/JetBrains/Toolbox/scripts" />
+          <env name="JAVA_HOME" value="/usr/lib/jvm/jdk-21-oracle-x64" />
+        </envs>
+        <module name="tvfm" />
+      </Liferay-Sever>
+      <method v="2" />
+    </configuration>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-jdk-9f38398b9061-39b83d9b5494-intellij.indexing.shared.core-IU-241.19416.15" />
+        <option value="bundled-js-predefined-1d06a55b98c1-0b3e54e931b4-JavaScript-IU-241.19416.15" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="d780c951-b30c-4e6e-85d4-ce7305b885d3" name="Changes" comment="" />
+      <created>1731798208185</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1731798208185</updated>
+      <workItem from="1731798210663" duration="1241000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+</project>

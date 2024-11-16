@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <property name="LOG_PATH" value="${log.path:@log.path@:-./logs}"/>
+    <property name="LOG_PATTERN" value="%yellow(%d{ISO8601}) %highlight(%-5level) [%blue(%t)][%X{sessionId}] %yellow(%C{1}): %msg%n%throwable" />
+    <property name="LOG_NAME" value="jexer.log"/>
+    <property name="LOG_FILE_SIZE" value="10MB"/>
+    <property name="LOG_RETENTION" value="10"/>
+    <property name="LOG_TOTAL_SIZE_CAP" value="100MB"/>
+
+
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>${LOG_PATTERN}%n</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="SAVE-TO-FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <layout>
+            <pattern>${LOG_PATTERN}%n</pattern>
+        </layout>
+        <file>${LOG_PATH}/${LOG_NAME}</file>
+
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <Pattern>
+                %d{dd-MM-yyyy HH:mm:ss.SSS} [%thread] %-5level %logger{36}.%M - %msg%n
+            </Pattern>
+        </encoder>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>
+                ${LOG_PATH}/archived/${LOG_NAME}_%d{yyyy-MM-dd}_%i.log
+            </fileNamePattern>
+            <maxFileSize>${LOG_FILE_SIZE}</maxFileSize>
+            <maxHistory>${LOG_RETENTION}</maxHistory>
+            <totalSizeCap>${LOG_TOTAL_SIZE_CAP}</totalSizeCap>
+        </rollingPolicy>
+    </appender>
+
+    <root level="INFO">
+        <appender-ref ref="CONSOLE"/>
+        <appender-ref ref="SAVE-TO-FILE"/>
+    </root>
+
+    <logger name="${LOG_NAME}" level="debug" additivity="false">
+        <appender-ref ref="CONSOLE"/>
+        <appender-ref ref="SAVE-TO-FILE"/>
+    </logger>
+
+</configuration>
