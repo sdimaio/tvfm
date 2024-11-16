@@ -9,11 +9,11 @@ reminiscent of Borland's [Turbo
 Vision](http://en.wikipedia.org/wiki/Turbo_Vision) system.  It looks
 like this:
 
-![WezTerm, translucent images](/screenshots/wezterm_translucent_images.png?raw=true "WezTerm, translucent images")
+![WezTerm, translucent images](/jexer/screenshots/wezterm_translucent_images.png?raw=true "WezTerm, translucent images")
 
 ...or this:
 
-![Terminal, Image, Table](/screenshots/new_demo1.png?raw=true "Terminal, Image, Table")
+![Terminal, Image, Table](/jexer/screenshots/new_demo1.png?raw=true "Terminal, Image, Table")
 
 ...or anything in between.  Translucent windows -- including layered
 images -- are supported and generally look as one would expect in a
@@ -30,19 +30,19 @@ If the terminal supports mouse mode 1016 (SGR-Pixel), one can now get
 smooth(er) mouse motion with custom bitmap overlaid mouse.  Below is
 stock xterm, with a custom mouse icon, and SGR-Pixel mode active:
 
-![Xterm SGR-Pixel Mouse](/screenshots/xterm_pixel_mouse.gif?raw=true "Xterm SGR-Pixel Mouse")
+![Xterm SGR-Pixel Mouse](/jexer/screenshots/xterm_pixel_mouse.gif?raw=true "Xterm SGR-Pixel Mouse")
 
 A new sixel encoder was introduced in version 1.6.0, and looks and
 performs much better.  This encoder was inspired in part by
 [chafa's](https://hpjansson.org/chafa/) high-performance principal
 component analysis based sixel encoder.
 
-![PCA color matching with 128-color palette and translucent windows](/screenshots/pca_match.png?raw=true "PCA color matching with 128-color palette and translucent windows")
+![PCA color matching with 128-color palette and translucent windows](/jexer/screenshots/pca_match.png?raw=true "PCA color matching with 128-color palette and translucent windows")
 
 Jexer can be run inside its own terminal window, with support for all
 of its features including images and mouse, and more terminals:
 
-![Yo Dawg...](/screenshots/jexer_sixel_in_sixel.png?raw=true "Yo Dawg, I heard you like text windowing systems, so I ran a text windowing system inside your text windowing system so you can have a terminal in your terminal.")
+![Yo Dawg...](/jexer/screenshots/jexer_sixel_in_sixel.png?raw=true "Yo Dawg, I heard you like text windowing systems, so I ran a text windowing system inside your text windowing system so you can have a terminal in your terminal.")
 
 
 
@@ -116,7 +116,7 @@ comprehensive demonstration of what Jexer can accomplish.  Here one
 can see a floating terminal window over tiled terminals, two of which
 are showing images:
 
-![Floating terminal over tiled terminals](/screenshots/floating_terminal.png?raw=true "Floating terminal over tiled terminals")
+![Floating terminal over tiled terminals](/jexer/screenshots/floating_terminal.png?raw=true "Floating terminal over tiled terminals")
 
 Jexer's examples/ folder currently contains:
 
