@@ -12,6 +12,7 @@
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     <java.version>21</java.version>
     <maven.compiler.source>21</maven.compiler.source>
     <maven.compiler.target>21</maven.compiler.target>
@@ -22,10 +23,9 @@
     <maven.javadoc.plugin>3.11.1</maven.javadoc.plugin>
     <maven.gpg.plugin>3.2.7</maven.gpg.plugin>
     <nexus.staging.maven.plugin>1.7.0</nexus.staging.maven.plugin>
-    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+    <tests.skip>true</tests.skip>
     <lombok.version>1.18.36</lombok.version>
     <slf4j.version>2.0.16</slf4j.version>
-    <tests.skip>true</tests.skip>
     <logback-core.version>1.5.12</logback-core.version>
   </properties>
 
