@@ -20,6 +20,7 @@ public class TTabbedPane extends TWidget {
     private int currentTabIndex = 0;
     private int scrollIndex = 0; // For scrolling tabs when many are present
 
+
     public TTabbedPane(final TWidget parent, final int x, final int y, final int width, final int height) {
         super(parent, x, y, width, height);
     }
@@ -94,14 +95,13 @@ public class TTabbedPane extends TWidget {
         return visibleTabs;
     }
 
-
     @Override
     public void draw() {
         CellAttributes background = getTheme().getColor("twindow.border");
-        CellAttributes activeTab = getTheme().getColor("tcheckbox.checked");
-        CellAttributes inactiveTab = getTheme().getColor("tcheckbox.unchecked");
+        CellAttributes activeTab = getTheme().getColor("twindow.border");
+        CellAttributes inactiveTab = getTheme().getColor("twindow.border");
 
-        // Verifica che i colori siano inizializzati correttamente
+        // Ensure colors are not null
         if (background == null) {
             background = new CellAttributes();
         }
@@ -112,27 +112,35 @@ public class TTabbedPane extends TWidget {
             inactiveTab = new CellAttributes();
         }
 
-        // Disegna la barra delle schede
+        // Draw the tab bar
         int xOffset = 0;
         for (int i = scrollIndex; i < tabTitles.size(); i++) {
-            String title = " " + tabTitles.get(i) + " ";
-            int tabWidth = title.length();
-            if (xOffset + tabWidth > getWidth() - 6) { // Spazio per frecce e "X"
+            String title = "[" + tabTitles.get(i) + "]";
+            int tabWidth = title.length() + 1; // Add padding for the separator and space
+            if (xOffset + tabWidth > getWidth() - 6) { // Space for arrows and "X"
                 break;
             }
-            putStringXY(xOffset, 0, title, (i == currentTabIndex) ? activeTab : inactiveTab);
 
-            // Disegna la "X" per chiudere la scheda
-            putStringXY(xOffset + tabWidth - 1, 0, "X", inactiveTab);
+            // Draw tab title
+            CellAttributes color = (i == currentTabIndex) ? activeTab : inactiveTab;
+            putStringXY(xOffset, 0, title, color);
+
+            // Draw "X" with spacing
+            // putStringXY(xOffset + title.length(), 0, " X ", inactiveTab);
+
+            // Draw separator after the tab
+            /*if (i < tabTitles.size() - 1) {
+                putStringXY(xOffset + tabWidth - 1, 0, " ", inactiveTab);
+            }*/
 
             xOffset += tabWidth;
         }
 
-        // Disegna le frecce di navigazione
-        putStringXY(getWidth() - 4, 0, "<", inactiveTab); // Freccia sinistra
-        putStringXY(getWidth() - 2, 0, ">", inactiveTab); // Freccia destra
+        // Draw arrows for scrolling
+        putStringXY(getWidth() - 4, 0, "<", inactiveTab); // Left arrow
+        putStringXY(getWidth() - 2, 0, ">", inactiveTab); // Right arrow
 
-        // Disegna il contenuto del pannello attivo
+        // Draw the content of the active panel
         if (!tabPanels.isEmpty() && currentTabIndex >= 0 && currentTabIndex < tabPanels.size()) {
             drawBox(0, 1, getWidth(), getHeight(), background,
                     background, BorderStyle.SINGLE, true);

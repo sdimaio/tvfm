@@ -12,7 +12,7 @@ public class DemoCalc {
         app.addFileMenu();
         // new CalculatorWindow(app);
 // Crea il TTabbedPane e aggiungilo al desktop dell'applicazione
-        TTabbedPane tTabbedPane = new TTabbedPane(app.getDesktop(), 1, 1, 30, 20);
+        TTabbedPane tTabbedPane = new TTabbedPane(app.getDesktop(), 1, 1, 50, 20);
 
         // Crea i pannelli per le schede con il TTabbedPane come widget padre
         TPanel calculatorPanel = new TPanel(tTabbedPane, 1, 1, 28, 18);

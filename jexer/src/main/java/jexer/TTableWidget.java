@@ -421,7 +421,7 @@ public class TTableWidget extends TWidget {
         @Override
         public void onMouseDoubleClick(final TMouseEvent mouse) {
             // Use TWidget's code to pass the event to the children.
-            super.onMouseDown(mouse);
+            super.onMouseDoubleClick(mouse);
 
             // Double-click means to start editing.
             fieldText = field.getText();
@@ -431,8 +431,8 @@ public class TTableWidget extends TWidget {
 
             if (isActive()) {
                 // Let the table know that I was activated.
-                ((TTableWidget) getParent()).selectedRow = row;
-                ((TTableWidget) getParent()).selectedColumn = column;
+                ((TTableWidget) getParent()).setSelectedRowNumber(row);
+                ((TTableWidget) getParent()).setSelectedColumnNumber(column);
                 ((TTableWidget) getParent()).alignGrid();
             }
         }
@@ -449,8 +449,8 @@ public class TTableWidget extends TWidget {
 
             if (isActive()) {
                 // Let the table know that I was activated.
-                ((TTableWidget) getParent()).selectedRow = row;
-                ((TTableWidget) getParent()).selectedColumn = column;
+                ((TTableWidget) getParent()).setSelectedRowNumber(row);
+                ((TTableWidget) getParent()).setSelectedColumnNumber(column);
                 ((TTableWidget) getParent()).alignGrid();
             }
         }
@@ -463,12 +463,12 @@ public class TTableWidget extends TWidget {
         @Override
         public void onMouseUp(final TMouseEvent mouse) {
             // Use TWidget's code to pass the event to the children.
-            super.onMouseDown(mouse);
+            super.onMouseUp(mouse);
 
             if (isActive()) {
                 // Let the table know that I was activated.
-                ((TTableWidget) getParent()).selectedRow = row;
-                ((TTableWidget) getParent()).selectedColumn = column;
+                ((TTableWidget) getParent()).setSelectedRowNumber(row);
+                ((TTableWidget) getParent()).setSelectedColumnNumber(column);
                 ((TTableWidget) getParent()).alignGrid();
             }
         }
@@ -943,7 +943,7 @@ public class TTableWidget extends TWidget {
     }
 
     // ------------------------------------------------------------------------
-    // TTable -----------------------------------------------------------------
+    // TTableWidget -----------------------------------------------------------
     // ------------------------------------------------------------------------
 
     /**
@@ -973,7 +973,7 @@ public class TTableWidget extends TWidget {
             for (Cell cell: row.cells) {
                 cell.cancelEdit();
                 cell.setText("");
-                cell.field.remove();
+                cell.remove();
             }
         }
 
@@ -1263,10 +1263,12 @@ public class TTableWidget extends TWidget {
         }
 
         // Set left and top such that the table stays on screen if possible.
-        top = rows.size() - getHeight();
+        top = Math.min(rows.size() - 1,
+            Math.max(0, rows.size() - getHeight()));
         int visibleColumnWidth = Math.max(1,
             (viewColumns / (COLUMN_DEFAULT_WIDTH + 1)));
-        left = columns.size() - (getWidth() / visibleColumnWidth);
+        left = Math.min(columns.size() - 1,
+            Math.max(0, columns.size() - (getWidth() / visibleColumnWidth)));
         // Now ensure the selection is visible.
         alignGrid();
     }
