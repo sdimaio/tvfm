@@ -1,45 +1,10 @@
-19-11-2024 22:51:25.103 [Thread-2] ERROR jexer.TApplication.run - Ops!
-java.lang.NullPointerException: Cannot read field "flags" because "that" is null
-	at jexer.bits.CellAttributes.setTo(CellAttributes.java:480)
-	at jexer.bits.Cell.setTo(Cell.java:848)
-	at jexer.backend.LogicalScreen.putCharXY(LogicalScreen.java:537)
-	at jexer.backend.LogicalScreen.putStringXY(LogicalScreen.java:606)
-	at jexer.TWidget.putStringXY(TWidget.java:2083)
-	at jexer.TTabbedPane.draw(TTabbedPane.java:111)
-	at jexer.TWidget.drawChildren(TWidget.java:1530)
-	at jexer.TWidget.drawChildren(TWidget.java:1554)
-	at jexer.TApplication.drawAll(TApplication.java:2772)
-	at jexer.TApplication.finishEventProcessing(TApplication.java:1397)
-	at jexer.TApplication$WidgetEventHandler.runImpl(TApplication.java:584)
-	at jexer.TApplication$WidgetEventHandler.run(TApplication.java:459)
-	at java.base/java.lang.Thread.run(Thread.java:1583)
-19-11-2024 22:51:35.960 [Thread-2] ERROR jexer.TApplication.run - Ops!
-java.lang.NullPointerException: Cannot read field "flags" because "that" is null
-	at jexer.bits.CellAttributes.setTo(CellAttributes.java:480)
-	at jexer.bits.Cell.setTo(Cell.java:848)
-	at jexer.backend.LogicalScreen.putCharXY(LogicalScreen.java:537)
-	at jexer.backend.LogicalScreen.putStringXY(LogicalScreen.java:606)
-	at jexer.TWidget.putStringXY(TWidget.java:2083)
-	at jexer.TTabbedPane.draw(TTabbedPane.java:111)
-	at jexer.TWidget.drawChildren(TWidget.java:1530)
-	at jexer.TWidget.drawChildren(TWidget.java:1554)
-	at jexer.TApplication.drawAll(TApplication.java:2772)
-	at jexer.TApplication.finishEventProcessing(TApplication.java:1397)
-	at jexer.TApplication$WidgetEventHandler.runImpl(TApplication.java:584)
-	at jexer.TApplication$WidgetEventHandler.run(TApplication.java:459)
-	at java.base/java.lang.Thread.run(Thread.java:1583)
-19-11-2024 22:51:46.033 [Thread-2] ERROR jexer.TApplication.run - Ops!
-java.lang.NullPointerException: Cannot read field "flags" because "that" is null
-	at jexer.bits.CellAttributes.setTo(CellAttributes.java:480)
-	at jexer.bits.Cell.setTo(Cell.java:848)
-	at jexer.backend.LogicalScreen.putCharXY(LogicalScreen.java:537)
-	at jexer.backend.LogicalScreen.putStringXY(LogicalScreen.java:606)
-	at jexer.TWidget.putStringXY(TWidget.java:2083)
-	at jexer.TTabbedPane.draw(TTabbedPane.java:111)
-	at jexer.TWidget.drawChildren(TWidget.java:1530)
-	at jexer.TWidget.drawChildren(TWidget.java:1554)
-	at jexer.TApplication.drawAll(TApplication.java:2772)
-	at jexer.TApplication.finishEventProcessing(TApplication.java:1397)
-	at jexer.TApplication$WidgetEventHandler.runImpl(TApplication.java:584)
-	at jexer.TApplication$WidgetEventHandler.run(TApplication.java:459)
-	at java.base/java.lang.Thread.run(Thread.java:1583)
+28-12-2024 15:21:07.114 [main] DEBUG jexer.TApplication.<init> - Starting application. Please, wait...
+28-12-2024 15:21:07.259 [main] DEBUG jexer.TApplication.TApplicationImpl - animationsEnabled: true
+28-12-2024 15:21:48.802 [main] DEBUG jexer.TApplication.<init> - Starting application. Please, wait...
+28-12-2024 15:21:48.941 [main] DEBUG jexer.TApplication.TApplicationImpl - animationsEnabled: true
+28-12-2024 15:22:59.522 [main] DEBUG jexer.TApplication.<init> - Starting application. Please, wait...
+28-12-2024 15:22:59.651 [main] DEBUG jexer.TApplication.TApplicationImpl - animationsEnabled: true
+28-12-2024 15:23:34.320 [main] DEBUG jexer.TApplication.<init> - Starting application. Please, wait...
+28-12-2024 15:23:34.466 [main] DEBUG jexer.TApplication.TApplicationImpl - animationsEnabled: true
+28-12-2024 15:24:00.255 [main] DEBUG jexer.TApplication.<init> - Starting application. Please, wait...
+28-12-2024 15:24:00.277 [main] DEBUG jexer.TApplication.TApplicationImpl - animationsEnabled: true
