@@ -348,7 +348,9 @@ public class TComboBox extends TWidget {
      */
     public void setIndex(final int index) {
         list.setSelectedIndex(index);
-        field.setText(list.getSelected());
+        // field.setText(list.getSelected());
+	var s = list.getSelected();
+        field.setText(s != null ? s : "");
     }
 
     /**
