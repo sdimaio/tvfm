@@ -3,7 +3,7 @@
  *
  * The MIT License (MIT)
  *
- * Copyright (C) 2022 Autumn Lamonte
+ * Copyright (C) 2025 Autumn Lamonte
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
@@ -23,7 +23,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
  * DEALINGS IN THE SOFTWARE.
  *
- * @author Autumn Lamonte ⚧ Trans Liberation Now
+ * @author Autumn Lamonte ♥
  * @version 1
  */
 package jexer;
@@ -39,6 +39,7 @@ import java.lang.reflect.Modifier;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.ResourceBundle;
 
@@ -48,8 +49,10 @@ import jexer.backend.SwingTerminal;
 import jexer.bits.Cell;
 import jexer.event.TCommandEvent;
 import jexer.event.TKeypressEvent;
+import jexer.event.TMenuEvent;
 import jexer.event.TMouseEvent;
 import jexer.event.TResizeEvent;
+import jexer.menu.TMenu;
 import jexer.tterminal.DisplayLine;
 import jexer.tterminal.DisplayListener;
 import jexer.tterminal.ECMA48;
@@ -62,14 +65,14 @@ import static jexer.TKeypress.*;
 public class TTerminalWidget extends TScrollableWidget
                              implements DisplayListener, EditMenuUser {
 
-    /**
-     * Translated strings.
-     */
-    private static final ResourceBundle i18n = ResourceBundle.getBundle(TTerminalWidget.class.getName());
-
     // ------------------------------------------------------------------------
     // Variables --------------------------------------------------------------
     // ------------------------------------------------------------------------
+
+    /**
+     * Translated strings.
+     */
+    private ResourceBundle i18n = null;
 
     /**
      * The emulator.
@@ -192,7 +195,11 @@ public class TTerminalWidget extends TScrollableWidget
      * @param parent parent widget
      * @param x column relative to parent
      * @param y row relative to parent
-     * @param command the command line to execute
+     * @param command the command line to execute, as an array of strings
+     * which signifies the external program file to be invoked (command[0])
+     * and its arguments, if any (command[1], command[2], ...). Refer also to
+     * java.lang.ProcessBuilder for further operating-system specific
+     * details.
      */
     public TTerminalWidget(final TWidget parent, final int x, final int y,
         final String [] command) {
@@ -206,7 +213,11 @@ public class TTerminalWidget extends TScrollableWidget
      * @param parent parent widget
      * @param x column relative to parent
      * @param y row relative to parent
-     * @param command the command line to execute
+     * @param command the command line to execute, as an array of strings
+     * which signifies the external program file to be invoked (command[0])
+     * and its arguments, if any (command[1], command[2], ...). Refer also to
+     * java.lang.ProcessBuilder for further operating-system specific
+     * details.
      * @param closeAction action to perform when the shell exits
      */
     public TTerminalWidget(final TWidget parent, final int x, final int y,
@@ -223,7 +234,11 @@ public class TTerminalWidget extends TScrollableWidget
      * @param y row relative to parent
      * @param width width of widget
      * @param height height of widget
-     * @param command the command line to execute
+     * @param command the command line to execute, as an array of strings
+     * which signifies the external program file to be invoked (command[0])
+     * and its arguments, if any (command[1], command[2], ...). Refer also to
+     * java.lang.ProcessBuilder for further operating-system specific
+     * details.
      * @param closeAction action to perform when the shell exits
      */
     @SuppressWarnings("this-escape")
@@ -232,6 +247,8 @@ public class TTerminalWidget extends TScrollableWidget
         final TAction closeAction) {
 
         super(parent, x, y, width, height);
+        i18n = ResourceBundle.getBundle(TTerminalWidget.class.getName(),
+            getLocale());
 
         setMouseStyle("text");
         this.closeAction = closeAction;
@@ -336,6 +353,8 @@ public class TTerminalWidget extends TScrollableWidget
         final int width, final int height, final TAction closeAction) {
 
         super(parent, x, y, width, height);
+        i18n = ResourceBundle.getBundle(TTerminalWidget.class.getName(),
+            getLocale());
 
         setMouseStyle("text");
         this.closeAction = closeAction;
@@ -959,8 +978,21 @@ public class TTerminalWidget extends TScrollableWidget
         try {
             ProcessBuilder pb = new ProcessBuilder(command);
             Map<String, String> env = pb.environment();
+            String langString = System.getenv().get("LANG");
+            if (langString == null) {
+                Locale locale = Locale.getDefault();
+                langString = locale.getLanguage();
+                if (locale.getCountry().length() > 0) {
+                    langString += "_" + locale.getCountry();
+                }
+            } else {
+                int dotIndex = langString.indexOf(".");
+                if (dotIndex > 0) {
+                    langString = langString.substring(0, dotIndex);
+                }
+            }
             env.put("TERM", ECMA48.deviceTypeTerm(deviceType));
-            env.put("LANG", ECMA48.deviceTypeLang(deviceType, "en_US"));
+            env.put("LANG", ECMA48.deviceTypeLang(deviceType, langString));
             env.put("COLUMNS", "80");
             env.put("LINES", "24");
             pb.redirectErrorStream(true);
@@ -1259,10 +1291,10 @@ public class TTerminalWidget extends TScrollableWidget
         if (getScreen() instanceof SwingTerminal) {
             SwingTerminal terminal = (SwingTerminal) getScreen();
             cursorBlinkVisible = terminal.getCursorBlinkVisible();
-        } else if (getScreen() instanceof ECMA48Terminal) {
+        } else { /* if (getScreen() instanceof ECMA48Terminal) {
             ECMA48Terminal terminal = (ECMA48Terminal) getScreen();
 
-            /* Always render double-width/height with images.
+            // Always render double-width/height with images.
             if (!terminal.hasSixel()
                 && !terminal.hasJexerImages()
                 && !terminal.hasIterm2Images()
@@ -1302,7 +1334,7 @@ public class TTerminalWidget extends TScrollableWidget
             image = doubleFont.getImage(newCell, textWidth * 2, textHeight * 2,
                 getApplication().getBackend(), cursorBlinkVisible);
         } else {
-            image = doubleFont.getImage(cell,  textWidth * 2, textHeight * 2,
+            image = doubleFont.getImage(cell, textWidth * 2, textHeight * 2,
                 getApplication().getBackend(), cursorBlinkVisible);
         }
 
@@ -1310,7 +1342,7 @@ public class TTerminalWidget extends TScrollableWidget
         // pieces of it to the cells.
         Cell left = new Cell(cell);
         Cell right = new Cell(cell);
-        right.setChar(' ');
+        // right.setChar(' ');
         BufferedImage leftImage = null;
         BufferedImage rightImage = null;
         /*
@@ -1343,13 +1375,19 @@ public class TTerminalWidget extends TScrollableWidget
                 textHeight);
             break;
         }
-        left.setImage(leftImage);
-        right.setImage(rightImage);
+        // left.setImage(leftImage);
+        // right.setImage(rightImage);
         // Since we have image data, ditch the character here.  Otherwise, a
         // drawBoxShadow() over the terminal window will show the characters
         // which looks wrong.
         left.setChar(' ');
         right.setChar(' ');
+        left.setImage(leftImage, Math.abs(leftImage.hashCode()));
+        left.setOpaqueImage();
+        left.setWidth(Cell.Width.LEFT);
+        right.setImage(rightImage, Math.abs(rightImage.hashCode()));
+        right.setOpaqueImage();
+        right.setWidth(Cell.Width.RIGHT);
         putCharXY(x, y, left);
         putCharXY(x + 1, y, right);
     }
@@ -1365,7 +1403,7 @@ public class TTerminalWidget extends TScrollableWidget
 
         // Special case: the ECMA48 backend needs to have a timer to drive
         // its blink state.
-        if (getScreen() instanceof ECMA48Terminal) {
+        if (getScreen() instanceof jexer.backend.ECMA48Terminal) {
             if (blinkTimer == null) {
                 // Blink every 500 millis.
                 long millis = 500;

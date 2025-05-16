@@ -3,7 +3,7 @@
  *
  * The MIT License (MIT)
  *
- * Copyright (C) 2022 Autumn Lamonte
+ * Copyright (C) 2025 Autumn Lamonte
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
@@ -23,7 +23,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
  * DEALINGS IN THE SOFTWARE.
  *
- * @author Autumn Lamonte ⚧ Trans Liberation Now
+ * @author Autumn Lamonte ♥
  * @version 1
  */
 package jexer;
@@ -58,11 +58,6 @@ import static jexer.TKeypress.*;
  */
 public class TFileOpenBox extends TWindow {
 
-    /**
-     * Translated strings.
-     */
-    private static final ResourceBundle i18n = ResourceBundle.getBundle(TFileOpenBox.class.getName());
-
     // ------------------------------------------------------------------------
     // Constants --------------------------------------------------------------
     // ------------------------------------------------------------------------
@@ -90,6 +85,11 @@ public class TFileOpenBox extends TWindow {
     // ------------------------------------------------------------------------
     // Variables --------------------------------------------------------------
     // ------------------------------------------------------------------------
+
+    /**
+     * Translated strings.
+     */
+    private ResourceBundle i18n = null;
 
     /**
      * String to return, or null if the user canceled.
@@ -158,7 +158,9 @@ public class TFileOpenBox extends TWindow {
         final Type type, final List<String> filters) throws IOException {
 
         // Register with the TApplication
-        super(application, "", 0, 0, 76, 22, MODAL);
+        super(application, "", 0, 0, 78, 22, MODAL);
+        i18n = ResourceBundle.getBundle(TFileOpenBox.class.getName(),
+            getLocale());
 
         // Add text field
         entryField = addField(1, 1, getWidth() - 4, false,
@@ -262,7 +264,7 @@ public class TFileOpenBox extends TWindow {
         this.type = type;
 
         // Setup button actions
-        openButton = addButton(openLabel, this.getWidth() - 12, 3,
+        openButton = addButton(openLabel, this.getWidth() - 14, 3,
             new TAction() {
                 public void DO() {
                     try {
@@ -281,7 +283,7 @@ public class TFileOpenBox extends TWindow {
             openButton.setEnabled(false);
         }
 
-        addButton(i18n.getString("cancelButton"), getWidth() - 12, 5,
+        addButton(i18n.getString("cancelButton"), getWidth() - 14, 5,
             new TAction() {
                 public void DO() {
                     filename = null;
@@ -380,6 +382,22 @@ public class TFileOpenBox extends TWindow {
         super.draw();
         vLineXY(33, 4, getHeight() - 6, GraphicsChars.WINDOW_SIDE,
             getBackground());
+    }
+
+    // ------------------------------------------------------------------------
+    // TWindow ----------------------------------------------------------------
+    // ------------------------------------------------------------------------
+
+    /**
+     * If true, disable any window closing effect.  This is used by the
+     * window closing effects themselves so that they can be closed when
+     * finished.
+     *
+     * @return true if the window close effect should be disabled
+     */
+    public boolean disableCloseEffect() {
+        // Let's let this particular dialog vanish immediately.
+        return true;
     }
 
     // ------------------------------------------------------------------------

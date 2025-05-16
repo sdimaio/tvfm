@@ -3,7 +3,7 @@
  *
  * The MIT License (MIT)
  *
- * Copyright (C) 2022 Autumn Lamonte
+ * Copyright (C) 2025 Autumn Lamonte
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
@@ -23,7 +23,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
  * DEALINGS IN THE SOFTWARE.
  *
- * @author Autumn Lamonte ⚧ Trans Liberation Now
+ * @author Autumn Lamonte ♥
  * @version 1
  */
 package jexer.demos;
@@ -35,6 +35,7 @@ import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.io.Reader;
 import java.io.UnsupportedEncodingException;
+import java.util.Locale;
 import java.util.ResourceBundle;
 
 import jexer.TApplication;
@@ -44,6 +45,7 @@ import jexer.TEditColorThemeWindow;
 import jexer.TEditorWindow;
 import jexer.TWidget;
 import jexer.TWindow;
+import jexer.bits.BorderStyle;
 import jexer.backend.ECMA48Terminal;
 import jexer.event.TMenuEvent;
 import jexer.menu.TMenu;
@@ -52,15 +54,21 @@ import jexer.menu.TSubMenu;
 import jexer.backend.Backend;
 import jexer.backend.SwingTerminal;
 
+import static java.util.ResourceBundle.*;
+
 /**
  * The demo application itself.
  */
 public class DemoApplication extends TApplication {
 
+    // ------------------------------------------------------------------------
+    // Variables --------------------------------------------------------------
+    // ------------------------------------------------------------------------
+
     /**
      * Translated strings.
      */
-    private static final ResourceBundle i18n = ResourceBundle.getBundle(DemoApplication.class.getName());
+    private static ResourceBundle i18n = getBundle(DemoApplication.class.getName());
 
     // ------------------------------------------------------------------------
     // Constructors -----------------------------------------------------------
@@ -151,8 +159,8 @@ public class DemoApplication extends TApplication {
         addAllWidgets();
         getBackend().setTitle(i18n.getString("applicationTitle"));
 
-        // Use cute theme by default.
-        onMenu(new TMenuEvent(getBackend(), 10001));
+        // Use custom theme by default.
+        onMenu(new TMenuEvent(getBackend(), 10003));
     }
 
     /**
@@ -172,8 +180,8 @@ public class DemoApplication extends TApplication {
         addAllWidgets();
         getBackend().setTitle(i18n.getString("applicationTitle"));
 
-        // Use cute theme by default.
-        onMenu(new TMenuEvent(getBackend(), 10001));
+        // Use custom theme by default.
+        onMenu(new TMenuEvent(getBackend(), 10003));
     }
 
     // ------------------------------------------------------------------------
@@ -319,6 +327,69 @@ public class DemoApplication extends TApplication {
             return true;
         }
 
+        if (menu.getId() == 10003) {
+            // Look "custom", sorta vaguely like Qmodem 5.
+            System.setProperty("jexer.TWindow.borderStyleForeground", "round");
+            System.setProperty("jexer.TWindow.borderStyleModal", "round");
+            System.setProperty("jexer.TWindow.borderStyleMoving", "round");
+            System.setProperty("jexer.TWindow.borderStyleInactive", "round");
+            System.setProperty("jexer.TEditColorTheme.borderStyle", "round");
+            System.setProperty("jexer.TEditColorTheme.options.borderStyle", "round");
+            System.setProperty("jexer.TRadioGroup.borderStyle", "round");
+            System.setProperty("jexer.TScreenOptions.borderStyle", "round");
+            System.setProperty("jexer.TScreenOptions.grid.borderStyle", "round");
+            System.setProperty("jexer.TScreenOptions.options.borderStyle", "round");
+            System.setProperty("jexer.TWindow.opacity", "90");
+            System.setProperty("jexer.TImage.opacity", "90");
+            System.setProperty("jexer.TTerminal.opacity", "90");
+            System.setProperty("jexer.TButton.style", "diamond");
+
+            getTheme().setQmodem5();
+            for (TWindow window: getAllWindows()) {
+                window.setBorderStyleForeground("round");
+                window.setBorderStyleModal("round");
+                window.setBorderStyleMoving("round");
+                window.setBorderStyleInactive("round");
+                window.setAlpha(90 * 255 / 100);
+
+                for (TWidget widget: window.getChildren()) {
+                    if (widget instanceof TButton) {
+                        ((TButton) widget).setStyle(TButton.Style.DIAMOND);
+                    }
+                }
+            }
+            for (TMenu m: getAllMenus()) {
+                m.setBorderStyleForeground("single");
+                m.setBorderStyleModal("single");
+                m.setBorderStyleMoving("single");
+                m.setBorderStyleInactive("single");
+                m.setAlpha(95 * 255 / 100);
+            }
+            setDesktop(new TDesktop(this));
+            setHideStatusBar(false);
+            return true;
+        }
+
+        if (menu.getId() == 10005) {
+            setLocale(Locale.forLanguageTag(""));
+            i18n = ResourceBundle.getBundle(DemoApplication.class.getName(),
+                getLocale());
+            getBackend().setTitle(i18n.getString("applicationTitle"));
+            clearAllWidgets();
+            addAllWidgets();
+            return true;
+        }
+
+        if (menu.getId() == 10006) {
+            setLocale(Locale.forLanguageTag("es"));
+            i18n = getBundle(DemoApplication.class.getName(),
+                getLocale());
+            getBackend().setTitle(i18n.getString("applicationTitle"));
+            clearAllWidgets();
+            addAllWidgets();
+            return true;
+        }
+
         return super.onMenu(menu);
     }
 
@@ -370,6 +441,10 @@ public class DemoApplication extends TApplication {
         demoMenu.addSeparator();
         demoMenu.addItem(10001, i18n.getString("lookCute"));
         demoMenu.addItem(10002, i18n.getString("lookBland"));
+        demoMenu.addItem(10003, i18n.getString("lookCustom"));
+        TSubMenu languageMenu = demoMenu.addSubMenu(i18n.getString("selectLanguage"));
+        languageMenu.addItem(10005, i18n.getString("english"));
+        languageMenu.addItem(10006, i18n.getString("espanol"));
         demoMenu.addSeparator();
         TMenuItem item = demoMenu.addItem(2000, i18n.getString("checkable"));
         item.setCheckable(true);
@@ -402,6 +477,19 @@ public class DemoApplication extends TApplication {
         addTableMenu();
         addWindowMenu();
         addHelpMenu();
+    }
+
+    /**
+     * Clear all the widgets of the demo.
+     */
+    private void clearAllWidgets() {
+        closeMenu();
+        for (TMenu menu: getAllMenus()) {
+            removeMenu(menu);
+        }
+        for (TWindow window: getAllWindows()) {
+            closeWindow(window);
+        }
     }
 
 }

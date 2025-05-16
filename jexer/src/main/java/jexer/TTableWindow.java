@@ -3,7 +3,7 @@
  *
  * The MIT License (MIT)
  *
- * Copyright (C) 2022 Autumn Lamonte
+ * Copyright (C) 2025 Autumn Lamonte
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
@@ -23,7 +23,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
  * DEALINGS IN THE SOFTWARE.
  *
- * @author Autumn Lamonte ⚧ Trans Liberation Now
+ * @author Autumn Lamonte ♥
  * @version 1
  */
 package jexer;
@@ -49,14 +49,14 @@ import static jexer.TKeypress.*;
  */
 public class TTableWindow extends TScrollableWindow {
 
-    /**
-     * Translated strings.
-     */
-    private static final ResourceBundle i18n = ResourceBundle.getBundle(TTableWindow.class.getName());
-
     // ------------------------------------------------------------------------
     // Variables --------------------------------------------------------------
     // ------------------------------------------------------------------------
+
+    /**
+     * Translated strings.
+     */
+    private ResourceBundle i18n = null;
 
     /**
      * The table widget.
@@ -70,7 +70,7 @@ public class TTableWindow extends TScrollableWindow {
     /**
      * Public constructor.
      *
-     * @param parent the mainold application
+     * @param parent the main application
      * @param title window title
      * @param width width of window
      * @param height height of window
@@ -84,7 +84,7 @@ public class TTableWindow extends TScrollableWindow {
     /**
      * Public constructor.
      *
-     * @param parent the mainold application
+     * @param parent the main application
      * @param title window title, will be centered along the top border
      * @param width width of window
      * @param height height of window
@@ -99,7 +99,7 @@ public class TTableWindow extends TScrollableWindow {
     /**
      * Public constructor.
      *
-     * @param parent the mainold application
+     * @param parent the main application
      * @param title window title, will be centered along the top border
      * @param x column relative to parent
      * @param y row relative to parent
@@ -115,7 +115,7 @@ public class TTableWindow extends TScrollableWindow {
     /**
      * Public constructor.
      *
-     * @param parent the mainold application
+     * @param parent the main application
      * @param title window title
      * @param x column relative to parent
      * @param y row relative to parent
@@ -129,6 +129,8 @@ public class TTableWindow extends TScrollableWindow {
         final int flags) {
 
         super(parent, title, x, y, width, height, flags);
+        i18n = ResourceBundle.getBundle(TTableWindow.class.getName(),
+            getLocale());
 
         tableField = addTable(0, 0, getWidth() - 2, getHeight() - 2);
         setupAfterTable();
@@ -137,7 +139,7 @@ public class TTableWindow extends TScrollableWindow {
     /**
      * Public constructor sets window title.
      *
-     * @param parent the mainold application
+     * @param parent the main application
      * @param title the window title
      */
     @SuppressWarnings("this-escape")
@@ -149,7 +151,7 @@ public class TTableWindow extends TScrollableWindow {
     /**
      * Public constructor loads a grid from a RFC4180 CSV file.
      *
-     * @param parent the mainold application
+     * @param parent the main application
      * @param csvFile a File referencing the CSV data
      * @throws IOException if a java.io operation throws
      */
@@ -158,9 +160,11 @@ public class TTableWindow extends TScrollableWindow {
         final File csvFile) throws IOException {
 
         super(parent, csvFile.getName(), 0, 0,
-            parent.getScreen().getWidth() / 2,
+            parent.getScreen().getWidth() * 4 / 5,
             parent.getScreen().getHeight() / 2 - 2,
             RESIZABLE | CENTERED);
+        i18n = ResourceBundle.getBundle(TTableWindow.class.getName(),
+            getLocale());
 
         tableField = addTable(0, 0, getWidth() - 2, getHeight() - 2, 1, 1);
         setupAfterTable();
@@ -170,7 +174,7 @@ public class TTableWindow extends TScrollableWindow {
     /**
      * Public constructor loads a grid from a RFC4180 CSV file.
      *
-     * @param parent the mainold application
+     * @param parent the main application
      * @param csvFile a File referencing the CSV data
      * @param width width of window
      * @param height height of window
@@ -185,7 +189,7 @@ public class TTableWindow extends TScrollableWindow {
     /**
      * Public constructor loads a grid from a RFC4180 CSV file.
      *
-     * @param parent the mainold application
+     * @param parent the main application
      * @param csvFile a File referencing the CSV data
      * @param width width of window
      * @param height height of window
@@ -201,7 +205,7 @@ public class TTableWindow extends TScrollableWindow {
     /**
      * Public constructor loads a grid from a RFC4180 CSV file.
      *
-     * @param parent the mainold application
+     * @param parent the main application
      * @param csvFile a File referencing the CSV data
      * @param x column relative to parent
      * @param y row relative to parent
@@ -219,7 +223,7 @@ public class TTableWindow extends TScrollableWindow {
     /**
      * Public constructor loads a grid from a RFC4180 CSV file.
      *
-     * @param parent the mainold application
+     * @param parent the main application
      * @param csvFile a File referencing the CSV data
      * @param x column relative to parent
      * @param y row relative to parent
@@ -234,6 +238,8 @@ public class TTableWindow extends TScrollableWindow {
         final int flags) throws IOException {
 
         super(parent, csvFile.getName(), x, y, width, height, flags);
+        i18n = ResourceBundle.getBundle(TTableWindow.class.getName(),
+            getLocale());
 
         tableField = addTable(0, 0, getWidth() - 2, getHeight() - 2, 1, 1);
         setupAfterTable();

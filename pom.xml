@@ -17,11 +17,11 @@
     <java.version>${version}</java.version>
     <target.version>${java.version}</target.version>
     <source.version>${java.version}</source.version>
-    <maven.version>3.8.6</maven.version>
+    <maven.version>3.9.9</maven.version>
     <maven.compiler.source>${version}</maven.compiler.source>
     <maven.compiler.target>${version}</maven.compiler.target>
     <maven.compiler.plugin>3.11.0</maven.compiler.plugin>
-    <maven.jar.plugin>3.0.2</maven.jar.plugin>
+    <maven.jar.plugin>3.4.2</maven.jar.plugin>
     <maven.source.plugin>3.3.1</maven.source.plugin>
     <maven.release.plugin>3.1.1</maven.release.plugin>
     <maven.javadoc.plugin>3.11.1</maven.javadoc.plugin>
@@ -30,8 +30,8 @@
     <nexus.staging.maven.plugin>1.7.0</nexus.staging.maven.plugin>
     <tests.skip>true</tests.skip>
     <lombok.version>1.18.36</lombok.version>
-    <slf4j.version>2.0.16</slf4j.version>
-    <logback-core.version>1.5.12</logback-core.version>
+    <slf4j.version>2.0.17</slf4j.version>
+    <logback-core.version>1.5.18</logback-core.version>
     <argLine>-Djava.security.egd=file:/dev/./urandom -Xmx1024m</argLine>
   </properties>
 

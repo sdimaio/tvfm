@@ -3,7 +3,7 @@
  *
  * The MIT License (MIT)
  *
- * Copyright (C) 2022 Autumn Lamonte
+ * Copyright (C) 2025 Autumn Lamonte
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
@@ -23,7 +23,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
  * DEALINGS IN THE SOFTWARE.
  *
- * @author Autumn Lamonte ⚧ Trans Liberation Now
+ * @author Autumn Lamonte ♥
  * @version 1
  */
 package jexer;
@@ -43,6 +43,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.ResourceBundle;
 
@@ -53,6 +54,7 @@ import jexer.bits.ColorTheme;
 import jexer.bits.StringUtils;
 import jexer.effect.Effect;
 import jexer.effect.WindowBurnInEffect;
+import jexer.effect.WindowBurnOutEffect;
 import jexer.effect.WindowFadeInEffect;
 import jexer.effect.WindowFadeOutEffect;
 import jexer.event.TCommandEvent;
@@ -76,22 +78,26 @@ import jexer.menu.TSubMenu;
 import jexer.tackboard.Tackboard;
 import jexer.tackboard.MousePointer;
 import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import static jexer.TCommand.*;
 import static jexer.TKeypress.*;
 
 /**
- * TApplication is the mainold driver class for a full Text User Interface
+ * TApplication is the main driver class for a full Text User Interface
  * application.  It manages windows, provides a menu bar and status bar, and
  * processes events received from the user.
  */
-@Slf4j
+//@Slf4j
 public class TApplication implements Runnable {
+
+    private final Logger log = LoggerFactory.getLogger(TApplication.class);
 
     /**
      * Translated strings.
      */
-    private static final ResourceBundle i18n = ResourceBundle.getBundle(TApplication.class.getName());
+    private ResourceBundle i18n = ResourceBundle.getBundle(TApplication.class.getName());
 
     // ------------------------------------------------------------------------
     // Constants --------------------------------------------------------------
@@ -123,7 +129,7 @@ public class TApplication implements Runnable {
     /**
      * Two backend types are available.
      */
-    public enum BackendType {
+    public static enum BackendType {
         /**
          * A Swing JFrame.
          */
@@ -145,29 +151,39 @@ public class TApplication implements Runnable {
     // ------------------------------------------------------------------------
 
     /**
+     * Translated strings.
+     */
+    // private ResourceBundle i18n = ResourceBundle.getBundle(TApplication.class.getName());
+
+    /**
      * The primary event handler thread.
      */
-    private WidgetEventHandler primaryEventHandler;
+    private volatile WidgetEventHandler primaryEventHandler;
 
     /**
      * The secondary event handler thread.
      */
-    private WidgetEventHandler secondaryEventHandler;
+    private volatile WidgetEventHandler secondaryEventHandler;
 
     /**
      * The screen handler thread.
      */
-    private ScreenHandler screenHandler;
+    private volatile ScreenHandler screenHandler;
 
     /**
      * The widget receiving events from the secondary event handler thread.
      */
-    private TWidget secondaryEventReceiver;
+    private volatile TWidget secondaryEventReceiver;
 
     /**
      * Access to the physical screen, keyboard, and mouse.
      */
-    private final Backend backend;
+    private Backend backend;
+
+    /**
+     * The Locale used for producing user-facing strings.
+     */
+    private Locale locale = Locale.getDefault();
 
     /**
      * The clipboard for copy and paste.
@@ -420,18 +436,24 @@ public class TApplication implements Runnable {
     private final List<Effect> effects = new LinkedList<Effect>();
 
     /**
-     * WidgetEventHandler is the mainold event consumer loop.  There are at most
+     * If true, a new desktop/window has been added but runEffects() has not
+     * yet been called.
+     */
+    private boolean needToRunEffects = false;
+
+    /**
+     * WidgetEventHandler is the main event consumer loop.  There are at most
      * two such threads in existence: the primary for normal case and a
      * secondary that is used for TMessageBox, TInputBox, and similar.
      */
     private class WidgetEventHandler implements Runnable {
         /**
-         * The mainold application.
+         * The main application.
          */
         private final TApplication application;
 
         /**
-         * Whether this WidgetEventHandler is the primary or secondary
+         * Whether or not this WidgetEventHandler is the primary or secondary
          * thread.
          */
         private boolean primary = true;
@@ -439,7 +461,7 @@ public class TApplication implements Runnable {
         /**
          * Public constructor.
          *
-         * @param application the mainold application
+         * @param application the main application
          * @param primary if true, this is the primary event handler thread
          */
         public WidgetEventHandler(final TApplication application,
@@ -584,7 +606,7 @@ public class TApplication implements Runnable {
                     application.finishEventProcessing();
                 }
 
-            } // while (true) (mainold runnable loop)
+            } // while (true) (main runnable loop)
         }
     }
 
@@ -593,7 +615,7 @@ public class TApplication implements Runnable {
      */
     private class ScreenHandler implements Runnable {
         /**
-         * The mainold application.
+         * The main application.
          */
         private TApplication application;
 
@@ -620,7 +642,7 @@ public class TApplication implements Runnable {
         /**
          * Public constructor.
          *
-         * @param application the mainold application
+         * @param application the main application
          */
         public ScreenHandler(final TApplication application) {
             this.application = application;
@@ -691,7 +713,7 @@ public class TApplication implements Runnable {
                     }
                     lastFlushTime = now;
                 }
-            } // while (true) (mainold runnable loop)
+            } // while (true) (main runnable loop)
 
             // Shutdown the user I/O thread(s)
             backend.shutdown();
@@ -999,7 +1021,7 @@ public class TApplication implements Runnable {
         screenHandler = new ScreenHandler(this);
         (new Thread(screenHandler)).start();
 
-        // Start the mainold consumer thread
+        // Start the main consumer thread
         primaryEventHandler = new WidgetEventHandler(this, true);
         (new Thread(primaryEventHandler)).start();
 
@@ -1392,6 +1414,16 @@ public class TApplication implements Runnable {
         // the screen is drawn.
         onPreDraw();
 
+        // Allow any new desktop/window effects to run once before the screen
+        // is updated.
+        boolean doRunEffects = false;
+        synchronized (effects) {
+            doRunEffects = needToRunEffects;
+        }
+        if (doRunEffects) {
+            runEffects();
+        }
+
         // Update the screen
         synchronized (getScreen()) {
             drawAll();
@@ -1481,7 +1513,7 @@ public class TApplication implements Runnable {
         }
 
         synchronized (drainEventQueue) {
-            // Put into the mainold queue
+            // Put into the main queue
             drainEventQueue.add(event);
         }
     }
@@ -1875,6 +1907,7 @@ public class TApplication implements Runnable {
         if (effectsToRemove.size() > 0) {
             synchronized (effects) {
                 effects.removeAll(effectsToRemove);
+                needToRunEffects = false;
             }
         }
         // System.err.println("runEffects() exit");
@@ -1999,7 +2032,7 @@ public class TApplication implements Runnable {
 
     /**
      * Restore the console to sane defaults.  This is meant to be used for
-     * improper exits (e.g. a caught exception in mainold()), and should not be
+     * improper exits (e.g. a caught exception in main()), and should not be
      * necessary for normal program termination.
      */
     public void restoreConsole() {
@@ -2034,6 +2067,31 @@ public class TApplication implements Runnable {
         } else {
             return backend.getScreen();
         }
+    }
+
+    /**
+     * Get the Locale used for producing user-facing strings.
+     *
+     * @return the locale
+     */
+    public final Locale getLocale() {
+        assert (locale != null);
+        return locale;
+    }
+
+    /**
+     * Set the Locale used for producing user-facing strings.
+     *
+     * @param locale the locale. If null, reset to the default JVM Locale.
+     */
+    public final void setLocale(final Locale locale) {
+        if (locale != null) {
+            this.locale = locale;
+        } else {
+            this.locale = Locale.getDefault();
+        }
+        i18n = ResourceBundle.getBundle(TApplication.class.getName(),
+            getLocale());
     }
 
     /**
@@ -2317,7 +2375,7 @@ public class TApplication implements Runnable {
         String version = getClass().getPackage().getImplementationVersion();
         if (version == null) {
             // This is Java 9+, use a hardcoded string here.
-            version = "1.7";
+            version = "1.7.1";
         }
         messageBox(i18n.getString("aboutDialogTitle"),
             MessageFormat.format(i18n.getString("aboutDialogText"), version),
@@ -3264,6 +3322,13 @@ public class TApplication implements Runnable {
             if (windowCloseEffect.equals("fade")) {
                 synchronized (effects) {
                     effects.add(new WindowFadeOutEffect(window));
+                    needToRunEffects = true;
+                }
+            }
+            if (windowCloseEffect.equals("burn")) {
+                synchronized (effects) {
+                    effects.add(new WindowBurnOutEffect(window));
+                    needToRunEffects = true;
                 }
             }
         }
@@ -3466,11 +3531,13 @@ public class TApplication implements Runnable {
             if (windowOpenEffect.equals("fade")) {
                 synchronized (effects) {
                     effects.add(new WindowFadeInEffect(window));
+                    needToRunEffects = true;
                 }
             }
             if (windowOpenEffect.equals("burn")) {
                 synchronized (effects) {
                     effects.add(new WindowBurnInEffect(window));
+                    needToRunEffects = true;
                 }
             }
         }
@@ -3839,6 +3906,13 @@ public class TApplication implements Runnable {
             return;
         }
 
+        // If the mouse is on the status bar, do not switch focus
+        if ((hideStatusBar == false)
+            && (mouse.getAbsoluteY() == getDesktopBottom())
+        ) {
+            return;
+        }
+
         if (((focusFollowsMouse == true)
                 && (mouse.getType() == TMouseEvent.Type.MOUSE_MOTION))
             || (mouse.getType() == TMouseEvent.Type.MOUSE_DOWN)
@@ -3846,6 +3920,11 @@ public class TApplication implements Runnable {
             synchronized (windows) {
                 if (windows.get(0).isModal()) {
                     // Modal windows don't switch
+                    return;
+                }
+
+                if (windows.get(0).inMovements()) {
+                    // Moving/resizing windows don't switch
                     return;
                 }
 
@@ -3949,6 +4028,28 @@ public class TApplication implements Runnable {
     }
 
     /**
+     * Remove the keyboard accelerators of a menu item.  Sub-menu's will be
+     * searched recursively.
+     *
+     * @param item the item with the keyboard accelerator to remove
+     */
+    private final void removeMenuAccelerator(final TMenuItem item) {
+        if (item instanceof TSubMenu) {
+            for (TMenuItem subMenuItem: ((TSubMenu) item).getMenuItems()) {
+                removeMenuAccelerator(subMenuItem);
+            }
+            return;
+        }
+
+        TKeypress key = item.getKey();
+        if (key != null) {
+            synchronized (accelerators) {
+                accelerators.remove(key.toLowerCase());
+            }
+        }
+    }
+
+    /**
      * Remove a top-level menu from the list.
      *
      * @param menu the menu to remove
@@ -3964,6 +4065,16 @@ public class TApplication implements Runnable {
         }
         closeMenu();
         menus.remove(menu);
+
+        // Remove keyboard accelerators, recursively.
+        for (TWidget w: menu.getChildren()) {
+            if (w instanceof TMenuItem) {
+                if (w instanceof TMenuItem) {
+                    removeMenuAccelerator((TMenuItem) w);
+                }
+            }
+        }
+
         recomputeMenuX();
     }
 
@@ -4138,7 +4249,7 @@ public class TApplication implements Runnable {
             }
             if (DEBUG_THREADS) {
                 System.err.println(System.currentTimeMillis() + " " +
-                    Thread.currentThread() + " postEvent() wake up mainold");
+                    Thread.currentThread() + " postEvent() wake up main");
             }
             this.notify();
         }
@@ -4156,7 +4267,7 @@ public class TApplication implements Runnable {
             }
             if (DEBUG_THREADS) {
                 System.err.println(System.currentTimeMillis() + " " +
-                    Thread.currentThread() + " postMenuEvent() wake up mainold");
+                    Thread.currentThread() + " postMenuEvent() wake up main");
             }
             closeMenu();
             this.notify();
@@ -4574,7 +4685,11 @@ public class TApplication implements Runnable {
      * @param x column relative to parent
      * @param y row relative to parent
      * @param flags mask of CENTERED, MODAL, or RESIZABLE
-     * @param command the command line to execute
+     * @param command the command line to execute, as an array of strings
+     * which signifies the external program file to be invoked (command[0])
+     * and its arguments, if any (command[1], command[2], ...). Refer also to
+     * java.lang.ProcessBuilder for further operating-system specific
+     * details.
      * @return the terminal new window
      */
     public final TTerminalWindow openTerminal(final int x, final int y,
@@ -4593,7 +4708,11 @@ public class TApplication implements Runnable {
      * @param x column relative to parent
      * @param y row relative to parent
      * @param flags mask of CENTERED, MODAL, or RESIZABLE
-     * @param command the command line to execute
+     * @param command the command line to execute, as an array of strings
+     * which signifies the external program file to be invoked (command[0])
+     * and its arguments, if any (command[1], command[2], ...). Refer also to
+     * java.lang.ProcessBuilder for further operating-system specific
+     * details.
      * @param closeOnExit if true, close the window when the command exits
      * @return the terminal new window
      */

@@ -3,7 +3,7 @@
  *
  * The MIT License (MIT)
  *
- * Copyright (C) 2022 Autumn Lamonte
+ * Copyright (C) 2025 Autumn Lamonte
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
@@ -23,7 +23,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
  * DEALINGS IN THE SOFTWARE.
  *
- * @author Autumn Lamonte ⚧ Trans Liberation Now
+ * @author Autumn Lamonte ♥
  * @version 1
  */
 package jexer;
@@ -36,6 +36,7 @@ import java.awt.image.BufferedImage;
 import jexer.bits.Animation;
 import jexer.bits.Cell;
 import jexer.bits.ImageUtils;
+import jexer.bits.UnicodeGlyphImage;
 import jexer.event.TCommandEvent;
 import jexer.event.TKeypressEvent;
 import jexer.event.TMouseEvent;
@@ -75,6 +76,48 @@ public class TImage extends TWidget implements EditMenuUser {
         SCALE,
     }
 
+    /**
+     * Selections for approximating the image as text cells.
+     */
+    public enum DisplayMode {
+        /**
+         * Bitmap image.
+         */
+        BITMAP,
+
+        /**
+         * Converted to solid space (' ') character blocks.
+         */
+        BLOCKS,
+
+        /**
+         * Converted to Unicode half-block glyphs.
+         */
+        UNICODE_HALVES,
+
+        /**
+         * Converted to Unicode sextant glyphs.
+         */
+        UNICODE_SEXTANTS,
+
+        /**
+         * Converted to Unicode quadrant-block glyphs.
+         */
+        UNICODE_QUADRANTS,
+
+        /**
+         * Converted to Unicode 6-dot Braille glyphs on this window's
+         * background color.
+         */
+        UNICODE_SIXDOT,
+
+        /**
+         * Converted to Unicode 6-dot Braille glyphs with
+         * foreground/background color.
+         */
+        UNICODE_SIXDOTSOLID,
+    }
+
     // ------------------------------------------------------------------------
     // Variables --------------------------------------------------------------
     // ------------------------------------------------------------------------
@@ -83,6 +126,11 @@ public class TImage extends TWidget implements EditMenuUser {
      * Scaling strategy to use.
      */
     private Scale scale = Scale.NONE;
+
+    /**
+     * Display mode to use.
+     */
+    private DisplayMode displayMode = DisplayMode.BITMAP;
 
     /**
      * Scaling strategy to use.
@@ -373,6 +421,56 @@ public class TImage extends TWidget implements EditMenuUser {
                 return;
             }
         }
+        if (keypress.equals(kbCtrlLeft)) {
+            switch (displayMode) {
+            case BITMAP:
+                setDisplayMode(DisplayMode.UNICODE_SIXDOTSOLID);
+                return;
+            case BLOCKS:
+                setDisplayMode(DisplayMode.BITMAP);
+                return;
+            case UNICODE_HALVES:
+                setDisplayMode(DisplayMode.BLOCKS);
+                return;
+            case UNICODE_SEXTANTS:
+                setDisplayMode(DisplayMode.UNICODE_HALVES);
+                return;
+            case UNICODE_QUADRANTS:
+                setDisplayMode(DisplayMode.UNICODE_SEXTANTS);
+                return;
+            case UNICODE_SIXDOT:
+                setDisplayMode(DisplayMode.UNICODE_QUADRANTS);
+                return;
+            case UNICODE_SIXDOTSOLID:
+                setDisplayMode(DisplayMode.UNICODE_SIXDOT);
+                return;
+            }
+        }
+        if (keypress.equals(kbCtrlRight)) {
+            switch (displayMode) {
+            case BITMAP:
+                setDisplayMode(DisplayMode.BLOCKS);
+                return;
+            case BLOCKS:
+                setDisplayMode(DisplayMode.UNICODE_HALVES);
+                return;
+            case UNICODE_HALVES:
+                setDisplayMode(DisplayMode.UNICODE_SEXTANTS);
+                return;
+            case UNICODE_SEXTANTS:
+                setDisplayMode(DisplayMode.UNICODE_QUADRANTS);
+                return;
+            case UNICODE_QUADRANTS:
+                setDisplayMode(DisplayMode.UNICODE_SIXDOT);
+                return;
+            case UNICODE_SIXDOT:
+                setDisplayMode(DisplayMode.UNICODE_SIXDOTSOLID);
+                return;
+            case UNICODE_SIXDOTSOLID:
+                setDisplayMode(DisplayMode.BITMAP);
+                return;
+            }
+        }
 
         // Pass to parent for the things we don't care about.
         super.onKeypress(keypress);
@@ -479,6 +577,12 @@ public class TImage extends TWidget implements EditMenuUser {
 
         scaleBackColor = getApplication().getBackend().attrToBackgroundColor(getWindow().getBackground());
 
+        boolean bleedThrough = true;
+        if (System.getProperty("jexer.TImage.bleedThrough",
+                "true").equals("false")) {
+            bleedThrough = false;
+        }
+
         int textWidth = getScreen().getTextWidth();
         int textHeight = getScreen().getTextHeight();
 
@@ -539,11 +643,75 @@ public class TImage extends TWidget implements EditMenuUser {
                     if (!maybeTransparent) {
                         cell.setOpaqueImage();
                     } else if (!ImageUtils.isFullyTransparent(newImage)) {
-                        cell.flattenImage(false, getApplication().getBackend());
+                        cell.flattenImage(false,
+                            getApplication().getBackend());
+                    } else {
+                        cell.setTo(getWindow().getBackground());
                     }
-                    imageId++;
-                    cell.setImageId(imageId & 0x7FFFFFFF);
-                    cells[x][y] = cell;
+                    if ((bleedThrough == false)
+                        || (displayMode != DisplayMode.BITMAP)
+                        || (cell.checkForSingleColor() == false)
+                    ) {
+                        imageId++;
+                        cell.setImageId(imageId & 0x7FFFFFFF);
+                    }
+                    switch (displayMode) {
+                    case BITMAP:
+                        cells[x][y] = cell;
+                        break;
+                    case BLOCKS:
+                        if (cell.isImage()) {
+                            int rgb = ImageUtils.rgbAverage(cell.getImage());
+                            Cell newCell = new Cell(' ');
+                            newCell.setForeColorRGB(rgb);
+                            newCell.setBackColorRGB(rgb);
+                            cells[x][y] = newCell;
+                        } else {
+                            cells[x][y] = cell;
+                        }
+                        break;
+                    case UNICODE_HALVES:
+                        if (cell.isImage()) {
+                            UnicodeGlyphImage ch = new UnicodeGlyphImage(cell);
+                            cells[x][y] = ch.toHalfBlockGlyph();
+                        } else {
+                            cells[x][y] = cell;
+                        }
+                        break;
+                    case UNICODE_SEXTANTS:
+                        if (cell.isImage()) {
+                            UnicodeGlyphImage ch = new UnicodeGlyphImage(cell);
+                            cells[x][y] = ch.toSextantBlockGlyph();
+                        } else {
+                            cells[x][y] = cell;
+                        }
+                        break;
+                    case UNICODE_QUADRANTS:
+                        if (cell.isImage()) {
+                            UnicodeGlyphImage ch = new UnicodeGlyphImage(cell);
+                            cells[x][y] = ch.toQuadrantBlockGlyph();
+                        } else {
+                            cells[x][y] = cell;
+                        }
+                        break;
+                    case UNICODE_SIXDOT:
+                        if (cell.isImage()) {
+                            UnicodeGlyphImage ch = new UnicodeGlyphImage(cell);
+                            cells[x][y] = ch.toSixDotGlyph();
+                            cells[x][y].setBackColorRGB(scaleBackColor.getRGB());
+                        } else {
+                            cells[x][y] = cell;
+                        }
+                        break;
+                    case UNICODE_SIXDOTSOLID:
+                        if (cell.isImage()) {
+                            UnicodeGlyphImage ch = new UnicodeGlyphImage(cell);
+                            cells[x][y] = ch.toSixDotSolidGlyph();
+                        } else {
+                            cells[x][y] = cell;
+                        }
+                        break;
+                    }
                 }
             }
 
@@ -750,6 +918,26 @@ public class TImage extends TWidget implements EditMenuUser {
     public void setScaleFactor(final double scaleFactor) {
         this.scaleFactor = scaleFactor;
         image = null;
+        sizeToImage(true);
+    }
+
+    /**
+     * Get the image display mode.
+     *
+     * @return DisplayMode.BITMAP, DisplayMode.UNICODE_HALVES, etc.
+     */
+    public DisplayMode getDisplayMode() {
+        return displayMode;
+    }
+
+    /**
+     * Set the image display mode.
+     *
+     * @param displayMode DisplayMode.BITMAP, DisplayMode.UNICODE_HALVES, etc.
+     */
+    public void setDisplayMode(final DisplayMode displayMode) {
+        this.displayMode = displayMode;
+        this.image = null;
         sizeToImage(true);
     }
 

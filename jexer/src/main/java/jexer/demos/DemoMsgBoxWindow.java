@@ -3,7 +3,7 @@
  *
  * The MIT License (MIT)
  *
- * Copyright (C) 2022 Autumn Lamonte
+ * Copyright (C) 2025 Autumn Lamonte
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
@@ -23,7 +23,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
  * DEALINGS IN THE SOFTWARE.
  *
- * @author Autumn Lamonte ⚧ Trans Liberation Now
+ * @author Autumn Lamonte ♥
  * @version 1
  */
 package jexer.demos;
@@ -48,16 +48,21 @@ public class DemoMsgBoxWindow extends TWindow {
     /**
      * Translated strings.
      */
-    private static final ResourceBundle i18n = ResourceBundle.getBundle(DemoMsgBoxWindow.class.getName());
+    // private static final ResourceBundle i18n = ResourceBundle.getBundle(DemoMsgBoxWindow.class.getName());
 
     // ------------------------------------------------------------------------
     // Constructors -----------------------------------------------------------
     // ------------------------------------------------------------------------
 
     /**
+     * Translated strings.
+     */
+    private ResourceBundle i18n = null;
+
+    /**
      * Constructor.
      *
-     * @param parent the mainold application
+     * @param parent the main application
      */
     DemoMsgBoxWindow(final TApplication parent) {
         this(parent, TWindow.CENTERED | TWindow.RESIZABLE);
@@ -66,22 +71,26 @@ public class DemoMsgBoxWindow extends TWindow {
     /**
      * Constructor.
      *
-     * @param parent the mainold application
+     * @param parent the main application
      * @param flags bitmask of MODAL, CENTERED, or RESIZABLE
      */
     DemoMsgBoxWindow(final TApplication parent, final int flags) {
         // Construct a demo window.  X and Y don't matter because it
         // will be centered on screen.
-        super(parent, i18n.getString("windowTitle"), 0, 0, 64, 18, flags);
+        super(parent, "", 0, 0, 79, 18, flags);
+        i18n = ResourceBundle.getBundle(DemoMsgBoxWindow.class.getName(),
+            getLocale());
+        setTitle(i18n.getString("windowTitle"));
 
         setLayoutManager(new StretchLayoutManager(getWidth() - 2,
                 getHeight() - 2));
 
         int row = 1;
+        int col = 45;
 
         // Add some widgets
         addLabel(i18n.getString("messageBoxLabel1"), 1, row);
-        addButton(i18n.getString("messageBoxButton1"), 35, row,
+        addButton(i18n.getString("messageBoxButton1"), col, row,
             new TAction() {
                 public void DO() {
                     getApplication().messageBox(i18n.
@@ -94,7 +103,7 @@ public class DemoMsgBoxWindow extends TWindow {
         row += 2;
 
         addLabel(i18n.getString("messageBoxLabel2"), 1, row);
-        addButton(i18n.getString("messageBoxButton2"), 35, row,
+        addButton(i18n.getString("messageBoxButton2"), col, row,
             new TAction() {
                 public void DO() {
                     getApplication().messageBox(i18n.
@@ -107,7 +116,7 @@ public class DemoMsgBoxWindow extends TWindow {
         row += 2;
 
         addLabel(i18n.getString("messageBoxLabel3"), 1, row);
-        addButton(i18n.getString("messageBoxButton3"), 35, row,
+        addButton(i18n.getString("messageBoxButton3"), col, row,
             new TAction() {
                 public void DO() {
                     getApplication().messageBox(i18n.
@@ -120,7 +129,7 @@ public class DemoMsgBoxWindow extends TWindow {
         row += 2;
 
         addLabel(i18n.getString("messageBoxLabel4"), 1, row);
-        addButton(i18n.getString("messageBoxButton4"), 35, row,
+        addButton(i18n.getString("messageBoxButton4"), col, row,
             new TAction() {
                 public void DO() {
                     getApplication().messageBox(i18n.
@@ -133,7 +142,7 @@ public class DemoMsgBoxWindow extends TWindow {
         row += 2;
 
         addLabel(i18n.getString("inputBoxLabel1"), 1, row);
-        addButton(i18n.getString("inputBoxButton1"), 35, row,
+        addButton(i18n.getString("inputBoxButton1"), col, row,
             new TAction() {
                 public void DO() {
                     TInputBox in = getApplication().inputBox(i18n.
@@ -150,7 +159,7 @@ public class DemoMsgBoxWindow extends TWindow {
         row += 2;
 
         addLabel(i18n.getString("inputBoxLabel2"), 1, row);
-        addButton(i18n.getString("inputBoxButton2"), 35, row,
+        addButton(i18n.getString("inputBoxButton2"), col, row,
             new TAction() {
                 public void DO() {
                     TInputBox in = getApplication().inputBox(i18n.

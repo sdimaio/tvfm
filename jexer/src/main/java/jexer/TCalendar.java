@@ -3,7 +3,7 @@
  *
  * The MIT License (MIT)
  *
- * Copyright (C) 2022 Autumn Lamonte
+ * Copyright (C) 2025 Autumn Lamonte
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
@@ -23,13 +23,14 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
  * DEALINGS IN THE SOFTWARE.
  *
- * @author Autumn Lamonte ⚧ Trans Liberation Now
+ * @author Autumn Lamonte ♥
  * @version 1
  */
 package jexer;
 
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.Locale;
 
 import jexer.bits.CellAttributes;
 import jexer.bits.GraphicsChars;
@@ -50,12 +51,22 @@ public class TCalendar extends TWidget {
     /**
      * The calendar being displayed.
      */
-    private GregorianCalendar displayCalendar = new GregorianCalendar();
+    private GregorianCalendar displayCalendar = null;
 
     /**
      * The calendar with the selected day.
      */
-    private GregorianCalendar calendar = new GregorianCalendar();
+    private GregorianCalendar calendar = null;
+
+    /**
+     * The days of week heading line.
+     */
+    private String daysOfWeek = "  S   M   T   W   T   F   S ";
+
+    /**
+     * If true, the week starts on Monday.
+     */
+    private boolean startOnMonday = false;
 
     /**
      * The action to perform when the user changes the value of the calendar.
@@ -75,6 +86,7 @@ public class TCalendar extends TWidget {
      * @param updateAction action to call when the user changes the value of
      * the calendar
      */
+    @SuppressWarnings("this-escape")
     public TCalendar(final TWidget parent, final int x, final int y,
         final TAction updateAction) {
 
@@ -82,6 +94,27 @@ public class TCalendar extends TWidget {
         super(parent, x, y, 28, 8);
 
         this.updateAction = updateAction;
+        displayCalendar = new GregorianCalendar(getLocale());
+        calendar = new GregorianCalendar(getLocale());
+
+        GregorianCalendar dayOfWeekCalendar = new GregorianCalendar(getLocale());
+        if (dayOfWeekCalendar.getFirstDayOfWeek() == Calendar.MONDAY) {
+            startOnMonday = true;
+        }
+
+        dayOfWeekCalendar.setWeekDate(2025, 1,
+            (startOnMonday ? Calendar.MONDAY : Calendar.SUNDAY));
+        daysOfWeek = "  ";
+        for (int i = 0; i < 7; i++) {
+            daysOfWeek += dayOfWeekCalendar.getDisplayName(Calendar.DAY_OF_WEEK,
+                Calendar.LONG, getLocale()).substring(0, 1);
+            if (i < 6) {
+                daysOfWeek += "   ";
+            } else {
+                daysOfWeek += " ";
+            }
+            dayOfWeekCalendar.add(Calendar.DAY_OF_WEEK, 1);
+        }
     }
 
     // ------------------------------------------------------------------------
@@ -140,9 +173,15 @@ public class TCalendar extends TWidget {
             firstOfMonth.setTimeInMillis(displayCalendar.getTimeInMillis());
             firstOfMonth.set(Calendar.DAY_OF_MONTH, 1);
             int dayOf1st = firstOfMonth.get(Calendar.DAY_OF_WEEK) - 1;
+            if (startOnMonday) {
+                dayOf1st--;
+            }
             // System.err.println("dayOf1st: " + dayOf1st);
 
             int day = index - dayOf1st;
+            if (dayOf1st < 0) {
+                day -= 7;
+            }
             // System.err.println("day: " + day);
 
             if ((day < 1) || (day > lastDayNumber)) {
@@ -216,6 +255,23 @@ public class TCalendar extends TWidget {
     // ------------------------------------------------------------------------
 
     /**
+     * Set the Locale used for producing user-facing strings.
+     *
+     * @param locale the locale
+     */
+    @Override
+    public void setLocale(final Locale locale) {
+        super.setLocale(locale);
+        GregorianCalendar newDisplayCalendar = new GregorianCalendar(locale);
+        newDisplayCalendar.setTime(displayCalendar.getTime());
+        displayCalendar = newDisplayCalendar;
+
+        GregorianCalendar newCalendar = new GregorianCalendar(locale);
+        newCalendar.setTime(calendar.getTime());
+        calendar = newCalendar;
+    }
+
+    /**
      * Draw the combobox down arrow.
      */
     @Override
@@ -237,7 +293,7 @@ public class TCalendar extends TWidget {
         }
 
         // Draw the title
-        String title = String.format("%tB %tY", displayCalendar,
+        String title = String.format(getLocale(), "%tB %tY", displayCalendar,
             displayCalendar);
         // This particular title is always single-width (see format string
         // above), but for completeness let's treat it the same as every
@@ -256,17 +312,23 @@ public class TCalendar extends TWidget {
         /*
          * Now draw out the days.
          */
-        putStringXY(0, 1, "  S   M   T   W   T   F   S ", dayColor);
+        putStringXY(0, 1, daysOfWeek, dayColor);
         int lastDayNumber = displayCalendar.getActualMaximum(
                 Calendar.DAY_OF_MONTH);
-        GregorianCalendar firstOfMonth = new GregorianCalendar();
+        GregorianCalendar firstOfMonth = new GregorianCalendar(getLocale());
         firstOfMonth.setTimeInMillis(displayCalendar.getTimeInMillis());
         firstOfMonth.set(Calendar.DAY_OF_MONTH, 1);
         int dayOf1st = firstOfMonth.get(Calendar.DAY_OF_WEEK) - 1;
+        if (startOnMonday) {
+            dayOf1st--;
+        }
         int dayColumn = dayOf1st * 4;
         int row = 2;
 
         int dayOfMonth = 1;
+        if (dayOf1st < 0) {
+            dayColumn = 4 * 6;
+        }
         while (dayOfMonth <= lastDayNumber) {
             if (dayColumn == 4 * 7) {
                 dayColumn = 0;

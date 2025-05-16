@@ -3,7 +3,7 @@
  *
  * The MIT License (MIT)
  *
- * Copyright (C) 2022 Autumn Lamonte
+ * Copyright (C) 2025 Autumn Lamonte
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
@@ -23,7 +23,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
  * DEALINGS IN THE SOFTWARE.
  *
- * @author Autumn Lamonte ⚧ Trans Liberation Now
+ * @author Autumn Lamonte ♥
  * @version 1
  */
 package jexer;
@@ -34,6 +34,7 @@ import java.util.ResourceBundle;
 
 import jexer.bits.StringUtils;
 import jexer.event.TKeypressEvent;
+import static jexer.TKeypress.*;
 
 /**
  * TMessageBox is a system-modal dialog with buttons for OK, Cancel, Yes, or
@@ -52,11 +53,6 @@ import jexer.event.TKeypressEvent;
  *
  */
 public class TMessageBox extends TWindow {
-
-    /**
-     * Translated strings.
-     */
-    private static final ResourceBundle i18n = ResourceBundle.getBundle(TMessageBox.class.getName());
 
     // ------------------------------------------------------------------------
     // Constants --------------------------------------------------------------
@@ -115,6 +111,11 @@ public class TMessageBox extends TWindow {
     // ------------------------------------------------------------------------
     // Variables --------------------------------------------------------------
     // ------------------------------------------------------------------------
+
+    /**
+     * Translated strings.
+     */
+    private ResourceBundle i18n = null;
 
     /**
      * The type of this message box.
@@ -181,6 +182,9 @@ public class TMessageBox extends TWindow {
 
         // Start as 100x100 at (1, 1).  These will be changed later.
         super(application, title, 1, 1, 100, 100, CENTERED | MODAL);
+
+        i18n = ResourceBundle.getBundle(TMessageBox.class.getName(),
+            getLocale());
 
         // Hang onto type so that we can provide more convenience in
         // onKeypress().

@@ -3,7 +3,7 @@
  *
  * The MIT License (MIT)
  *
- * Copyright (C) 2022 Autumn Lamonte
+ * Copyright (C) 2025 Autumn Lamonte
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
@@ -23,12 +23,16 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
  * DEALINGS IN THE SOFTWARE.
  *
- * @author Autumn Lamonte ⚧ Trans Liberation Now
+ * @author Autumn Lamonte ♥
  * @version 1
  */
 package jexer;
 
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
+import java.util.ResourceBundle;
+import javax.imageio.ImageIO;
 
 import jexer.event.TKeypressEvent;
 import jexer.event.TMouseEvent;
@@ -65,7 +69,7 @@ public class TTextPictureWindow extends TScrollableWindow {
     /**
      * Public constructor opens a file.
      *
-     * @param parent the mainold application
+     * @param parent the main application
      * @param filename the file to open
      * @throws IOException if a java.io operation throws
      */
@@ -78,7 +82,7 @@ public class TTextPictureWindow extends TScrollableWindow {
     /**
      * Public constructor opens a file.
      *
-     * @param parent the mainold application
+     * @param parent the main application
      * @param filename the file to open
      * @param x column relative to parent
      * @param y row relative to parent
@@ -91,7 +95,27 @@ public class TTextPictureWindow extends TScrollableWindow {
         final int x, final int y, final int width,
         final int height) throws IOException {
 
-        super(parent, filename, x, y, width, height, RESIZABLE);
+        this(parent, filename, x, y, width, height, RESIZABLE);
+    }
+
+    /**
+     * Public constructor opens a file.
+     *
+     * @param parent the main application
+     * @param filename the file to open
+     * @param x column relative to parent
+     * @param y row relative to parent
+     * @param width width of window
+     * @param height height of window
+     * @param flags bitmask of RESIZABLE, CENTERED, or MODAL
+     * @throws IOException if a java.io operation throws
+     */
+    @SuppressWarnings("this-escape")
+    public TTextPictureWindow(final TApplication parent, final String filename,
+        final int x, final int y, final int width,
+        final int height, final int flags) throws IOException {
+
+        super(parent, filename, x, y, width, height, flags);
 
         pictureField = new TTextPicture(this, filename, 0, 0,
             getWidth() - 2, getHeight() - 2);

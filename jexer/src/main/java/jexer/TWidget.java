@@ -3,7 +3,7 @@
  *
  * The MIT License (MIT)
  *
- * Copyright (C) 2022 Autumn Lamonte
+ * Copyright (C) 2025 Autumn Lamonte
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
@@ -23,15 +23,16 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
  * DEALINGS IN THE SOFTWARE.
  *
- * @author Autumn Lamonte ⚧ Trans Liberation Now
+ * @author Autumn Lamonte ♥
  * @version 1
  */
 package jexer;
 
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
 
 import jexer.backend.Screen;
 import jexer.bits.Animation;
@@ -91,6 +92,13 @@ public abstract class TWidget implements Comparable<TWidget> {
      * The window that this widget draws to.
      */
     private TWindow window = null;
+
+    /**
+     * The Locale used for producing user-facing strings.  A widget can have
+     * its own Locale, which will be used by all children widgets (that do
+     * not have their own Locale set to not-null).
+     */
+    private Locale locale = null;
 
     /**
      * Absolute X position of the top-left corner.
@@ -899,6 +907,34 @@ public abstract class TWidget implements Comparable<TWidget> {
     }
 
     /**
+     * Get the Locale used for producing user-facing strings.
+     *
+     * @return the locale
+     */
+    public Locale getLocale() {
+        if (locale != null) {
+            return locale;
+        }
+        if ((parent != null) && (parent != this)) {
+            return parent.getLocale();
+        }
+        if (getApplication() != null) {
+            return getApplication().getLocale();
+        }
+        // No Locale selected, return default.
+        return Locale.getDefault();
+    }
+
+    /**
+     * Set the Locale used for producing user-facing strings.
+     *
+     * @param locale the locale
+     */
+    public void setLocale(final Locale locale) {
+        this.locale = locale;
+    }
+
+    /**
      * Get X position.
      *
      * @return absolute X position of the top-left corner
@@ -1353,7 +1389,7 @@ public abstract class TWidget implements Comparable<TWidget> {
      * @return the pointer style string, one of: "default", "none",
      * "hand", "text", "move", or "crosshair"
      */
-    public final String getMouseStyle() {
+    public String getMouseStyle() {
         return mouseStyle;
     }
 

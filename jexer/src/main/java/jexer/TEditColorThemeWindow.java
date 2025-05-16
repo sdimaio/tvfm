@@ -3,7 +3,7 @@
  *
  * The MIT License (MIT)
  *
- * Copyright (C) 2022 Autumn Lamonte
+ * Copyright (C) 2025 Autumn Lamonte
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
@@ -23,7 +23,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
  * DEALINGS IN THE SOFTWARE.
  *
- * @author Autumn Lamonte ⚧ Trans Liberation Now
+ * @author Autumn Lamonte ♥
  * @version 1
  */
 package jexer;
@@ -51,11 +51,16 @@ public class TEditColorThemeWindow extends TWindow {
     /**
      * Translated strings.
      */
-    private static final ResourceBundle i18n = ResourceBundle.getBundle(TEditColorThemeWindow.class.getName());
+    //private static final ResourceBundle i18n = ResourceBundle.getBundle(TEditColorThemeWindow.class.getName());
 
     // ------------------------------------------------------------------------
     // Variables --------------------------------------------------------------
     // ------------------------------------------------------------------------
+
+    /**
+     * Translated strings.
+     */
+    private ResourceBundle i18n = null;
 
     /**
      * The current editing theme.
@@ -686,7 +691,10 @@ public class TEditColorThemeWindow extends TWindow {
     public TEditColorThemeWindow(final TApplication application) {
 
         // Register with the TApplication
-        super(application, i18n.getString("windowTitle"), 0, 0, 60, 22, MODAL);
+        super(application, "", 0, 0, 60, 22, MODAL);
+        i18n = ResourceBundle.getBundle(TEditColorThemeWindow.class.getName(),
+            getLocale());
+        setTitle(i18n.getString("windowTitle"));
 
         // Initialize with the first color
         List<String> colors = getTheme().getColorNames();

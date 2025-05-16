@@ -3,7 +3,7 @@
  *
  * The MIT License (MIT)
  *
- * Copyright (C) 2022 Autumn Lamonte
+ * Copyright (C) 2025 Autumn Lamonte
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
@@ -23,7 +23,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
  * DEALINGS IN THE SOFTWARE.
  *
- * @author Autumn Lamonte ⚧ Trans Liberation Now
+ * @author Autumn Lamonte ♥
  * @version 1
  */
 package jexer.tterminal;
@@ -225,10 +225,29 @@ public class ECMA48 implements Runnable {
      * XTERM mouse reporting protocols.
      */
     public enum MouseProtocol {
+        /**
+         * No mouse events.
+         */
         OFF,
+
+        /**
+         * Button-down events only.
+         */
         X10,
+
+        /**
+         * Button-down and button-release events.
+         */
         NORMAL,
+
+        /**
+         * Button-down, button-up, and motion while a button is pressed.
+         */
         BUTTONEVENT,
+
+        /**
+         * All mouse events.
+         */
         ANYEVENT
     }
 
@@ -245,7 +264,7 @@ public class ECMA48 implements Runnable {
     /**
      * The version of the terminal to report in XTVERSION.
      */
-    private final String VERSION = "1.7";
+    private final String VERSION = "1.7.1";
 
     // ------------------------------------------------------------------------
     // Variables --------------------------------------------------------------
@@ -3687,7 +3706,7 @@ public class ECMA48 implements Runnable {
                 if ((type == DeviceType.XTERM)
                     && (decPrivateModeFlag == true)
                 ) {
-                    // Mouse: normal tracking mode
+                    // Mouse: button-event tracking mode
                     if (value == true) {
                         mouseProtocol = MouseProtocol.BUTTONEVENT;
                     } else {
@@ -3700,7 +3719,7 @@ public class ECMA48 implements Runnable {
                 if ((type == DeviceType.XTERM)
                     && (decPrivateModeFlag == true)
                 ) {
-                    // Mouse: Any-event tracking mode
+                    // Mouse: any-event tracking mode
                     if (value == true) {
                         mouseProtocol = MouseProtocol.ANYEVENT;
                     } else {
@@ -4927,14 +4946,18 @@ public class ECMA48 implements Runnable {
              * number of 123."
              *
              */
-            writeRemote("\033P!|00010203\033\\");
+            if (s8c1t == true) {
+                writeRemote("\u0090P!|00010203\u009c");
+            } else {
+                writeRemote("\033P!|00010203\033\\");
+            }
         }
     }
     /**
      * XTVERSION - Report xterm name and version.
      */
     private void xtversion() {
-        int i = -1;
+        int i = 0;
         if (collectBuffer.length() > 0) {
             String args = collectBuffer.substring(1);
             if (collectBuffer.charAt(0) == '>') {
@@ -5358,6 +5381,13 @@ public class ECMA48 implements Runnable {
         // Collect first
         collectBuffer.append(xtermChar);
 
+        String OSC = "\033]";
+        String ST = "\033\\";
+        if (s8c1t) {
+            OSC = "\u009d";
+            ST = "\u009c";
+        }
+
         // Xterm cases...
         if (oscEnd) {
             String args = null;
@@ -5386,8 +5416,8 @@ public class ECMA48 implements Runnable {
                                 int red   = (rgb >>> 16) & 0xFF;
                                 int green = (rgb >>>  8) & 0xFF;
                                 int blue  =  rgb         & 0xFF;
-                                String response = String.format("\033]4;%d;rgb:%02x%02x/%02x%02x/%02x%02x\033\\",
-                                    color, red, red, green, green, blue, blue);
+                                String response = String.format("%s4;%d;rgb:%02x%02x/%02x%02x/%02x%02x%s",
+                                    OSC, color, red, red, green, green, blue, blue, ST);
                                 writeRemote(response);
                             }
                         } catch (NumberFormatException e) {
@@ -5410,10 +5440,10 @@ public class ECMA48 implements Runnable {
                         // Respond with foreground color.
                         java.awt.Color color = backend.attrToForegroundColor(currentState.attr);
                         writeRemote(String.format(
-                            "\033]10;rgb:%04x/%04x/%04x\033\\",
+                            "%s10;rgb:%04x/%04x/%04x%s", OSC,
                                 color.getRed() << 8,
                                 color.getGreen() << 8,
-                                color.getBlue() << 8));
+                                color.getBlue() << 8, ST));
                     }
                 }
 
@@ -5422,10 +5452,10 @@ public class ECMA48 implements Runnable {
                         // Respond with background color.
                         java.awt.Color color = backend.attrToBackgroundColor(currentState.attr);
                         writeRemote(String.format(
-                            "\033]11;rgb:%04x/%04x/%04x\033\\",
+                            "%s11;rgb:%04x/%04x/%04x%s", OSC,
                                 color.getRed() << 8,
                                 color.getGreen() << 8,
-                                color.getBlue() << 8));
+                                color.getBlue() << 8, ST));
                     }
                 }
 
@@ -5509,24 +5539,29 @@ public class ECMA48 implements Runnable {
 
         int i = getCsiParam(0, 0);
 
+        String CSI = "\033[";
+        if (s8c1t) {
+            CSI = "\u009b";
+        }
+
         if (!xtermPrivateModeFlag) {
             switch (i) {
             case 14:
                 // Report xterm text area size in pixels as CSI 4 ; height ;
                 // width t
-                writeRemote(String.format("\033[4;%d;%dt", textHeight * height,
-                        textWidth * width));
+                writeRemote(String.format("%s4;%d;%dt", CSI,
+                            textHeight * height, textWidth * width));
                 break;
             case 16:
                 // Report character size in pixels as CSI 6 ; height ; width
                 // t
-                writeRemote(String.format("\033[6;%d;%dt", textHeight,
-                        textWidth));
+                writeRemote(String.format("%s6;%d;%dt", CSI,
+                            textHeight, textWidth));
                 break;
             case 18:
                 // Report the text are size in characters as CSI 8 ; height ;
                 // width t
-                writeRemote(String.format("\033[8;%d;%dt", height, width));
+                writeRemote(String.format("%s8;%d;%dt", CSI, height, width));
                 break;
             default:
                 break;
@@ -5553,7 +5588,11 @@ public class ECMA48 implements Runnable {
                 // Report number of color registers.  Though we can support
                 // effectively unlimited colors, report the same max as stock
                 // xterm (MAX_COLOR_REGISTERS).
-                writeRemote(String.format("\033[?%d;%d;%dS", item, 0, 1024));
+                if (s8c1t == true) {
+                    writeRemote(String.format("\u009b?%d;%d;%dS", item, 0, 1024));
+                } else {
+                    writeRemote(String.format("\033[?%d;%d;%dS", item, 0, 1024));
+                }
                 return;
             }
             break;
@@ -5561,7 +5600,11 @@ public class ECMA48 implements Runnable {
             break;
         }
         // We will not support this option.
-        writeRemote(String.format("\033[?%d;%dS", item, action));
+        if (s8c1t == true) {
+            writeRemote(String.format("\u009b?%d;%dS", item, action));
+        } else {
+            writeRemote(String.format("\033[?%d;%dS", item, action));
+        }
     }
 
     /**
@@ -5578,30 +5621,178 @@ public class ECMA48 implements Runnable {
         }
 
         int i = getCsiParam(0, 0);
+        // System.err.printf("DECRQM: %d %s\n", i, decPrivateModeFlag);
 
+        int Ps = 2;         // Reset
         if (decPrivateModeFlag) {
             // System.err.printf("DECRQM: %d\n", i);
 
-            int Ps = 2;         // Reset
+            //int Ps = 2;         // Reset
             switch (i) {
+            case 1:
+                // DECCKM
+                if (arrowKeyMode == ArrowKeyMode.VT100) {
+                    Ps = 1;     // Set
+                }
+                break;
+            case 2:
+                // DECANM - This cannot be queried when set, so it must be
+                // reset.
+                break;
+            case 3:
+                // DECCOLM
+                if (columns132 == true) {
+                    Ps = 1;     // Set
+                }
+                break;
+            case 4:
+                // DECSCLM
+                // Not supported, assume permanently reset.
+                Ps = 4;
+                break;
+            case 5:
+                // DECSCNM
+                if (reverseVideo == true) {
+                    Ps = 1;     // Set
+                }
+                break;
+            case 6:
+                // DECOM
+                if (currentState.originMode == true) {
+                    Ps = 1;     // Set
+                }
+                break;
+            case 7:
+                // DECAWM
+                if (currentState.lineWrap == true) {
+                    Ps = 1;     // Set
+                }
+                break;
+            case 8:
+                // DECARM
+                // Not supported, assume permanently reset.
+                Ps = 4;
+                break;
+            case 18:
+                // DECPFF
+                // Not supported, assume permanently reset.
+                Ps = 4;
+                break;
+            case 19:
+                // DECPEX
+                // Not supported, assume permanently reset.
+                Ps = 4;
+                break;
+            case 25:
+                // DECTCEM
+                if (cursorVisible == true) {
+                    Ps = 1;     // Set
+                }
+                break;
+            case 42:
+                // DECNRCM
+                // Not supported, assume permanently reset.
+                Ps = 4;
+                break;
+            case 80:
+                // DECSDM
+                if (sixelScrolling == false) {
+                    Ps = 1;     // Set
+                }
+                break;
+            case 1000:
+                // Mouse: normal tracking mode
+                if (mouseProtocol == MouseProtocol.NORMAL) {
+                    Ps = 1;     // Set
+                }
+                break;
+            case 1002:
+                // Mouse: button-event tracking mode
+                if (mouseProtocol == MouseProtocol.BUTTONEVENT) {
+                    Ps = 1;     // Set
+                }
+                break;
+            case 1003:
+                // Mouse: any-event tracking mode
+                if (mouseProtocol == MouseProtocol.ANYEVENT) {
+                    Ps = 1;     // Set
+                }
+                break;
+            case 1005:
+                // Mouse: UTF-8 coordinates
+                if (mouseEncoding == MouseEncoding.UTF8) {
+                    Ps = 1;     // Set
+                }
+                break;
+            case 1006:
+                // Mouse: SGR coordinates
+                if (mouseEncoding == MouseEncoding.SGR) {
+                    Ps = 1;     // Set
+                }
+                break;
             case 1016:
-                // Report SGR-Pixels support
+                // Mouse: SGR-Pixels mode
                 if (mouseEncoding == MouseEncoding.SGR_PIXELS) {
                     Ps = 1;     // Set
                 }
-                writeRemote(String.format("\033[?%d;%d$y", i, Ps));
+                break;
+            case 1070:
+                // Sixe: Use private color registers for each sixel graphic
+                // (default).
+                if (sixelPalette == null) {
+                    Ps = 1;     // Set
+                }
                 break;
             case 2026:
                 // Report Synchronized Updates support
                 if (withinSynchronizedUpdate) {
                     Ps = 1;     // Set
                 }
-                writeRemote(String.format("\033[?%d;%d$y", i, Ps));
+                //writeRemote(String.format("\033[?%d;%d$y", i, Ps));
                 break;
             default:
+                // Unsupported option
+                Ps = 0;
                 break;
             }
+            if (s8c1t == true) {
+                writeRemote(String.format("\u009b?%d;%d$y", i, Ps));
+            } else {
+                writeRemote(String.format("\033[?%d;%d$y", i, Ps));
+            }
         }
+
+        switch (i) {
+        case 4:
+            // IRM
+            if (insertMode == true) {
+                Ps = 1;     // Set
+            }
+            break;
+        case 12:
+            // SRM
+            if (fullDuplex == true) {
+                Ps = 1;     // Set
+            }
+            break;
+        case 20:
+            // LNM
+            if (newLineMode == true) {
+                Ps = 1;     // Set
+            }
+            break;
+        default:
+            // Unsupported option
+            Ps = 0;
+            break;
+        }
+        if (s8c1t == true) {
+            writeRemote(String.format("\u009b%d;%d$y", i, Ps));
+        } else {
+            writeRemote(String.format("\033[%d;%d$y", i, Ps));
+        }
+
+
     }
 
     /**
@@ -6883,8 +7074,15 @@ public class ECMA48 implements Runnable {
                 case 'p':
                     break;
                 case 'q':
-                    // DECLL - Load leds
-                    // Not supported
+                    if ((type == DeviceType.XTERM)
+                        && (collectBuffer.length() > 0)
+                        && (collectBuffer.charAt(collectBuffer.length() - 1) == '>')
+                    ) {
+                        xtversion();
+                    } else {
+                        // DECLL - Load leds
+                        // Not supported
+                    }
                     break;
                 case 'r':
                     // DECSTBM - Set top and bottom margins
@@ -7682,7 +7880,23 @@ public class ECMA48 implements Runnable {
             } else if (collectBuffer.length() == 1) {
                 // We've got the two characters, one in the buffer and the
                 // other in ch.
-                cursorPosition(collectBuffer.charAt(0) - '\040', ch - '\040');
+                int vt52RowNumber = collectBuffer.charAt(0) - '\040';
+                if (vt52RowNumber >= height) {
+                    /*
+                     * VT52 will not change the row if the provided number is
+                     * outside the visible region.
+                     */
+                    vt52RowNumber = currentState.cursorY;
+                }
+                int vt52ColNumber = ch - '\040';
+                if (vt52ColNumber > rightMargin) {
+                    /*
+                     * A real VT52 will move to the rightmost column. A VT100
+                     * emulating VT52 will not.
+                     */
+                    vt52ColNumber = currentState.cursorX;
+                }
+                cursorPosition(vt52RowNumber, vt52ColNumber);
                 toGround();
             }
             return;
@@ -7770,12 +7984,14 @@ public class ECMA48 implements Runnable {
             textHeight);
 
         Cell left = new Cell(cell);
-        left.setImage(leftImage);
+        left.setImage(leftImage, Math.abs(leftImage.hashCode()));
+        left.setOpaqueImage();
         left.setWidth(Cell.Width.LEFT);
         display.get(leftY).replace(leftX, left);
 
         Cell right = new Cell(cell);
-        right.setImage(rightImage);
+        right.setImage(rightImage, Math.abs(rightImage.hashCode()));
+        right.setOpaqueImage();
         right.setWidth(Cell.Width.RIGHT);
         display.get(rightY).replace(rightX, right);
     }
@@ -8363,7 +8579,7 @@ public class ECMA48 implements Runnable {
             newImage = new BufferedImage(cellColumns * textWidth,
                 cellRows * textHeight, BufferedImage.TYPE_INT_ARGB);
 
-            Graphics gr = newImage.getGraphics();
+            java.awt.Graphics gr = newImage.getGraphics();
             gr.setColor(java.awt.Color.BLACK);
             gr.fillRect(0, 0, newImage.getWidth(), newImage.getHeight());
             gr.drawImage(image, 0, 0, null, null);
@@ -8387,7 +8603,7 @@ public class ECMA48 implements Runnable {
                 }
 
                 // I'm genuinely not sure if making many small cells with
-                // array copy is better than lots of sumImages.  Memory
+                // array copy is better than lots of subImages.  Memory
                 // pressure is killing it at high animation rates.  For now,
                 // we will ALWAYS make a copy.
                 Cell cell = new Cell();
@@ -8404,7 +8620,7 @@ public class ECMA48 implements Runnable {
                     BufferedImage newImage;
                     newImage = new BufferedImage(textWidth, textHeight,
                         BufferedImage.TYPE_INT_ARGB);
-                    Graphics gr = newImage.getGraphics();
+                    java.awt.Graphics gr = newImage.getGraphics();
                     gr.setColor(java.awt.Color.BLACK);
                     if (!transparent) {
                         gr.fillRect(0, 0, newImage.getWidth(),
@@ -8458,7 +8674,7 @@ public class ECMA48 implements Runnable {
                         newImage = new BufferedImage(textWidth,
                             textHeight, BufferedImage.TYPE_INT_ARGB);
 
-                        Graphics gr = newImage.getGraphics();
+                        java.awt.Graphics gr = newImage.getGraphics();
                         gr.setColor(java.awt.Color.BLACK);
                         gr.drawImage(oldCell.getImage(), 0, 0, null, null);
                         gr.drawImage(cells[x][y].getImage(), 0, 0, null, null);
@@ -8483,7 +8699,7 @@ public class ECMA48 implements Runnable {
                         BufferedImage textImage = glyphMaker.getImage(oldCell,
                             textWidth, textHeight, backend);
 
-                        Graphics gr = newImage.getGraphics();
+                        java.awt.Graphics gr = newImage.getGraphics();
                         gr.setColor(java.awt.Color.BLACK);
                         gr.drawImage(textImage, 0, 0, null, null);
                         gr.drawImage(cells[x][y].getImage(), 0, 0, null, null);

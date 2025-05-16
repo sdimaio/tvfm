@@ -3,7 +3,7 @@
  *
  * The MIT License (MIT)
  *
- * Copyright (C) 2022 Autumn Lamonte
+ * Copyright (C) 2025 Autumn Lamonte
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
@@ -23,7 +23,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
  * DEALINGS IN THE SOFTWARE.
  *
- * @author Autumn Lamonte ⚧ Trans Liberation Now
+ * @author Autumn Lamonte ♥
  * @version 1
  */
 package jexer.menu;
@@ -36,6 +36,7 @@ import jexer.TWidget;
 import jexer.TWindow;
 import jexer.bits.BorderStyle;
 import jexer.bits.CellAttributes;
+import jexer.bits.GraphicsChars;
 import jexer.bits.MnemonicString;
 import jexer.bits.StringUtils;
 import jexer.event.TKeypressEvent;
@@ -50,95 +51,356 @@ public class TMenu extends TWindow {
     /**
      * Translated strings.
      */
-    private static final ResourceBundle i18n = ResourceBundle.getBundle(TMenu.class.getName());
+    //private static final ResourceBundle i18n = ResourceBundle.getBundle(TMenu.class.getName());
 
     // ------------------------------------------------------------------------
     // Constants --------------------------------------------------------------
     // ------------------------------------------------------------------------
 
-    // Reserved menu item IDs
+    // Reserved menu item IDs -------------------------------------------------
+
+    /**
+     * A menu item that will not generate a TMenuEvent.
+     */
     public static final int MID_UNUSED          = -1;
 
-    // Tools menu
+    // Tools menu -------------------------------------------------------------
+
+    /**
+     * Repaint desktop.
+     */
     public static final int MID_REPAINT         = 1;
+
+    /**
+     * Open image.
+     */
     public static final int MID_VIEW_IMAGE      = 2;
+
+    /**
+     * View ASCII/ANSI file.
+     */
     public static final int MID_VIEW_ANSI       = 3;
+
+    /**
+     * Screen options.
+     */
     public static final int MID_SCREEN_OPTIONS  = 4;
 
-    // File menu
+    // File menu --------------------------------------------------------------
+
+    /**
+     * New file/document
+     */
     public static final int MID_NEW             = 10;
+
+    /**
+     * Exit application.
+     */
     public static final int MID_EXIT            = 11;
+
+    /**
+     * Exit application.
+     */
     public static final int MID_QUIT            = MID_EXIT;
+
+    /**
+     * File open dialog.
+     */
     public static final int MID_OPEN_FILE       = 12;
+
+    /**
+     * OS shell.
+     */
     public static final int MID_SHELL           = 13;
 
-    // Edit menu
+    // Edit menu --------------------------------------------------------------
+
+    /**
+     * Undo last edit.
+     */
     public static final int MID_UNDO            = 20;
+
+    /**
+     * Redo last undone edit.
+     */
     public static final int MID_REDO            = 21;
+
+    /**
+     * Cut selected text and copy to the clipboard.
+     */
     public static final int MID_CUT             = 22;
+
+    /**
+     * Copy selected text to clipboard.
+     */
     public static final int MID_COPY            = 23;
+
+    /**
+     * Paste from clipboard.
+     */
     public static final int MID_PASTE           = 24;
+
+    /**
+     * Clear selected text without copying it to the clipboard.
+     */
     public static final int MID_CLEAR           = 25;
 
-    // Search menu
+    // Search menu ------------------------------------------------------------
+
+    /**
+     * Find.
+     */
     public static final int MID_FIND            = 30;
+
+    /**
+     * Replace.
+     */
     public static final int MID_REPLACE         = 31;
+
+    /**
+     * Search again.
+     */
     public static final int MID_SEARCH_AGAIN    = 32;
+
+    /**
+     * Go to line number.
+     */
     public static final int MID_GOTO_LINE       = 33;
 
-    // Window menu
+    // Window menu ------------------------------------------------------------
+
+    /**
+     * Tile windows.
+     */
     public static final int MID_TILE            = 40;
+
+    /**
+     * Cascade windows.
+     */
     public static final int MID_CASCADE         = 41;
+
+    /**
+     * Close all windows.
+     */
     public static final int MID_CLOSE_ALL       = 42;
+
+    /**
+     * Size/move window.
+     */
     public static final int MID_WINDOW_MOVE     = 43;
+
+    /**
+     * Move (move/resize) window.
+     */
     public static final int MID_WINDOW_ZOOM     = 44;
+
+    /**
+     * Next window (like Alt-TAB).
+     */
     public static final int MID_WINDOW_NEXT     = 45;
+
+    /**
+     * Previous window (like Shift-Alt-TAB).
+     */
     public static final int MID_WINDOW_PREVIOUS = 46;
+
+    /**
+     * Close window.
+     */
     public static final int MID_WINDOW_CLOSE    = 47;
 
-    // Help menu
+    // Help menu --------------------------------------------------------------
+
+    /**
+     * Help system - Table of Contents.
+     */
     public static final int MID_HELP_CONTENTS           = 50;
+
+    /**
+     * Help system - Index.
+     */
     public static final int MID_HELP_INDEX              = 51;
+
+    /**
+     * Help system - Topic search.
+     */
     public static final int MID_HELP_SEARCH             = 52;
+
+    /**
+     * Help system - Previous topic.
+     */
     public static final int MID_HELP_PREVIOUS           = 53;
+
+    /**
+     * Help system - Help on help.
+     */
     public static final int MID_HELP_HELP               = 54;
+
+    /**
+     * Help system - Change active help file.
+     */
     public static final int MID_HELP_ACTIVE_FILE        = 55;
+
+    /**
+     * Show "About Application" dialog.
+     */
     public static final int MID_ABOUT                   = 56;
 
-    // Table menu
+    // Table menu -------------------------------------------------------------
+
+    /**
+     * Rename row.
+     */
     public static final int MID_TABLE_RENAME_ROW                = 60;
+
+    /**
+     * Rename column.
+     */
     public static final int MID_TABLE_RENAME_COLUMN             = 61;
+
+    /**
+     * Show/hide row labels.
+     */
     public static final int MID_TABLE_VIEW_ROW_LABELS           = 70;
+
+    /**
+     * Show/hide column labels.
+     */
     public static final int MID_TABLE_VIEW_COLUMN_LABELS        = 71;
+
+    /**
+     * Enable/disable highlight selected row.
+     */
     public static final int MID_TABLE_VIEW_HIGHLIGHT_ROW        = 72;
+
+    /**
+     * Enable/disable highlight selected column.
+     */
     public static final int MID_TABLE_VIEW_HIGHLIGHT_COLUMN     = 73;
+
+    /**
+     * Remove all borders for the entire table.
+     */
     public static final int MID_TABLE_BORDER_NONE               = 80;
+
+    /**
+     * Set all borders for the entire table.
+     */
     public static final int MID_TABLE_BORDER_ALL                = 81;
+
+    /**
+     * Remove all borders for selected cell.
+     */
     public static final int MID_TABLE_BORDER_CELL_NONE          = 82;
+
+    /**
+     * Set all borders for selected cell.
+     */
     public static final int MID_TABLE_BORDER_CELL_ALL           = 83;
+
+    /**
+     * Set right border for selected cell.
+     */
     public static final int MID_TABLE_BORDER_RIGHT              = 84;
+
+    /**
+     * Set left border for selected cell.
+     */
     public static final int MID_TABLE_BORDER_LEFT               = 85;
+
+    /**
+     * Set top border for selected cell.
+     */
     public static final int MID_TABLE_BORDER_TOP                = 86;
+
+    /**
+     * Set bottom border for selected cell.
+     */
     public static final int MID_TABLE_BORDER_BOTTOM             = 87;
+
+    /**
+     * Set double-line bottom border for selected cell.
+     */
     public static final int MID_TABLE_BORDER_DOUBLE_BOTTOM      = 88;
+
+    /**
+     * Set thick bottom border for selected cell.
+     */
     public static final int MID_TABLE_BORDER_THICK_BOTTOM       = 89;
+
+    /**
+     * Delete selected cell, shifting cells left.
+     */
     public static final int MID_TABLE_DELETE_LEFT               = 100;
+
+    /**
+     * Delete selected cell, shifting cells up.
+     */
     public static final int MID_TABLE_DELETE_UP                 = 101;
+
+    /**
+     * Delete selected row.
+     */
     public static final int MID_TABLE_DELETE_ROW                = 102;
+
+    /**
+     * Delete selected column.
+     */
     public static final int MID_TABLE_DELETE_COLUMN             = 103;
+
+    /**
+     * Insert column to the left of selected cell.
+     */
     public static final int MID_TABLE_INSERT_LEFT               = 104;
+
+    /**
+     * Insert column to the right of selected cell.
+     */
     public static final int MID_TABLE_INSERT_RIGHT              = 105;
+
+    /**
+     * Insert row above selected cell.
+     */
     public static final int MID_TABLE_INSERT_ABOVE              = 106;
+
+    /**
+     * Insert row below selected cell.
+     */
     public static final int MID_TABLE_INSERT_BELOW              = 107;
+
+    /**
+     * Narrow column width of selected cell.
+     */
     public static final int MID_TABLE_COLUMN_NARROW             = 110;
+
+    /**
+     * Expand column width of selected cell.
+     */
     public static final int MID_TABLE_COLUMN_WIDEN              = 111;
+
+    /**
+     * Open comma-separated-values (CSV) file as new table window.
+     */
     public static final int MID_TABLE_FILE_OPEN_CSV             = 115;
+
+    /**
+     * Save entire table to comma-separated-values (CSV) file.
+     */
     public static final int MID_TABLE_FILE_SAVE_CSV             = 116;
+
+    /**
+     * Save entire table to text file.
+     */
     public static final int MID_TABLE_FILE_SAVE_TEXT            = 117;
 
     // ------------------------------------------------------------------------
     // Variables --------------------------------------------------------------
     // ------------------------------------------------------------------------
+
+    /**
+     * Translated strings.
+     */
+    private ResourceBundle i18n = null;
 
     /**
      * If true, this is a sub-menu.  Note package private access.
@@ -185,6 +447,8 @@ public class TMenu extends TWindow {
 
         super(parent, label, x, y, parent.getScreen().getWidth(),
             parent.getScreen().getHeight());
+
+        i18n = ResourceBundle.getBundle(TMenu.class.getName(), getLocale());
 
         // Setup the menu shortcut
         mnemonic = new MnemonicString(label);

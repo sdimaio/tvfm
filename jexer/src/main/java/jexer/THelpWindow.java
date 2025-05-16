@@ -3,7 +3,7 @@
  *
  * The MIT License (MIT)
  *
- * Copyright (C) 2022 Autumn Lamonte
+ * Copyright (C) 2025 Autumn Lamonte
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
@@ -23,7 +23,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
  * DEALINGS IN THE SOFTWARE.
  *
- * @author Autumn Lamonte ⚧ Trans Liberation Now
+ * @author Autumn Lamonte ♥
  * @version 1
  */
 package jexer;
@@ -40,17 +40,16 @@ import jexer.help.Topic;
  */
 public class THelpWindow extends TWindow {
 
-    /**
-     * Translated strings.
-     */
-    private static final ResourceBundle i18n = ResourceBundle.getBundle(THelpWindow.class.getName());
-
     // ------------------------------------------------------------------------
     // Constants --------------------------------------------------------------
     // ------------------------------------------------------------------------
 
     // Default help topic keys.
-    public static final String HELP_HELP                      = "Help On Help";
+
+    /**
+     * "Help On Help".
+     */
+    public static String HELP_HELP                      = "Help On Help";
 
     // ------------------------------------------------------------------------
     // Variables --------------------------------------------------------------
@@ -85,6 +84,7 @@ public class THelpWindow extends TWindow {
      * The X position for the buttons.
      */
     private static final int BUTTON_OFFSET = 14;
+    private final ResourceBundle i18n;
 
     // ------------------------------------------------------------------------
     // Constructors -----------------------------------------------------------
@@ -108,8 +108,11 @@ public class THelpWindow extends TWindow {
      */
     @SuppressWarnings("this-escape")
     public THelpWindow(final TApplication application, final Topic topic) {
-        super(application, i18n.getString("windowTitle"),
-            1, 1, 78, 22, CENTERED | RESIZABLE);
+        super(application, "", 1, 1, 78, 22, CENTERED | RESIZABLE);
+
+        i18n = ResourceBundle.getBundle(THelpWindow.class.getName(),
+            getLocale());
+        setTitle(i18n.getString("windowTitle"));
 
         setMinimumWindowHeight(16);
         setMinimumWindowWidth(30);
@@ -197,6 +200,7 @@ public class THelpWindow extends TWindow {
                     TResizeEvent.Type.WIDGET, helpText.getWidth(),
                     helpText.getHeight()));
 
+            return;
         } else {
             super.onResize(event);
         }
@@ -258,8 +262,12 @@ public class THelpWindow extends TWindow {
      * @param topic the topic to display
      */
     private void setHelpTopic(final Topic topic) {
-        boolean separator = (topic != getApplication().helpFile.getTableOfContents())
-                && (topic != getApplication().helpFile.getIndex());
+        boolean separator = true;
+        if ((topic == getApplication().helpFile.getTableOfContents())
+            || (topic == getApplication().helpFile.getIndex())
+        ) {
+            separator = false;
+        }
 
         getApplication().helpTopics.add(topic);
         helpText.setTopic(topic, separator);

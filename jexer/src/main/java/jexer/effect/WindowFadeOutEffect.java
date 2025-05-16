@@ -3,7 +3,7 @@
  *
  * The MIT License (MIT)
  *
- * Copyright (C) 2022 Autumn Lamonte
+ * Copyright (C) 2025 Autumn Lamonte
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
@@ -23,7 +23,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
  * DEALINGS IN THE SOFTWARE.
  *
- * @author Autumn Lamonte ⚧ Trans Liberation Now
+ * @author Autumn Lamonte ♥
  * @version 1
  */
 package jexer.effect;
@@ -132,8 +132,9 @@ public class WindowFadeOutEffect implements Effect {
             return;
         }
         if (alpha > 0) {
-            // Aiming for 1/8 second, at 32 FPS = 4 frames.  256 / 4 = 64.
-            alpha = Math.max(alpha - 96, 0);
+            // Bump alpha a bit.  I have not yet figured out how this
+            // converts to an actual time in practice.
+            alpha = Math.max(alpha - 16, 0);
             fakeWindow.setAlpha(alpha);
         }
     }

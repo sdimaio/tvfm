@@ -3,7 +3,7 @@
  *
  * The MIT License (MIT)
  *
- * Copyright (C) 2022 Autumn Lamonte
+ * Copyright (C) 2025 Autumn Lamonte
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
@@ -23,7 +23,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
  * DEALINGS IN THE SOFTWARE.
  *
- * @author Autumn Lamonte ⚧ Trans Liberation Now
+ * @author Autumn Lamonte ♥
  * @version 1
  */
 package jexer;
@@ -44,11 +44,6 @@ import jexer.bits.CellAttributes;
  */
 public class TExceptionDialog extends TWindow {
 
-    /**
-     * Translated strings.
-     */
-    private static final ResourceBundle i18n = ResourceBundle.getBundle(TExceptionDialog.class.getName());
-
     // ------------------------------------------------------------------------
     // Constants --------------------------------------------------------------
     // ------------------------------------------------------------------------
@@ -56,6 +51,11 @@ public class TExceptionDialog extends TWindow {
     // ------------------------------------------------------------------------
     // Variables --------------------------------------------------------------
     // ------------------------------------------------------------------------
+
+    /**
+     * Translated strings.
+     */
+    private ResourceBundle i18n = null;
 
     /**
      * The exception.  We will actually make it Throwable, for the unlikely
@@ -82,8 +82,10 @@ public class TExceptionDialog extends TWindow {
     public TExceptionDialog(final TApplication application,
         final Throwable exception) {
 
-        super(application, i18n.getString("windowTitle"),
-            1, 1, 78, 22, CENTERED | MODAL);
+        super(application, "", 1, 1, 78, 22, CENTERED | MODAL);
+        i18n = ResourceBundle.getBundle(TExceptionDialog.class.getName(),
+            getLocale());
+        setTitle(i18n.getString("windowTitle"));
 
         this.exception = exception;
 
@@ -95,10 +97,12 @@ public class TExceptionDialog extends TWindow {
             "twindow.background.modal");
         addLabel(i18n.getString("captionLine4"), 1, 4,
             "twindow.background.modal");
+        addLabel(i18n.getString("captionLine5"), 1, 5,
+            "twindow.background.modal");
 
         addLabel(MessageFormat.format(i18n.getString("exceptionString"),
                 exception.getClass().getName(), exception.getMessage()),
-            2, 6, "ttext", false);
+            2, 7, "ttext", false);
 
         ArrayList<String> stackTraceStrings = new ArrayList<String>();
         stackTraceStrings.add(exception.getMessage());
@@ -106,10 +110,10 @@ public class TExceptionDialog extends TWindow {
         for (int i = 0; i < stack.length; i++) {
             stackTraceStrings.add(stack[i].toString());
         }
-        stackTrace = addList(stackTraceStrings, 2, 7, getWidth() - 6, 10);
+        stackTrace = addList(stackTraceStrings, 2, 8, getWidth() - 6, 9);
 
         // Buttons
-        addButton(i18n.getString("saveButton"), 21, getHeight() - 4,
+        addButton(i18n.getString("saveButton"), 17, getHeight() - 4,
             new TAction() {
                 public void DO() {
                     saveToFile();
@@ -117,7 +121,7 @@ public class TExceptionDialog extends TWindow {
             });
 
         TButton closeButton = addButton(i18n.getString("closeButton"),
-            37, getHeight() - 4,
+            41, getHeight() - 4,
             new TAction() {
                 public void DO() {
                     // Don't do anything, just close the window.
@@ -142,7 +146,7 @@ public class TExceptionDialog extends TWindow {
         super.draw();
 
         CellAttributes boxColor = getTheme().getColor("ttext");
-        hLineXY(3, 7, getWidth() - 6, ' ', boxColor);
+        hLineXY(3, 8, getWidth() - 6, ' ', boxColor);
     }
 
     // ------------------------------------------------------------------------

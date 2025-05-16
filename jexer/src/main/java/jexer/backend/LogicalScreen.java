@@ -3,7 +3,7 @@
  *
  * The MIT License (MIT)
  *
- * Copyright (C) 2022 Autumn Lamonte
+ * Copyright (C) 2025 Autumn Lamonte
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
@@ -23,7 +23,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
  * DEALINGS IN THE SOFTWARE.
  *
- * @author Autumn Lamonte ⚧ Trans Liberation Now
+ * @author Autumn Lamonte ♥
  * @version 1
  */
 package jexer.backend;
@@ -36,6 +36,7 @@ import jexer.bits.BorderStyle;
 import jexer.bits.Cell;
 import jexer.bits.CellAttributes;
 import jexer.bits.Clipboard;
+import jexer.bits.GraphicsChars;
 import jexer.bits.ImageUtils;
 import jexer.bits.StringUtils;
 
@@ -885,14 +886,14 @@ public class LogicalScreen implements Screen {
         for (int i = 0; i < boxHeight; i++) {
             Cell cell = getCharXY(offsetX + boxLeft + boxWidth,
                 offsetY + boxTop + 1 + i);
-            if (cell.getWidth() == Cell.Width.SINGLE) {
+            if ((cell.getWidth() == Cell.Width.SINGLE) && (!cell.isImage())) {
                 putAttrXY(boxLeft + boxWidth, boxTop + 1 + i, shadowAttr);
             } else {
                 putCharXY(boxLeft + boxWidth, boxTop + 1 + i, ' ', shadowAttr);
             }
             cell = getCharXY(offsetX + boxLeft + boxWidth + 1,
                 offsetY + boxTop + 1 + i);
-            if (cell.getWidth() == Cell.Width.SINGLE) {
+            if ((cell.getWidth() == Cell.Width.SINGLE) && (!cell.isImage())) {
                 putAttrXY(boxLeft + boxWidth + 1, boxTop + 1 + i, shadowAttr);
             } else {
                 putCharXY(boxLeft + boxWidth + 1, boxTop + 1 + i, ' ',
@@ -902,7 +903,7 @@ public class LogicalScreen implements Screen {
         for (int i = 0; i < boxWidth; i++) {
             Cell cell = getCharXY(offsetX + boxLeft + 2 + i,
                 offsetY + boxTop + boxHeight);
-            if (cell.getWidth() == Cell.Width.SINGLE) {
+            if ((cell.getWidth() == Cell.Width.SINGLE) && (!cell.isImage())) {
                 putAttrXY(boxLeft + 2 + i, boxTop + boxHeight, shadowAttr);
             } else {
                 putCharXY(boxLeft + 2 + i, boxTop + boxHeight, ' ', shadowAttr);
@@ -1700,6 +1701,7 @@ public class LogicalScreen implements Screen {
                     thisCell.setProtect(overCell.isProtect());
                     thisCell.setAnimations(overCell.getAnimations());
                     thisCell.setPulse(false, false, 0);
+                    thisCell.setWidth(overCell.getWidth());
 
                     if (!overCell.isImage()) {
                         // If we had an image, destroy it.  Text ALWAYS
@@ -1740,6 +1742,7 @@ public class LogicalScreen implements Screen {
                             thisCell.setImage(newImage);
                         }
                         thisCell.setOpaqueImage();
+                        thisCell.setWidth(overCell.getWidth());
                         continue;
                     }
 
@@ -1776,6 +1779,7 @@ public class LogicalScreen implements Screen {
                             thisCell.setImage(newImage);
                         }
                         thisCell.setOpaqueImage();
+                        thisCell.setWidth(overCell.getWidth());
                         continue;
                     }
 
@@ -1811,6 +1815,7 @@ public class LogicalScreen implements Screen {
                             thisCell.setImage(newImage);
                         }
                         thisCell.setOpaqueImage();
+                        thisCell.setWidth(overCell.getWidth());
                         continue;
                     }
 
@@ -1847,6 +1852,7 @@ public class LogicalScreen implements Screen {
                             thisCell.setImage(newImage);
                         }
                         thisCell.setOpaqueImage();
+                        thisCell.setWidth(overCell.getWidth());
                         continue;
                     }
 

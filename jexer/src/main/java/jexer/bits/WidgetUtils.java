@@ -3,7 +3,7 @@
  *
  * The MIT License (MIT)
  *
- * Copyright (C) 2022 Autumn Lamonte
+ * Copyright (C) 2025 Autumn Lamonte
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
@@ -23,7 +23,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
  * DEALINGS IN THE SOFTWARE.
  *
- * @author Autumn Lamonte ⚧ Trans Liberation Now
+ * @author Autumn Lamonte ♥
  * @version 1
  */
 package jexer.bits;
@@ -42,6 +42,19 @@ import jexer.event.TResizeEvent;
  *    - Tile windows.
  */
 public class WidgetUtils {
+
+    // ------------------------------------------------------------------------
+    // Constructors -----------------------------------------------------------
+    // ------------------------------------------------------------------------
+
+    /**
+     * Private constructor prevents accidental creation of this class.
+     */
+    private WidgetUtils() {}
+
+    // ------------------------------------------------------------------------
+    // WidgetUtils ------------------------------------------------------------
+    // ------------------------------------------------------------------------
 
     /**
      * Re-layout a list of widgets as non-overlapping tiles into a

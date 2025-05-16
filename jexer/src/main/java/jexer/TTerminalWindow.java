@@ -3,7 +3,7 @@
  *
  * The MIT License (MIT)
  *
- * Copyright (C) 2022 Autumn Lamonte
+ * Copyright (C) 2025 Autumn Lamonte
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
@@ -23,7 +23,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
  * DEALINGS IN THE SOFTWARE.
  *
- * @author Autumn Lamonte ⚧ Trans Liberation Now
+ * @author Autumn Lamonte ♥
  * @version 1
  */
 package jexer;
@@ -44,14 +44,14 @@ import static jexer.TKeypress.*;
  */
 public class TTerminalWindow extends TScrollableWindow {
 
-    /**
-     * Translated strings.
-     */
-    private static final ResourceBundle i18n = ResourceBundle.getBundle(TTerminalWindow.class.getName());
-
     // ------------------------------------------------------------------------
     // Variables --------------------------------------------------------------
     // ------------------------------------------------------------------------
+
+    /**
+     * Translated strings.
+     */
+    private ResourceBundle i18n = null;
 
     /**
      * The terminal.
@@ -111,7 +111,11 @@ public class TTerminalWindow extends TScrollableWindow {
      * @param x column relative to parent
      * @param y row relative to parent
      * @param flags mask of CENTERED, MODAL, or RESIZABLE
-     * @param command the command line to execute
+     * @param command the command line to execute, as an array of strings
+     * which signifies the external program file to be invoked (command[0])
+     * and its arguments, if any (command[1], command[2], ...). Refer also to
+     * java.lang.ProcessBuilder for further operating-system specific
+     * details.
      */
     public TTerminalWindow(final TApplication application, final int x,
         final int y, final int flags, final String [] command) {
@@ -128,7 +132,11 @@ public class TTerminalWindow extends TScrollableWindow {
      * @param x column relative to parent
      * @param y row relative to parent
      * @param flags mask of CENTERED, MODAL, or RESIZABLE
-     * @param command the command line to execute
+     * @param command the command line to execute, as an array of strings
+     * which signifies the external program file to be invoked (command[0])
+     * and its arguments, if any (command[1], command[2], ...). Refer also to
+     * java.lang.ProcessBuilder for further operating-system specific
+     * details.
      * @param closeOnExit if true, close the window when the command exits
      */
     @SuppressWarnings("this-escape")
@@ -136,8 +144,11 @@ public class TTerminalWindow extends TScrollableWindow {
         final int y, final int flags, final String [] command,
         final boolean closeOnExit) {
 
-        super(application, i18n.getString("windowTitle"), x, y,
-            80 + 2, 24 + 2, flags);
+        super(application, "", x, y, 80 + 2, 24 + 2, flags);
+
+        i18n = ResourceBundle.getBundle(TTerminalWindow.class.getName(),
+            getLocale());
+        setTitle(i18n.getString("windowTitle"));
 
         // Require at least one line for the display.
         setMinimumWindowHeight(3);
@@ -204,8 +215,10 @@ public class TTerminalWindow extends TScrollableWindow {
     public TTerminalWindow(final TApplication application, final int x,
         final int y, final int flags, final boolean closeOnExit) {
 
-        super(application, i18n.getString("windowTitle"), x, y,
-            80 + 2, 24 + 2, flags);
+        super(application, "", x, y, 80 + 2, 24 + 2, flags);
+        i18n = ResourceBundle.getBundle(TTerminalWindow.class.getName(),
+            getLocale());
+        setTitle(i18n.getString("windowTitle"));
 
         // Require at least one line for the display.
         setMinimumWindowHeight(3);

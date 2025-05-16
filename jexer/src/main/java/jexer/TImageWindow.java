@@ -3,7 +3,7 @@
  *
  * The MIT License (MIT)
  *
- * Copyright (C) 2022 Autumn Lamonte
+ * Copyright (C) 2025 Autumn Lamonte
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
@@ -23,7 +23,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
  * DEALINGS IN THE SOFTWARE.
  *
- * @author Autumn Lamonte ⚧ Trans Liberation Now
+ * @author Autumn Lamonte ♥
  * @version 1
  */
 package jexer;
@@ -46,11 +46,6 @@ import static jexer.TKeypress.*;
  */
 public class TImageWindow extends TScrollableWindow {
 
-    /**
-     * Translated strings.
-     */
-    private static final ResourceBundle i18n = ResourceBundle.getBundle(TImageWindow.class.getName());
-
     // ------------------------------------------------------------------------
     // Constants --------------------------------------------------------------
     // ------------------------------------------------------------------------
@@ -65,6 +60,11 @@ public class TImageWindow extends TScrollableWindow {
     // ------------------------------------------------------------------------
 
     /**
+     * Translated strings.
+     */
+    private ResourceBundle i18n = null;
+
+    /**
      * Hang onto the TImage so I can resize it with the window.
      */
     private TImage imageField;
@@ -76,7 +76,7 @@ public class TImageWindow extends TScrollableWindow {
     /**
      * Public constructor opens a file.
      *
-     * @param parent the mainold application
+     * @param parent the main application
      * @param file the file to open
      * @throws IOException if a java.io operation throws
      */
@@ -90,7 +90,7 @@ public class TImageWindow extends TScrollableWindow {
     /**
      * Public constructor opens a file.
      *
-     * @param parent the mainold application
+     * @param parent the main application
      * @param file the file to open
      * @param x column relative to parent
      * @param y row relative to parent
@@ -104,6 +104,8 @@ public class TImageWindow extends TScrollableWindow {
         final int height) throws IOException {
 
         super(parent, file.getName(), x, y, width, height, RESIZABLE);
+        i18n = ResourceBundle.getBundle(TImageWindow.class.getName(),
+            getLocale());
 
         BufferedImage image = null;
         Animation animation = null;

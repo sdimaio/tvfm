@@ -3,7 +3,7 @@
  *
  * The MIT License (MIT)
  *
- * Copyright (C) 2022 Autumn Lamonte
+ * Copyright (C) 2025 Autumn Lamonte
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
@@ -23,7 +23,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
  * DEALINGS IN THE SOFTWARE.
  *
- * @author Autumn Lamonte ⚧ Trans Liberation Now
+ * @author Autumn Lamonte ♥
  * @version 1
  */
 package jexer.demos;
@@ -31,10 +31,23 @@ package jexer.demos;
 import jexer.*;
 
 /**
- * This class is the mainold driver for a simple demonstration of Jexer's
+ * This class is the main driver for a simple demonstration of Jexer's
  * capabilities.  This one shows TDesktop and TWindow API details.
  */
 public class Demo4 {
+
+    // ------------------------------------------------------------------------
+    // Constructors -----------------------------------------------------------
+    // ------------------------------------------------------------------------
+
+    /**
+     * Default constructor.
+     */
+    public Demo4() {}
+
+    // ------------------------------------------------------------------------
+    // Demo4 ------------------------------------------------------------------
+    // ------------------------------------------------------------------------
 
     /**
      * Main entry point.

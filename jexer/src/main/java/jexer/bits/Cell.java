@@ -3,7 +3,7 @@
  *
  * The MIT License (MIT)
  *
- * Copyright (C) 2022 Autumn Lamonte
+ * Copyright (C) 2025 Autumn Lamonte
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
@@ -23,7 +23,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
  * DEALINGS IN THE SOFTWARE.
  *
- * @author Autumn Lamonte ⚧ Trans Liberation Now
+ * @author Autumn Lamonte ♥
  * @version 1
  */
 package jexer.bits;
@@ -540,6 +540,66 @@ public class Cell extends CellAttributes {
     }
 
     /**
+     * If this cell is fully covered by a single color with no transparency,
+     * remove the image and set the foreground/background to that color
+     * instead.
+     *
+     * @return true if the image was a single color (and has now been erased)
+     */
+    public boolean checkForSingleColor() {
+        if (image == null) {
+            ch = ' ';
+            return true;
+        }
+
+        if ((hasTransparentPixels == 1)
+            || (hasTransparentPixels == 3)
+            || (hasTransparentPixels == 4)
+        ) {
+            return false;
+        }
+
+        // Either all of the pixels are opaque (hasTransparentPixels == 2),
+        // or the scan has never occurred (hasTransparentPixels == 0).  Scan
+        // now.
+        int [] rgbArray = image.getRGB(0, 0,
+            image.getWidth(), image.getHeight(), null, 0, image.getWidth());
+
+        if (rgbArray.length == 0) {
+            // No image data, fully transparent.
+            hasTransparentPixels = 3;
+            return false;
+        }
+
+        boolean allOpaque = true;
+        boolean allTransparent = true;
+        int rgb = rgbArray[0];
+        for (int i = 0; i < rgbArray.length; i++) {
+            int alpha = (rgbArray[i] >>> 24) & 0xFF;
+            if ((alpha != 0xFF) && (alpha != 0x00)) {
+                // Some transparent pixels, but not fully transparent.
+                hasTransparentPixels = 4;
+                return false;
+            }
+            // This pixel is either fully opaque or fully transparent.
+            if (alpha == 0x00) {
+                return false;
+            }
+            assert (alpha == 0xFF);
+            if ((rgb & 0xFFFFFF) != (rgbArray[i] & 0xFFFFFF)) {
+                return false;
+            }
+        }
+        // No transparent pixels, and all are the same color.  No need to set
+        // hasTransparentPixels = 2, because the image is going to be erased.
+        unset();
+        ch = ' ';
+        setForeColorRGB(rgb);
+        setBackColorRGB(rgb);
+        return true;
+    }
+
+    /**
      * Getter for cell character.
      *
      * @return cell character
@@ -617,8 +677,8 @@ public class Cell extends CellAttributes {
         if ((ch == UNSET_VALUE) || (image != null)) {
             return false;
         }
-        if ((getForeColor().equals(Color.WHITE))
-            && (getBackColor().equals(Color.BLACK))
+        if ((getForeColor().equals(jexer.bits.Color.WHITE))
+            && (getBackColor().equals(jexer.bits.Color.BLACK))
             && !isBold()
             && !isBlink()
             && !isReverse()

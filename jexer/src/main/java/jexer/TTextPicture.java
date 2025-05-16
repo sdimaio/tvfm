@@ -3,7 +3,7 @@
  *
  * The MIT License (MIT)
  *
- * Copyright (C) 2022 Autumn Lamonte
+ * Copyright (C) 2025 Autumn Lamonte
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
@@ -23,7 +23,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
  * DEALINGS IN THE SOFTWARE.
  *
- * @author Autumn Lamonte ⚧ Trans Liberation Now
+ * @author Autumn Lamonte ♥
  * @version 1
  */
 package jexer;
@@ -36,6 +36,7 @@ import java.io.FileNotFoundException;
 import java.io.UnsupportedEncodingException;
 import java.util.List;
 
+import jexer.TScrollableWidget;
 import jexer.backend.ECMA48Terminal;
 import jexer.backend.GlyphMaker;
 import jexer.backend.SwingTerminal;
@@ -524,7 +525,7 @@ public class TTextPicture extends TScrollableWidget
 
         // Special case: the ECMA48 backend needs to have a timer to drive
         // its blink state.
-        if (getScreen() instanceof ECMA48Terminal) {
+        if (getScreen() instanceof jexer.backend.ECMA48Terminal) {
             if (blinkTimer == null) {
                 // Blink every 500 millis.
                 long millis = 500;

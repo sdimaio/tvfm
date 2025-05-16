@@ -183,7 +183,7 @@ public class XtermVideoPlayer extends TApplication {
         // The application will spin on its thread.
         (new Thread(app)).start();
 
-        // Frames will continue to grab on the mainold thread.
+        // Frames will continue to grab on the main thread.
         app.getFrames(new File(args[0]));
     }
 }

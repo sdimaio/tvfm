@@ -3,7 +3,7 @@
  *
  * The MIT License (MIT)
  *
- * Copyright (C) 2022 Autumn Lamonte
+ * Copyright (C) 2025 Autumn Lamonte
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
@@ -23,7 +23,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
  * DEALINGS IN THE SOFTWARE.
  *
- * @author Autumn Lamonte ⚧ Trans Liberation Now
+ * @author Autumn Lamonte ♥
  * @version 1
  */
 package jexer.demos;
@@ -52,7 +52,7 @@ public class DemoCheckBoxWindow extends TWindow {
     /**
      * Translated strings.
      */
-    private static final ResourceBundle i18n = ResourceBundle.getBundle(DemoCheckBoxWindow.class.getName());
+    private ResourceBundle i18n = ResourceBundle.getBundle(DemoCheckBoxWindow.class.getName());
 
     // ------------------------------------------------------------------------
     // Variables --------------------------------------------------------------
@@ -71,7 +71,7 @@ public class DemoCheckBoxWindow extends TWindow {
     /**
      * Constructor.
      *
-     * @param parent the mainold application
+     * @param parent the main application
      */
     DemoCheckBoxWindow(final TApplication parent) {
         this(parent, CENTERED | RESIZABLE);
@@ -80,13 +80,16 @@ public class DemoCheckBoxWindow extends TWindow {
     /**
      * Constructor.
      *
-     * @param parent the mainold application
+     * @param parent the main application
      * @param flags bitmask of MODAL, CENTERED, or RESIZABLE
      */
     DemoCheckBoxWindow(final TApplication parent, final int flags) {
         // Construct a demo window.  X and Y don't matter because it will be
         // centered on screen.
-        super(parent, i18n.getString("windowTitle"), 0, 0, 60, 17, flags);
+        super(parent, "", 0, 0, 60, 17, flags);
+        i18n = ResourceBundle.getBundle(DemoCheckBoxWindow.class.getName(),
+            getLocale());
+        setTitle(i18n.getString("windowTitle"));
 
         setLayoutManager(new StretchLayoutManager(getWidth() - 2,
                 getHeight() - 2));
@@ -95,9 +98,9 @@ public class DemoCheckBoxWindow extends TWindow {
 
         // Add some widgets
         addLabel(i18n.getString("checkBoxLabel1"), 1, row);
-        addCheckBox(35, row++, i18n.getString("checkBoxText1"), false);
+        addCheckBox(40, row++, i18n.getString("checkBoxText1"), false);
         addLabel(i18n.getString("checkBoxLabel2"), 1, row);
-        addCheckBox(35, row++, i18n.getString("checkBoxText2"), true);
+        addCheckBox(40, row++, i18n.getString("checkBoxText2"), true);
         row += 2;
 
         TRadioGroup group = addRadioGroup(1, row,

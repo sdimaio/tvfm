@@ -26,7 +26,7 @@ To use custom help text in a new application:
 Screenshots
 -----------
 
-The mainold help window is shown below:
+The main help window is shown below:
 
 ![helpwindow_1](uploads/15a5167b59f2cb45fab23b18176878ca/helpwindow_1.png)
 

@@ -3,7 +3,7 @@
  *
  * The MIT License (MIT)
  *
- * Copyright (C) 2022 Autumn Lamonte
+ * Copyright (C) 2025 Autumn Lamonte
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
@@ -23,7 +23,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
  * DEALINGS IN THE SOFTWARE.
  *
- * @author Autumn Lamonte ⚧ Trans Liberation Now
+ * @author Autumn Lamonte ♥
  * @version 1
  *
  * Portions of this encoder were inspired / influenced by Hans Petter
@@ -956,7 +956,7 @@ public class HQSixelEncoder implements SixelEncoder {
             // on images that have a very wide color range compared to
             // palette entries.  Too high and you lose a lot of detail on
             // otherwise great images.
-            final int blackDiff = 100;
+            final int blackDiff = 10;
             final int whiteDiff = 0;
             if (((red * red) + (green * green) + (blue * blue)) < blackDiff) {
                 if (verbosity >= 10) {
@@ -2136,9 +2136,9 @@ public class HQSixelEncoder implements SixelEncoder {
                     sb.append("\033\\");
                     // If there are transparent pixels, we need to note that
                     // at the beginning.
-                    String header = "\033Pq";
+                    String header = "\033P9;0;0q";
                     if (result.transparent && allowTransparent) {
-                        header = "\033P0;1;0q";
+                        header = "\033P9;1;0q";
                     }
                     // Now put it together.
                     System.out.print(header);

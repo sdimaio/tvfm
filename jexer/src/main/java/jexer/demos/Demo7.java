@@ -3,7 +3,7 @@
  *
  * The MIT License (MIT)
  *
- * Copyright (C) 2022 Autumn Lamonte
+ * Copyright (C) 2025 Autumn Lamonte
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
@@ -23,7 +23,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
  * DEALINGS IN THE SOFTWARE.
  *
- * @author Autumn Lamonte ⚧ Trans Liberation Now
+ * @author Autumn Lamonte ♥
  * @version 1
  */
 package jexer.demos;
@@ -32,6 +32,7 @@ import java.util.ResourceBundle;
 
 import jexer.TApplication;
 import jexer.TPanel;
+import jexer.TText;
 import jexer.TWindow;
 import jexer.layout.BoxLayoutManager;
 
@@ -44,6 +45,15 @@ public class Demo7 {
      * Translated strings.
      */
     private static final ResourceBundle i18n = ResourceBundle.getBundle(Demo7.class.getName());
+
+    // ------------------------------------------------------------------------
+    // Constructors -----------------------------------------------------------
+    // ------------------------------------------------------------------------
+
+    /**
+     * Default constructor.
+     */
+    public Demo7() {}
 
     // ------------------------------------------------------------------------
     // Demo7 ------------------------------------------------------------------

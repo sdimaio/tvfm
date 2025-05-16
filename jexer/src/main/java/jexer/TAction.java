@@ -3,7 +3,7 @@
  *
  * The MIT License (MIT)
  *
- * Copyright (C) 2022 Autumn Lamonte
+ * Copyright (C) 2025 Autumn Lamonte
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
@@ -23,7 +23,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
  * DEALINGS IN THE SOFTWARE.
  *
- * @author Autumn Lamonte ⚧ Trans Liberation Now
+ * @author Autumn Lamonte ♥
  * @version 1
  */
 package jexer;
@@ -35,6 +35,10 @@ package jexer;
  */
 public abstract class TAction {
 
+    // ------------------------------------------------------------------------
+    // Variables --------------------------------------------------------------
+    // ------------------------------------------------------------------------
+
     /**
      * The widget that called this action's DO() method.  Note that this
      * field could be null, for example if executed as a timer action.
@@ -45,6 +49,19 @@ public abstract class TAction {
      * An optional bit of data associated with this action.
      */
     public Object data;
+
+    // ------------------------------------------------------------------------
+    // Constructors -----------------------------------------------------------
+    // ------------------------------------------------------------------------
+
+    /**
+     * Default constructor.
+     */
+    public TAction() {}
+
+    // ------------------------------------------------------------------------
+    // TAction ----------------------------------------------------------------
+    // ------------------------------------------------------------------------
 
     /**
      * Call DO() with source widget set.

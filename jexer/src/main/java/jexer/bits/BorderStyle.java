@@ -3,7 +3,7 @@
  *
  * The MIT License (MIT)
  *
- * Copyright (C) 2022 Autumn Lamonte
+ * Copyright (C) 2025 Autumn Lamonte
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
@@ -23,7 +23,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
  * DEALINGS IN THE SOFTWARE.
  *
- * @author Autumn Lamonte ⚧ Trans Liberation Now
+ * @author Autumn Lamonte ♥
  * @version 1
  */
 package jexer.bits;
@@ -73,6 +73,11 @@ public class BorderStyle {
      * A single-line border with round corners.
      */
     public static final BorderStyle SINGLE_ROUND;
+
+    /**
+     * A single-line border with angled edge corners.
+     */
+    public static final BorderStyle SO_SAY_WE_ALL;
 
     // ------------------------------------------------------------------------
     // Variables --------------------------------------------------------------
@@ -154,6 +159,13 @@ public class BorderStyle {
             0x2570,
             0x256F);
 
+        SO_SAY_WE_ALL = new BorderStyle(GraphicsChars.SINGLE_BAR,
+            GraphicsChars.WINDOW_SIDE,
+            0x25E2,
+            0x25E3,
+            0x25E5,
+            0x25E4);
+
         DEFAULT = SINGLE;
 
     }
@@ -214,6 +226,9 @@ public class BorderStyle {
         }
         if (str.equals("singlehdoublev")) {
             return SINGLE_H_DOUBLE_V;
+        }
+        if (str.equals("sosayweall")) {
+            return SO_SAY_WE_ALL;
         }
 
         // If they didn't get it right, return single.

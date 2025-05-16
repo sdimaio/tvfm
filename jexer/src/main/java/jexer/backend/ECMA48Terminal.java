@@ -3,7 +3,7 @@
  *
  * The MIT License (MIT)
  *
- * Copyright (C) 2022 Autumn Lamonte
+ * Copyright (C) 2025 Autumn Lamonte
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
@@ -23,7 +23,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
  * DEALINGS IN THE SOFTWARE.
  *
- * @author Autumn Lamonte ⚧ Trans Liberation Now
+ * @author Autumn Lamonte ♥
  * @version 1
  */
 package jexer.backend;
@@ -45,6 +45,7 @@ import java.io.PrintWriter;
 import java.io.Reader;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.Callable;
@@ -52,6 +53,7 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
 import javax.imageio.ImageIO;
 
 import jexer.bits.Cell;
@@ -264,6 +266,16 @@ public class ECMA48Terminal extends LogicalScreen
      * The Jexer post-rendered string cache.
      */
     private ImageCache jexerCache = null;
+
+    /**
+     * The Unicode glyph encoder.
+     */
+    private UnicodeGlyphEncoder unicodeGlyphEncoder = null;
+
+    /**
+     * The Unicode glyph post-rendered string cache.
+     */
+    private ImageCache unicodeGlyphCache = null;
 
     /**
      * The number of threads for image rendering.
@@ -1097,6 +1109,9 @@ public class ECMA48Terminal extends LogicalScreen
         }
         sixelEncoder.reloadOptions();
 
+        unicodeGlyphEncoder = new UnicodeGlyphEncoder();
+        unicodeGlyphEncoder.reloadOptions();
+
         // Request xterm use the sixel settings we want
         this.output.printf("%s", xtermSetSixelSettings());
 
@@ -1159,6 +1174,10 @@ public class ECMA48Terminal extends LogicalScreen
             }
         } catch (NumberFormatException e) {
             // SQUASH
+        }
+        if (sixelEncoder instanceof LegacySixelEncoder) {
+            // Legacy encoder is not thread-safe.
+            imageThreadCount = 1;
         }
 
         // Set custom colors
@@ -1792,7 +1811,7 @@ public class ECMA48Terminal extends LogicalScreen
                     Cell blank = new Cell();
                     BufferedImage newImage = new BufferedImage(textWidthPixels,
                         textHeightPixels, BufferedImage.TYPE_INT_ARGB);
-                    Graphics gr = newImage.getGraphics();
+                    java.awt.Graphics gr = newImage.getGraphics();
                     gr.setColor(java.awt.Color.BLACK);
                     gr.fillRect(0, 0, newImage.getWidth(),
                         newImage.getHeight());
@@ -1893,9 +1912,13 @@ public class ECMA48Terminal extends LogicalScreen
                         if (jexerCache == null) {
                             jexerCache = new ImageCache(height * width * 10);
                         }
-                    } else {
+                    } else if (sixel == true) {
                         if (sixelCache == null) {
                             sixelCache = new ImageCache(height * width * 10);
+                        }
+                    } else {
+                        if (unicodeGlyphCache == null) {
+                            unicodeGlyphCache = new ImageCache(height * width);
                         }
                     }
 
@@ -1905,8 +1928,10 @@ public class ECMA48Terminal extends LogicalScreen
                             sb.append(toIterm2Image(x, y, cellsToDraw));
                         } else if (jexerImageOption != JexerImageOption.DISABLED) {
                             sb.append(toJexerImage(x, y, cellsToDraw));
-                        } else {
+                        } else if (sixel == true) {
                             sb.append(toSixel(x, y, cellsToDraw));
+                        } else {
+                            sb.append(toUnicodeGlyphs(x, y, cellsToDraw));
                         }
                     } else {
                         // Multi-threaded: experimental and likely borken
@@ -1923,8 +1948,11 @@ public class ECMA48Terminal extends LogicalScreen
                                     return toIterm2Image(callX, callY, callCells);
                                 } else if (jexerImageOption != JexerImageOption.DISABLED) {
                                     return toJexerImage(callX, callY, callCells);
-                                } else {
+                                } else if (sixel == true) {
                                     return toSixel(callX, callY, callCells);
+                                } else {
+                                    return toUnicodeGlyphs(callX, callY,
+                                        callCells);
                                 }
                             }
                         }));
@@ -1936,11 +1964,12 @@ public class ECMA48Terminal extends LogicalScreen
         }
 
         if (imageThreadCount > 1) {
+            List<String> threadedImages = new ArrayList<String>(imageResults.size());
             // Collect all the encoded images.
             while (imageResults.size() > 0) {
                 Future<String> image = imageResults.get(0);
                 try {
-                    sb.append(image.get());
+                    threadedImages.add(image.get());
                 } catch (InterruptedException e) {
                     // SQUASH
                     // e.printStackTrace();
@@ -1951,6 +1980,11 @@ public class ECMA48Terminal extends LogicalScreen
                 imageResults.remove(0);
             }
             imageExecutor.shutdown();
+
+            Collections.sort(threadedImages);
+            for (String imageString: threadedImages) {
+                sb.append(imageString);
+            }
         }
 
         // Draw the text part now.
@@ -3126,6 +3160,7 @@ public class ECMA48Terminal extends LogicalScreen
 
                     boolean reportsJexerImages = false;
                     boolean reportsIterm2Images = false;
+                    boolean reportsSixelImages = false;
                     for (String x: params) {
                         if (debugToStderr) {
                             System.err.println("Device Attributes: x = " + x);
@@ -3135,6 +3170,7 @@ public class ECMA48Terminal extends LogicalScreen
                             if (debugToStderr) {
                                 System.err.println("Device Attributes: sixel");
                             }
+                            reportsSixelImages = true;
                         }
                         if (x.equals("444")) {
                             // Terminal reports Jexer images support
@@ -3157,6 +3193,14 @@ public class ECMA48Terminal extends LogicalScreen
                                 System.err.println("Device Attributes: ASSUMING iTerm2 image support");
                             }
                             reportsIterm2Images = true;
+                        }
+                    }
+                    if (reportsSixelImages == false) {
+                        // Terminal does not support Sixel images, disable
+                        // them.
+                        sixel = false;
+                        if (debugToStderr) {
+                            System.err.println("Device Attributes: Disable Sixel images");
                         }
                     }
                     if (reportsJexerImages == false) {
@@ -3546,7 +3590,7 @@ public class ECMA48Terminal extends LogicalScreen
         assert (sixel == true);
 
         // Place the cursor.
-        sb.append(gotoXY(x, y));
+        sb.append(sortableGotoXY(x, y));
 
         // DCS
         sb.append("\033Pq");
@@ -3955,7 +3999,7 @@ public class ECMA48Terminal extends LogicalScreen
             String cachedResult = iterm2Cache.get(cells);
             if (cachedResult != null) {
                 // System.err.println("CACHE HIT");
-                sb.append(gotoXY(x, y));
+                sb.append(sortableGotoXY(x, y));
                 sb.append(cachedResult);
                 return sb.toString();
             }
@@ -4070,7 +4114,7 @@ public class ECMA48Terminal extends LogicalScreen
             iterm2Cache.put(cells, sb.toString());
         }
 
-        return (gotoXY(x, y) + sb.toString());
+        return (sortableGotoXY(x, y) + sb.toString());
     }
 
     /**
@@ -4110,7 +4154,7 @@ public class ECMA48Terminal extends LogicalScreen
 
         if (jexerImageOption == JexerImageOption.DISABLED) {
             sb.append(normal());
-            sb.append(gotoXY(x, y));
+            sb.append(sortableGotoXY(x, y));
             for (int i = 0; i < cells.size(); i++) {
                 sb.append(' ');
             }
@@ -4133,7 +4177,7 @@ public class ECMA48Terminal extends LogicalScreen
             String cachedResult = jexerCache.get(cells);
             if (cachedResult != null) {
                 // System.err.println("CACHE HIT");
-                sb.append(gotoXY(x, y));
+                sb.append(sortableGotoXY(x, y));
                 sb.append(cachedResult);
                 return sb.toString();
             }
@@ -4234,6 +4278,69 @@ public class ECMA48Terminal extends LogicalScreen
 
     // ------------------------------------------------------------------------
     // End Jexer image output support -----------------------------------------
+    // ------------------------------------------------------------------------
+
+    // ------------------------------------------------------------------------
+    // Unicode glyphs output support ------------------------------------------
+    // ------------------------------------------------------------------------
+
+    /**
+     * Create a Unicode glyphs "image" string representing a row of several
+     * cells containing bitmap data.
+     *
+     * @param x column coordinate.  0 is the left-most column.
+     * @param y row coordinate.  0 is the top-most row.
+     * @param cells the cells containing the bitmap data
+     * @return the string to emit to an ANSI / ECMA-style terminal
+     */
+    private String toUnicodeGlyphs(final int x, final int y,
+        final ArrayList<Cell> cells) {
+
+        assert (cells != null);
+        assert (cells.size() > 0);
+        assert (cells.get(0).getImage() != null);
+
+        StringBuilder sb = new StringBuilder();
+
+        // Save and get rows to/from the cache that do NOT have inverted
+        // cells.
+        boolean saveInCache = true;
+        for (Cell cell: cells) {
+            if (cell.isInvertedImage()) {
+                saveInCache = false;
+                break;
+            }
+            // Compute the hashcode so that the cell image hash is available
+            // for looking up in the image cache.
+            cell.hashCode();
+        }
+        if (saveInCache) {
+            String cachedResult = unicodeGlyphCache.get(cells);
+            if (cachedResult != null) {
+                // System.err.println("CACHE HIT");
+                sb.append(sortableGotoXY(x, y));
+                sb.append(cachedResult);
+                return sb.toString();
+            }
+            // System.err.println("CACHE MISS");
+        }
+
+        for (int i = 0; i < cells.size(); i++) {
+            BufferedImage image = cells.get(i).getImage();
+            sb.append(unicodeGlyphEncoder.toUnicodeGlyph(image,
+                    image.getWidth(), image.getHeight()));
+        }
+
+        if (saveInCache) {
+            // This row is OK to save into the cache.
+            unicodeGlyphCache.put(cells, sb.toString());
+        }
+
+        return (sortableGotoXY(x, y) + sb.toString());
+    }
+
+    // ------------------------------------------------------------------------
+    // Unicode glyphs output support ------------------------------------------
     // ------------------------------------------------------------------------
 
     /**
@@ -4923,6 +5030,17 @@ public class ECMA48Terminal extends LogicalScreen
      */
     private String gotoXY(final int x, final int y) {
         return String.format("\033[%d;%dH", y + 1, x + 1);
+    }
+
+    /**
+     * Move the cursor to (x, y).
+     *
+     * @param x column coordinate.  0 is the left-most column.
+     * @param y row coordinate.  0 is the top-most row.
+     * @return the string to emit to an ANSI / ECMA-style terminal
+     */
+    private String sortableGotoXY(final int x, final int y) {
+        return String.format("\033[%02d;%02dH", y + 1, x + 1);
     }
 
     /**

@@ -3,7 +3,7 @@
  *
  * The MIT License (MIT)
  *
- * Copyright (C) 2022 Autumn Lamonte
+ * Copyright (C) 2025 Autumn Lamonte
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
@@ -23,7 +23,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
  * DEALINGS IN THE SOFTWARE.
  *
- * @author Autumn Lamonte ⚧ Trans Liberation Now
+ * @author Autumn Lamonte ♥
  * @version 1
  */
 package jexer;
@@ -34,6 +34,12 @@ import java.text.MessageFormat;
 import java.util.ResourceBundle;
 import java.util.Scanner;
 
+import jexer.TApplication;
+import jexer.TEditorWidget;
+import jexer.THScroller;
+import jexer.TScrollableWindow;
+import jexer.TVScroller;
+import jexer.TWidget;
 import jexer.bits.CellAttributes;
 import jexer.bits.GraphicsChars;
 import jexer.event.TCommandEvent;
@@ -50,14 +56,14 @@ import static jexer.TKeypress.*;
  */
 public class TEditorWindow extends TScrollableWindow {
 
-    /**
-     * Translated strings.
-     */
-    private static final ResourceBundle i18n = ResourceBundle.getBundle(TEditorWindow.class.getName());
-
     // ------------------------------------------------------------------------
     // Variables --------------------------------------------------------------
     // ------------------------------------------------------------------------
+
+    /**
+     * Translated strings.
+     */
+    private ResourceBundle i18n = null;
 
     /**
      * Hang onto my TEditor so I can resize it with the window.
@@ -87,7 +93,7 @@ public class TEditorWindow extends TScrollableWindow {
     /**
      * Public constructor sets window title.
      *
-     * @param parent the mainold application
+     * @param parent the main application
      * @param title the window title
      */
     @SuppressWarnings("this-escape")
@@ -95,6 +101,8 @@ public class TEditorWindow extends TScrollableWindow {
 
         super(parent, title, 0, 0, parent.getScreen().getWidth(),
             parent.getDesktopBottom() - parent.getDesktopTop(), RESIZABLE);
+        i18n = ResourceBundle.getBundle(TEditorWindow.class.getName(),
+            getLocale());
 
         editField = addEditor("", 0, 0, getWidth() - 2, getHeight() - 2);
         setupAfterEditor();
@@ -103,7 +111,7 @@ public class TEditorWindow extends TScrollableWindow {
     /**
      * Public constructor sets window title and contents.
      *
-     * @param parent the mainold application
+     * @param parent the main application
      * @param title the window title, usually a filename
      * @param contents the data for the editing window, usually the file data
      */
@@ -113,6 +121,8 @@ public class TEditorWindow extends TScrollableWindow {
 
         super(parent, title, 0, 0, parent.getScreen().getWidth(),
             parent.getDesktopBottom() - parent.getDesktopTop(), RESIZABLE);
+        i18n = ResourceBundle.getBundle(TEditorWindow.class.getName(),
+            getLocale());
 
         filename = title;
         editField = addEditor(contents, 0, 0, getWidth() - 2, getHeight() - 2);
@@ -122,7 +132,7 @@ public class TEditorWindow extends TScrollableWindow {
     /**
      * Public constructor opens a file.
      *
-     * @param parent the mainold application
+     * @param parent the main application
      * @param file the file to open
      * @throws IOException if a java.io operation throws
      */
@@ -132,6 +142,8 @@ public class TEditorWindow extends TScrollableWindow {
 
         super(parent, file.getName(), 0, 0, parent.getScreen().getWidth(),
             parent.getDesktopBottom() - parent.getDesktopTop(), RESIZABLE);
+        i18n = ResourceBundle.getBundle(TEditorWindow.class.getName(),
+            getLocale());
 
         filename = file.getName();
         String contents = readFileData(file);
@@ -142,10 +154,13 @@ public class TEditorWindow extends TScrollableWindow {
     /**
      * Public constructor.
      *
-     * @param parent the mainold application
+     * @param parent the main application
      */
+    @SuppressWarnings("this-escape")
     public TEditorWindow(final TApplication parent) {
-        this(parent, i18n.getString("newTextDocument"));
+        this(parent, "");
+
+        setTitle(i18n.getString("newTextDocument"));
     }
 
     // ------------------------------------------------------------------------

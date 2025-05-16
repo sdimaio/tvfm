@@ -30,12 +30,13 @@
 
 <project name="jexer" basedir="." default="jar">
 
-  <property name="version"       value="1.7"/>
+  <property name="version"       value="1.7.1"/>
   <property name="src.dir"       value="src/main/java"/>
   <property name="resources.dir" value="src/main/resources"/>
   <property name="build.dir"     value="build"/>
   <property name="classes.dir"   value="${build.dir}/classes"/>
   <property name="jar.dir"       value="${build.dir}/jar"/>
+  <property name="module.dir"    value="${build.dir}/module"/>
   <property name="apidocs.dir"   value="docs/api"/>
 
   <target name="clean">
@@ -49,7 +50,7 @@
            includeantruntime="false"
            debug="on"
            debuglevel="lines,vars,source"
-           release="8"
+           release="9"
            >
       <compilerarg value="-Xlint"/>
       <compilerarg value="-Xdiags:verbose"/>
@@ -78,6 +79,15 @@
         <attribute name="Implementation-Version" value="${version}"/>
       </manifest>
     </jar>
+  </target>
+
+  <target name="jlink" depends="jar">
+    <mkdir dir="${module.dir}"/>
+    <jmod destfile="${module.dir}/${ant.project.name}.jmod"
+          classpath="${jar.dir}/${ant.project.name}.jar"/>
+    <link destDir="${module.dir}/image"
+          modulepath="${module.dir}/${ant.project.name}.jmod"
+          modules="${ant.project.name}"/>
   </target>
 
   <target name="run" depends="jar">
@@ -115,7 +125,7 @@
         <![CDATA[<h1>Jexer - Java Text User Interface Library</h1>]]>
       </doctitle>
       <bottom>
-        <![CDATA[<i>Copyright &#169; 2022 Autumn Lamonte. Licensed MIT.</i>]]>
+        <![CDATA[<i>${version} - Copyright &#169; 2025 Autumn Lamonte. Licensed MIT.</i>]]>
       </bottom>
     </javadoc>
   </target>

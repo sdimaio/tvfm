@@ -3,7 +3,7 @@
  *
  * The MIT License (MIT)
  *
- * Copyright (C) 2022 Autumn Lamonte
+ * Copyright (C) 2025 Autumn Lamonte
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
@@ -23,7 +23,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
  * DEALINGS IN THE SOFTWARE.
  *
- * @author Autumn Lamonte ⚧ Trans Liberation Now
+ * @author Autumn Lamonte ♥
  * @version 1
  */
 package jexer.demos;
@@ -36,7 +36,7 @@ import java.util.ResourceBundle;
 import jexer.net.TelnetServerSocket;
 
 /**
- * This class is the mainold driver for a simple demonstration of Jexer's
+ * This class is the main driver for a simple demonstration of Jexer's
  * capabilities.  Rather than run locally, it serves a Jexer UI over a TCP
  * port.
  */
@@ -46,6 +46,19 @@ public class Demo2 {
      * Translated strings.
      */
     private static final ResourceBundle i18n = ResourceBundle.getBundle(Demo2.class.getName());
+
+    // ------------------------------------------------------------------------
+    // Constructors -----------------------------------------------------------
+    // ------------------------------------------------------------------------
+
+    /**
+     * Default constructor.
+     */
+    public Demo2() {}
+
+    // ------------------------------------------------------------------------
+    // Demo2 ------------------------------------------------------------------
+    // ------------------------------------------------------------------------
 
     /**
      * Main entry point.

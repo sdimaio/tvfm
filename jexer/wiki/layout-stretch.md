@@ -7,7 +7,7 @@ coordinates when added and the current widget size.
 Screenshots
 -----------
 
-Below is the normal demo mainold window.  The widgets are all initially
+Below is the normal demo main window.  The widgets are all initially
 added using fixed coordinates.
 
 ![stretchlayout_1](uploads/65bbcea57b8323469e1af03e80c525d4/stretchlayout_1.png)

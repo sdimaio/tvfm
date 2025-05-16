@@ -3,7 +3,7 @@
  *
  * The MIT License (MIT)
  *
- * Copyright (C) 2022 Autumn Lamonte
+ * Copyright (C) 2025 Autumn Lamonte
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
@@ -23,7 +23,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
  * DEALINGS IN THE SOFTWARE.
  *
- * @author Autumn Lamonte ⚧ Trans Liberation Now
+ * @author Autumn Lamonte ♥
  * @version 1
  */
 package jexer;
@@ -140,26 +140,110 @@ public class TCommand {
      */
     public static final int BACKEND_DISCONNECT  = 100;
 
+    /**
+     * Immediately abort the application (e.g. remote side closed
+     * connection).
+     */
     public static final TCommand cmAbort        = new TCommand(ABORT);
+
+    /**
+     * Exit application.
+     */
     public static final TCommand cmExit         = new TCommand(EXIT);
+
+    /**
+     * Exit application.
+     */
     public static final TCommand cmQuit         = new TCommand(EXIT);
+
+    /**
+     * File open dialog.
+     */
     public static final TCommand cmOpen         = new TCommand(OPEN);
+
+    /**
+     * Spawn OS shell window.
+     */
     public static final TCommand cmShell        = new TCommand(SHELL);
+
+    /**
+     * Cut selected text and copy to the clipboard.
+     */
     public static final TCommand cmCut          = new TCommand(CUT);
+
+    /**
+     * Copy selected text to clipboard.
+     */
     public static final TCommand cmCopy         = new TCommand(COPY);
+
+    /**
+     * Paste from clipboard.
+     */
     public static final TCommand cmPaste        = new TCommand(PASTE);
+
+    /**
+     * Clear selected text without copying it to the clipboard.
+     */
     public static final TCommand cmClear        = new TCommand(CLEAR);
+
+    /**
+     * Tile windows.
+     */
     public static final TCommand cmTile         = new TCommand(TILE);
+
+    /**
+     * Cascade windows.
+     */
     public static final TCommand cmCascade      = new TCommand(CASCADE);
+
+    /**
+     * Close all windows.
+     */
     public static final TCommand cmCloseAll     = new TCommand(CLOSE_ALL);
+
+    /**
+     * Move (move/resize) window.
+     */
     public static final TCommand cmWindowMove   = new TCommand(WINDOW_MOVE);
+
+    /**
+     * Zoom (maximize/restore) window.
+     */
     public static final TCommand cmWindowZoom   = new TCommand(WINDOW_ZOOM);
+
+    /**
+     * Next window (like Alt-TAB).
+     */
     public static final TCommand cmWindowNext   = new TCommand(WINDOW_NEXT);
+
+    /**
+     * Previous window (like Shift-Alt-TAB).
+     */
     public static final TCommand cmWindowPrevious = new TCommand(WINDOW_PREVIOUS);
+
+    /**
+     * Close window.
+     */
     public static final TCommand cmWindowClose  = new TCommand(WINDOW_CLOSE);
+
+    /**
+     * Enter help system.
+     */
     public static final TCommand cmHelp         = new TCommand(HELP);
+
+    /**
+     * Save file.
+     */
     public static final TCommand cmSave         = new TCommand(SAVE);
+
+    /**
+     * Enter first menu.
+     */
     public static final TCommand cmMenu         = new TCommand(MENU);
+
+    /**
+     * Backend disconnected.
+     */
     public static final TCommand cmBackendDisconnect    = new TCommand(BACKEND_DISCONNECT);
 
     // ------------------------------------------------------------------------

@@ -17,7 +17,7 @@ public class MyApplication extends TApplication {
         addWindowMenu();
     }
 
-    public static void mainold(String [] args) throws Exception {
+    public static void main(String [] args) throws Exception {
         MyApplication app = new MyApplication();
         app.run();
     }
@@ -58,7 +58,7 @@ import jexer.TApplication;
 
 public class HelloWorld {
 
-    public static void mainold(String [] args) throws Exception {
+    public static void main(String [] args) throws Exception {
         TApplication app = new TApplication(TApplication.BackendType.XTERM);
         app.addToolMenu();
         app.addFileMenu();

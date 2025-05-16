@@ -3,7 +3,7 @@
  *
  * The MIT License (MIT)
  *
- * Copyright (C) 2022 Autumn Lamonte
+ * Copyright (C) 2025 Autumn Lamonte
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
@@ -23,7 +23,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
  * DEALINGS IN THE SOFTWARE.
  *
- * @author Autumn Lamonte ⚧ Trans Liberation Now
+ * @author Autumn Lamonte ♥
  * @version 1
  */
 package jexer.demos;
@@ -51,14 +51,14 @@ import static jexer.TKeypress.*;
  */
 public class DemoTextFieldWindow extends TWindow {
 
-    /**
-     * Translated strings.
-     */
-    private static final ResourceBundle i18n = ResourceBundle.getBundle(DemoTextFieldWindow.class.getName());
-
     // ------------------------------------------------------------------------
     // Variables --------------------------------------------------------------
     // ------------------------------------------------------------------------
+
+    /**
+     * Translated strings.
+     */
+    private ResourceBundle i18n = null;
 
     /**
      * Calendar.  Has to be at class scope so that it can be accessed by the
@@ -84,7 +84,7 @@ public class DemoTextFieldWindow extends TWindow {
     /**
      * Constructor.
      *
-     * @param parent the mainold application
+     * @param parent the main application
      */
     DemoTextFieldWindow(final TApplication parent) {
         this(parent, TWindow.CENTERED | TWindow.RESIZABLE);
@@ -93,13 +93,16 @@ public class DemoTextFieldWindow extends TWindow {
     /**
      * Constructor.
      *
-     * @param parent the mainold application
+     * @param parent the main application
      * @param flags bitmask of MODAL, CENTERED, or RESIZABLE
      */
     DemoTextFieldWindow(final TApplication parent, final int flags) {
         // Construct a demo window.  X and Y don't matter because it
         // will be centered on screen.
-        super(parent, i18n.getString("windowTitle"), 0, 0, 60, 20, flags);
+        super(parent, "", 0, 0, 60, 20, flags);
+        i18n = ResourceBundle.getBundle(DemoTextFieldWindow.class.getName(),
+            getLocale());
+        setTitle(i18n.getString("windowTitle"));
 
         setLayoutManager(new StretchLayoutManager(getWidth() - 2,
                 getHeight() - 2));
@@ -107,7 +110,7 @@ public class DemoTextFieldWindow extends TWindow {
         int row = 1;
 
         addLabel(i18n.getString("textField1"), 1, row);
-        addField(35, row++, 15, false, "Field text");
+        addField(35, row++, 15, false, i18n.getString("fieldText"));
         addLabel(i18n.getString("textField2"), 1, row);
         addField(35, row++, 15, true);
         addLabel(i18n.getString("textField3"), 1, row);

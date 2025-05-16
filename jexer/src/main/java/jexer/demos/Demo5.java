@@ -3,7 +3,7 @@
  *
  * The MIT License (MIT)
  *
- * Copyright (C) 2022 Autumn Lamonte
+ * Copyright (C) 2025 Autumn Lamonte
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
@@ -23,7 +23,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
  * DEALINGS IN THE SOFTWARE.
  *
- * @author Autumn Lamonte ⚧ Trans Liberation Now
+ * @author Autumn Lamonte ♥
  * @version 1
  */
 package jexer.demos;
@@ -37,11 +37,13 @@ import javax.swing.JPanel;
 import javax.swing.JSplitPane;
 
 import jexer.backend.SwingBackend;
+import jexer.event.TMenuEvent;
 
 /**
- * This class is the mainold driver for a simple demonstration of Jexer's
+ * This class is the main driver for a simple demonstration of Jexer's
  * capabilities.  It shows two Swing demo applications running in the same
- * Swing UI.
+ * Swing UI.  The application in the left panel starts in English, and the
+ * application in the right panel starts in Spanish.
  */
 public class Demo5 implements WindowListener {
 
@@ -63,6 +65,15 @@ public class Demo5 implements WindowListener {
      * The second demo application instance.
      */
     DemoApplication app2 = null;
+
+    // ------------------------------------------------------------------------
+    // Constructors -----------------------------------------------------------
+    // ------------------------------------------------------------------------
+
+    /**
+     * Default constructor.
+     */
+    public Demo5() {}
 
     // ------------------------------------------------------------------------
     // WindowListener ---------------------------------------------------------
@@ -168,6 +179,7 @@ public class Demo5 implements WindowListener {
             80, 25, 16);
         // Now that we have the backend, construct the TApplication.
         app1 = new DemoApplication(app1Backend);
+        app1.onMenu(new TMenuEvent(app1Backend, 10005));
 
         /*
          * The second panel is the same sequence, except that we also change
@@ -177,6 +189,7 @@ public class Demo5 implements WindowListener {
         SwingBackend app2Backend = new SwingBackend(app2Panel, null,
             80, 25, 18);
         app2 = new DemoApplication(app2Backend);
+        app2.onMenu(new TMenuEvent(app2Backend, 10006));
         Font font = new Font(Font.MONOSPACED, Font.PLAIN, 18);
         app2Backend.setFont(font);
 

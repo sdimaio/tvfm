@@ -3,7 +3,7 @@
  *
  * The MIT License (MIT)
  *
- * Copyright (C) 2022 Autumn Lamonte
+ * Copyright (C) 2025 Autumn Lamonte
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
@@ -23,7 +23,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
  * DEALINGS IN THE SOFTWARE.
  *
- * @author Autumn Lamonte ⚧ Trans Liberation Now
+ * @author Autumn Lamonte ♥
  * @version 1
  */
 package jexer.demos;
@@ -45,14 +45,14 @@ import static jexer.TKeypress.*;
  */
 public class DemoTreeViewWindow extends TWindow {
 
-    /**
-     * Translated strings.
-     */
-    private static final ResourceBundle i18n = ResourceBundle.getBundle(DemoTreeViewWindow.class.getName());
-
     // ------------------------------------------------------------------------
     // Variables --------------------------------------------------------------
     // ------------------------------------------------------------------------
+
+    /**
+     * Translated strings.
+     */
+    private ResourceBundle i18n = null;
 
     /**
      * Hang onto my TTreeView so I can resize it with the window.
@@ -66,13 +66,15 @@ public class DemoTreeViewWindow extends TWindow {
     /**
      * Public constructor.
      *
-     * @param parent the mainold application
+     * @param parent the main application
      * @throws IOException if a java.io operation throws
      */
     @SuppressWarnings("this-escape")
     public DemoTreeViewWindow(final TApplication parent) throws IOException {
-        super(parent, i18n.getString("windowTitle"), 0, 0, 44, 16,
-            TWindow.RESIZABLE);
+        super(parent, "", 0, 0, 44, 16, TWindow.RESIZABLE);
+        i18n = ResourceBundle.getBundle(DemoTreeViewWindow.class.getName(),
+            getLocale());
+        setTitle(i18n.getString("windowTitle"));
 
         // Load the treeview with "stuff"
         treeView = addTreeViewWidget(1, 1, 40, 12);

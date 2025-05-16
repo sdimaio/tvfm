@@ -3,7 +3,7 @@
  *
  * The MIT License (MIT)
  *
- * Copyright (C) 2022 Autumn Lamonte
+ * Copyright (C) 2025 Autumn Lamonte
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
@@ -23,10 +23,13 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
  * DEALINGS IN THE SOFTWARE.
  *
- * @author Autumn Lamonte ⚧ Trans Liberation Now
+ * @author Autumn Lamonte ♥
  * @version 1
  */
 package jexer.menu;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import jexer.TKeypress;
 import jexer.TWidget;
@@ -355,5 +358,20 @@ public class TSubMenu extends TMenuItem {
             menu.getChildren().get(i).setY(i + 1);
         }
         menu.resetTabOrder();
+    }
+
+    /**
+     * Get the menu items.
+     *
+     * @return the menu items
+     */
+    public List<TMenuItem> getMenuItems() {
+        List<TMenuItem> items = new ArrayList<TMenuItem>();
+        for (TWidget w: menu.getChildren()) {
+            if (w instanceof TMenuItem) {
+                items.add((TMenuItem) w);
+            }
+        }
+        return items;
     }
 }

@@ -3,7 +3,7 @@
  *
  * The MIT License (MIT)
  *
- * Copyright (C) 2022 Autumn Lamonte
+ * Copyright (C) 2025 Autumn Lamonte
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
@@ -23,7 +23,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
  * DEALINGS IN THE SOFTWARE.
  *
- * @author Autumn Lamonte ⚧ Trans Liberation Now
+ * @author Autumn Lamonte ♥
  * @version 1
  */
 package jexer.backend;
@@ -36,6 +36,7 @@ import java.awt.Graphics2D;
 import java.awt.Graphics;
 import java.awt.Insets;
 import java.awt.Rectangle;
+import java.awt.RenderingHints;
 import java.awt.Toolkit;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
@@ -1296,9 +1297,9 @@ public class SwingTerminal extends LogicalScreen
 
         gr2 = image.createGraphics();
         gr2.setFont(swing.getFont());
-        gr2.setColor(Color.BLACK);
+        gr2.setColor(java.awt.Color.BLACK);
         gr2.fillRect(0, 0, fontTextWidth * 2, fontTextHeight * 2);
-        gr2.setColor(Color.WHITE);
+        gr2.setColor(java.awt.Color.WHITE);
         char [] chars = new char[1];
         chars[0] = jexer.bits.GraphicsChars.SINGLE_BAR;
         gr2.drawChars(chars, 0, 1, gr2x, gr2y + fontTextHeight - maxDescent);
@@ -1499,7 +1500,7 @@ public class SwingTerminal extends LogicalScreen
                 && glyphMaker.canDisplay(ch))
             || !swing.getFont().canDisplay(ch)
         ) {
-            // The mainold font cannot display this glyph.  Try a fallback font.
+            // The main font cannot display this glyph.  Try a fallback font.
             BufferedImage newImage = glyphMaker.getImage(cell, textWidth,
                 textHeight, getBackend(), cursorBlinkVisible);
 

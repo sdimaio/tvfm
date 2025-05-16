@@ -3,7 +3,7 @@
  *
  * The MIT License (MIT)
  *
- * Copyright (C) 2022 Autumn Lamonte
+ * Copyright (C) 2025 Autumn Lamonte
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
@@ -23,7 +23,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
  * DEALINGS IN THE SOFTWARE.
  *
- * @author Autumn Lamonte ⚧ Trans Liberation Now
+ * @author Autumn Lamonte ♥
  * @version 1
  */
 package jexer.bits;
@@ -88,6 +88,15 @@ public class ImageUtils {
          */
         SCALE,
     }
+
+    // ------------------------------------------------------------------------
+    // Constructors -----------------------------------------------------------
+    // ------------------------------------------------------------------------
+
+    /**
+     * Private constructor prevents accidental creation of this class.
+     */
+    private ImageUtils() {}
 
     // ------------------------------------------------------------------------
     // ImageUtils -------------------------------------------------------------
@@ -511,6 +520,105 @@ public class ImageUtils {
         rgbBlue  = Math.min(Math.max( rgbBlue, 0), 255);
 
         return (rgbRed << 16) | (rgbGreen << 8) | rgbBlue;
+    }
+
+    /**
+     * Compute the average RGB value of an entire image, including pixels
+     * that may be partially or fully transparent.
+     *
+     * @param image the image to check
+     * @return the average color
+     */
+    public static int rgbAverage(final BufferedImage image) {
+        return rgbAverage(image, false);
+    }
+
+    /**
+     * Compute the average RGB value of an entire image.
+     *
+     * @param image the image to check
+     * @param onlyOpaque if true, only count pixels that are fully opaque
+     * @return the average color
+     */
+    public static int rgbAverage(final BufferedImage image,
+        final boolean onlyOpaque) {
+
+        assert (image != null);
+
+        int [] rgbArray = image.getRGB(0, 0,
+            image.getWidth(), image.getHeight(), null, 0, image.getWidth());
+
+        if (rgbArray.length == 0) {
+            // No image data, return black.
+            return 0xFF000000;
+        }
+
+        // Compute the average color.
+        long totalRed = 0;
+        long totalGreen = 0;
+        long totalBlue = 0;
+        long count = 0;
+        for (int i = 0; i < rgbArray.length; i++) {
+            int argb = rgbArray[i];
+            if ((onlyOpaque == true) && (((argb >>> 24) & 0xFF) != 0xFF)) {
+                continue;
+            }
+            count++;
+            int red   = (argb >>> 16) & 0xFF;
+            int green = (argb >>>  8) & 0xFF;
+            int blue  =  argb         & 0xFF;
+            totalRed   += red;
+            totalGreen += green;
+            totalBlue  += blue;
+        }
+        totalRed   = (int) (totalRed   / count);
+        totalGreen = (int) (totalGreen / count);
+        totalBlue  = (int) (totalBlue  / count);
+
+        int result = (int) ((0xFF << 24) | (totalRed   << 16)
+                                         | (totalGreen <<  8)
+                                         |  totalBlue);
+        return result;
+    }
+
+    /**
+     * Compute the standard deviation of RGB values of an entire image.
+     *
+     * @param image the image to check
+     * @param averageImage the image's "average" pixel values
+     * @return the average color
+     * @throws IllegalArgumentException if the two images are of different
+     * dimensions
+     */
+    public static double rgbStdDev(final BufferedImage image,
+        final BufferedImage averageImage) {
+
+        if (image.getWidth() != averageImage.getWidth()) {
+            throw new IllegalArgumentException("images have different widths");
+        }
+        if (image.getHeight() != averageImage.getHeight()) {
+            throw new IllegalArgumentException("images have different heights");
+        }
+
+        assert (image.getWidth() == averageImage.getWidth());
+        assert (image.getHeight() == averageImage.getHeight());
+
+        int [] imageRgbArray = image.getRGB(0, 0,
+            image.getWidth(), image.getHeight(), null, 0, image.getWidth());
+        int [] averageImageRgbArray = averageImage.getRGB(0, 0,
+            image.getWidth(), image.getHeight(), null, 0, image.getWidth());
+
+        assert (imageRgbArray.length == averageImageRgbArray.length);
+
+        double variance = 0.0;
+        for (int i = 0; i < imageRgbArray.length; i++) {
+            int rgb1 = imageRgbArray[i];
+            int rgb2 = averageImageRgbArray[i];
+            double distance = rgbDistance(rgb1, rgb2);
+            variance += distance;
+        }
+
+        return (variance / (double) imageRgbArray.length);
     }
 
     /**

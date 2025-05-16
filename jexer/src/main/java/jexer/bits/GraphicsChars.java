@@ -3,7 +3,7 @@
  *
  * The MIT License (MIT)
  *
- * Copyright (C) 2022 Autumn Lamonte
+ * Copyright (C) 2025 Autumn Lamonte
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
@@ -23,7 +23,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
  * DEALINGS IN THE SOFTWARE.
  *
- * @author Autumn Lamonte ⚧ Trans Liberation Now
+ * @author Autumn Lamonte ♥
  * @version 1
  */
 package jexer.bits;
@@ -111,41 +111,184 @@ public final class GraphicsChars {
         '\u207f', '\u00b2', '\u25a0', '\u00a0'
     };
 
+    /**
+     * ░
+     */
     public static final char HATCH                      = CP437[0xB0];
+
+    /**
+     * ═
+     */
     public static final char DOUBLE_BAR                 = CP437[0xCD];
+
+    /**
+     * ■
+     */
     public static final char BOX                        = CP437[0xFE];
+
+    /**
+     * √
+     */
     public static final char CHECK                      = CP437[0xFB];
+
+    /**
+     * ≡
+     */
     public static final char TRIPLET                    = CP437[0xF0];
+
+    /**
+     * Ω
+     */
     public static final char OMEGA                      = CP437[0xEA];
+
+    /**
+     * π
+     */
     public static final char PI                         = CP437[0xE3];
+
+    /**
+     * ↑
+     */
     public static final char UPARROW                    = CP437[0x18];
+
+    /**
+     * ↓
+     */
     public static final char DOWNARROW                  = CP437[0x19];
+
+    /**
+     * →
+     */
     public static final char RIGHTARROW                 = CP437[0x1A];
+
+    /**
+     * ←
+     */
     public static final char LEFTARROW                  = CP437[0x1B];
+
+    /**
+     * ─
+     */
     public static final char SINGLE_BAR                 = CP437[0xC4];
+
+    /**
+     * ◄
+     */
     public static final char BACK_ARROWHEAD             = CP437[0x11];
+
+    /**
+     * ┘
+     */
     public static final char LRCORNER                   = CP437[0xD9];
+
+    /**
+     * ┐
+     */
     public static final char URCORNER                   = CP437[0xBF];
+
+    /**
+     * └
+     */
     public static final char LLCORNER                   = CP437[0xC0];
+
+    /**
+     * ┌
+     */
     public static final char ULCORNER                   = CP437[0xDA];
+
+    /**
+     * °
+     */
     public static final char DEGREE                     = CP437[0xF8];
+
+    /**
+     * ±
+     */
     public static final char PLUSMINUS                  = CP437[0xF1];
+
+    /**
+     * ═
+     */
     public static final char WINDOW_TOP                 = CP437[0xCD];
+
+    /**
+     * ╒
+     */
     public static final char WINDOW_LEFT_TOP            = CP437[0xD5];
+
+    /**
+     * ╕
+     */
     public static final char WINDOW_RIGHT_TOP           = CP437[0xB8];
+
+    /**
+     * │
+     */
     public static final char WINDOW_SIDE                = CP437[0xB3];
+
+    /**
+     * ╘
+     */
     public static final char WINDOW_LEFT_BOTTOM         = CP437[0xD4];
+
+    /**
+     * ╛
+     */
     public static final char WINDOW_RIGHT_BOTTOM        = CP437[0xBE];
+
+    /**
+     * ╞
+     */
     public static final char WINDOW_LEFT_TEE            = CP437[0xC6];
+
+    /**
+     * ╡
+     */
     public static final char WINDOW_RIGHT_TEE           = CP437[0xB5];
+
+    /**
+     * ║
+     */
     public static final char WINDOW_SIDE_DOUBLE         = CP437[0xBA];
+
+    /**
+     * ╔
+     */
     public static final char WINDOW_LEFT_TOP_DOUBLE     = CP437[0xC9];
+
+    /**
+     * ╗
+     */
     public static final char WINDOW_RIGHT_TOP_DOUBLE    = CP437[0xBB];
+
+    /**
+     * ╚
+     */
     public static final char WINDOW_LEFT_BOTTOM_DOUBLE  = CP437[0xC8];
+
+    /**
+     * ╝
+     */
     public static final char WINDOW_RIGHT_BOTTOM_DOUBLE = CP437[0xBC];
+
+    /**
+     * │
+     */
     public static final char VERTICAL_BAR               = CP437[0xB3];
+
+    /**
+     * ☼
+     */
     public static final char OCTOSTAR                   = CP437[0x0F];
+
+    /**
+     * ▌
+     */
     public static final char DOWNARROWLEFT              = CP437[0xDD];
+
+    /**
+     * ▐
+     */
     public static final char DOWNARROWRIGHT             = CP437[0xDE];
 
     // ------------------------------------------------------------------------
@@ -155,7 +298,6 @@ public final class GraphicsChars {
     /**
      * Private constructor prevents accidental creation of this class.
      */
-    private GraphicsChars() {
-    }
+    private GraphicsChars() {}
 
 }

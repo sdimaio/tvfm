@@ -3,7 +3,7 @@
  *
  * The MIT License (MIT)
  *
- * Copyright (C) 2022 Autumn Lamonte
+ * Copyright (C) 2025 Autumn Lamonte
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
@@ -23,7 +23,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
  * DEALINGS IN THE SOFTWARE.
  *
- * @author Autumn Lamonte ⚧ Trans Liberation Now
+ * @author Autumn Lamonte ♥
  * @version 1
  */
 package jexer.effect;
@@ -137,11 +137,12 @@ public class WindowBurnInEffect implements Effect {
                 int h = height;
                 for (int x = 0; x < width; x++) {
                     for (int y = 0; y < height; y++) {
-                        int red = (int) (128.0 + 2 * (Math.sin((x + y) / 2.0) +
-                                Math.sin(x * x + y)) * 128.0);
-                        int green = (int) (128.0 + (Math.sin(y / 7.0) +
-                                Math.cos(Math.log(y * y / 6))) * 128.0);
-                        int blue = (int) (128.0 + Math.cos(Math.sqrt(x * x + y * y) / 3.0) * 128.0);
+                        int red = (int) ((128.0 + 2 * (Math.sin((x + y) / 2.0) +
+                                    Math.sin(x * x + y)) * 128.0) * 2.0);
+                        int green = (int) ((128.0 + (Math.sin((x - y) / 7.0) +
+                                    Math.cos(Math.log(x * y / 6))) * 128.0));
+                        int blue = (int) ((128.0 + Math.cos(Math.sqrt(x * x +
+                                        y * y) / 3.0) * 128.0) / 3);
                         red = Math.max(0, Math.min(red, 255));
                         green = Math.max(0, Math.min(green, 255));
                         blue = Math.max(0, Math.min(blue, 255));
@@ -173,8 +174,9 @@ public class WindowBurnInEffect implements Effect {
             return;
         }
         if (alpha > 0) {
-            // Aiming for 1/8 second, at 32 FPS = 4 frames.  256 / 4 = 64.
-            alpha = Math.max(alpha - 96, 0);
+            // Bump alpha a bit.  I have not yet figured out how this
+            // converts to an actual time in practice.
+            alpha = Math.max(alpha - 48, 0);
             fakeWindow.setAlpha(alpha);
         }
     }
